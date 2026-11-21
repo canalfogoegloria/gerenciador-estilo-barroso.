@@ -1,0 +1,482 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Foto Studio V24 — Google Drive</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2228%22%20fill%3D%22%2317252b%22%2F%3E%3Crect%20x%3D%2218%22%20y%3D%2239%22%20width%3D%2292%22%20height%3D%2265%22%20rx%3D%2213%22%20fill%3D%22%23b39a75%22%2F%3E%3Cpath%20d%3D%22M39%2039l9-15h32l9%2015%22%20fill%3D%22%23b39a75%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2270%22%20r%3D%2225%22%20fill%3D%22%2317252b%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2270%22%20r%3D%2217%22%20fill%3D%22%236b8792%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2270%22%20r%3D%228%22%20fill%3D%22%2317252b%22%2F%3E%3Ccircle%20cx%3D%2296%22%20cy%3D%2251%22%20r%3D%225%22%20fill%3D%22%23f0d6a5%22%2F%3E%3C%2Fsvg%3E"><meta name="theme-color" content="#17252b"><style>:root{font-family:system-ui,Arial;background:#151b20;color:#edf0ef}*{box-sizing:border-box}body{margin:0}header{padding:20px;background:#202b30;border-bottom:2px solid #b39a75}main{max-width:1150px;margin:auto;padding:16px}h1{margin:0;font-size:25px}h2{font-size:19px;color:#d4b995}p,.hint{color:#bac5c8}section{background:#222c31;border:1px solid #3a484e;border-radius:14px;padding:16px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}label{display:block;font-size:13px;color:#d4d9d9;margin-bottom:5px}input,textarea,select{width:100%;padding:11px;border-radius:8px;border:1px solid #59656a;background:#10191d;color:#fff;font:inherit}textarea{min-height:76px;resize:vertical}button,.filebtn{border:0;border-radius:9px;background:#a58a67;color:#15191b;padding:11px 14px;font-weight:700;cursor:pointer;display:inline-block;margin:3px}button.secondary,.filebtn.secondary{background:#3b4c55;color:white}.actions{display:flex;flex-wrap:wrap;gap:5px}.scene{border:1px solid #52616a;border-radius:12px;padding:13px;margin:12px 0;background:#1a252a}.scenehead{display:flex;justify-content:space-between;align-items:center;gap:10px}.scenehead h3{margin:0 0 10px}.thumb{width:100%;height:160px;object-fit:contain;background:#11181c;border:1px dashed #59656a;border-radius:8px}.swatches{display:flex;gap:6px;margin-top:9px}.swatches i{height:28px;flex:1;border-radius:5px}.status{color:#b3d2b2}.tiny{font-size:12px;color:#b9c5c7}input[type=file]{padding:7px}#scenes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}@media(max-width:550px){header{padding:15px}main{padding:10px}section{padding:12px}h1{font-size:21px}} .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin:12px 0}.tile{border:1px solid #56646b;border-radius:12px;overflow:hidden;background:#152127;cursor:pointer;text-align:left;color:#fff;padding:0;margin:0}.tile .art{height:93px;display:flex;align-items:center;justify-content:center;font-size:45px;background:linear-gradient(155deg,#3c4850 0%,#6a6256 65%,#a17c50 100%);position:relative}.tile .art:after{content:'';position:absolute;bottom:0;left:0;right:0;height:18px;background:repeating-linear-gradient(110deg,#283239,#283239 13px,#40464a 14px,#40464a 16px);opacity:.75}.tile img{width:100%;height:93px;object-fit:cover}.tile .txt{padding:9px;font-size:12px;line-height:1.35}.tile .txt b{display:block;color:#dfc5a0;margin-bottom:4px}.tile.ok{border-color:#8eb58c}.notice{background:#17252b;border-left:3px solid #b39a75;padding:10px;border-radius:5px}.scene{scroll-margin-top:12px}.tile .art svg{width:100%;height:100%;display:block}.tile .art:after{display:none}.tile:focus-visible{outline:3px solid #d4b995}.scene.selected{border:2px solid #d4b995}.editorHint{padding:12px;background:#17252b;border:1px solid #52616a;border-radius:10px;margin:10px 0}.gallery{scroll-margin-top:15px}@media(max-width:550px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}  .videoControls{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.videoControls button{flex:1;min-width:95px}.videoPreview{width:100%;max-height:240px;background:#0b1115;border-radius:9px;margin:8px 0}.videoStatus{font-size:12px;color:#a9d4ac;margin:7px 0}.videoStatus.pending{color:#e4c9a5}.sceneMedia{border:1px solid #455760;padding:10px;border-radius:10px;margin:10px 0;background:#142027}  .scene.locked{border-color:#87b89b}.scene.locked .scenehead{color:#b6e1c1}.scene .lockscene{background:#537765;color:#fff}.scene.locked .lockscene{background:#946f52}.bigVideoOverlay{position:fixed;inset:0;z-index:99999;background:#080b0ef5;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:12px}.bigVideoOverlay video{width:100%;height:auto;max-height:80vh;object-fit:contain;background:black}.bigVideoOverlay button{font-size:16px}.bigVideoOverlay .actions{justify-content:center} 
+/* V24: cloud storage controls, do not change approved editor layout. */
+#driveSection{border-color:#718c9d}
+#driveSection .driveToolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#driveSection .driveToolbar button{margin:2px}
+#driveStatus{min-height:1.5em;white-space:pre-wrap;overflow-wrap:anywhere}
+.driveGood{color:#b2e0c4}.driveWarn{color:#e5c8a8}
+#driveFolderLink{display:none;color:#d4b995;overflow-wrap:anywhere}
+</style></head><body><header><h1>📸 Foto Studio V24</h1><div class="hint">Roteiro visual • 16:9 • cenas de 6 segundos • modos Aleatório e História</div></header><main><section class="notice" id="saveBanner" aria-live="polite"><b>💾 Salvamento automático:</b> <span id="saveState">Carregando projeto...</span><div class="actions"><button onclick="exportJSON()">📦 Baixar backup completo (JSON)</button><label class="filebtn secondary">📂 Recuperar backup<input type="file" id="restoreBackup" accept=".json,application/json" style="display:none"></label></div><p class="tiny">O salvamento automático usa o armazenamento deste navegador. Para segurança, baixe um backup JSON após importar imagens. Não limpe os dados do navegador nem use aba anônima.</p></section><section id="librarySection"><h2>📁 Meus projetos e modelos salvos</h2><p class="tiny">Salve vários videoclipes separadamente ou guarde somente a identidade visual para reutilizar em músicas novas. Os dados ficam neste navegador; exporte backups JSON para segurança.</p><div class="grid"><div><label>Nome do projeto</label><input id="projectName" placeholder="Ex.: Blues — I Still Wait for You"><div class="actions"><button type="button" onclick="saveNamedProject()">💾 Salvar projeto com nome</button></div><label>Projetos salvos</label><select id="savedProjects"><option value="">Selecione um projeto...</option></select><div class="actions"><button class="secondary" type="button" onclick="openNamedProject()">📂 Abrir projeto</button><button class="secondary" type="button" onclick="deleteNamed('projects','savedProjects')">🗑️ Excluir</button></div></div><div><label>Nome do modelo visual</label><input id="modelName" placeholder="Ex.: Barroso Caricato"><div class="actions"><button type="button" onclick="saveVisualModel()">🎨 Salvar modelo visual</button></div><label>Modelos visuais salvos</label><select id="savedModels"><option value="">Selecione um modelo...</option></select><div class="actions"><button class="secondary" type="button" onclick="applySavedModel()">🎨 Carregar modelo</button><button class="secondary" type="button" onclick="newProjectFromModel()">✨ Novo projeto com modelo</button><button class="secondary" type="button" onclick="deleteNamed('models','savedModels')">🗑️ Excluir</button></div></div></div><p id="libraryStatus" class="status" aria-live="polite"></p><p class="tiny">Carregar modelo mantém as cenas atuais. Novo projeto com modelo limpa as cenas e os dados da música, mas mantém o estilo, a paleta e a imagem de referência. Antes de trocar de projeto, salve o atual com nome.</p></section><section id="driveSection">
+<h2>☁️ Google Drive — vídeos e segurança V24</h2>
+<p class="tiny">Conecte a sua conta exclusiva do canal. Quando conectado, cada MP4 ou WebM importado será enviado direto ao Drive, sem depender de salvar o arquivo grande no celular. O projeto (descrições, imagens, prompts e vínculos dos vídeos) também pode ser sincronizado. O Google pedirá autorização na primeira conexão.</p>
+<div class="grid"><div><label for="driveClientId">ID do cliente OAuth Web do Google Cloud (não é senha)</label><input id="driveClientId" autocomplete="off" spellcheck="false" placeholder="123456789-xxxx.apps.googleusercontent.com"></div><div><label>Destino do armazenamento</label><div class="tiny">Pasta criada/autorizada pelo app: <b>Foto Studio</b>. Com acesso limitado aos arquivos do próprio app, uma pasta manual antiga pode não ser encontrada e outra pasta com o mesmo nome pode ser criada.</div><a id="driveFolderLink" href="#" target="_blank" rel="noopener noreferrer">📁 Abrir pasta do Foto Studio no Drive</a></div></div>
+<div class="driveToolbar">
+<button id="driveConnect" type="button" onclick="connectDrive()">🔑 Conectar Google Drive</button>
+<button id="driveSaveNow" type="button" class="secondary" onclick="saveCurrentProjectDrive()">☁️ Salvar projeto e ativar cópia automática</button>
+<button id="driveRestore" type="button" class="secondary" onclick="restoreProjectDrive()">📥 Recuperar projeto do Drive</button>
+<button id="driveDisconnect" type="button" class="secondary" onclick="disconnectDrive()">Desconectar</button>
+</div>
+<p id="driveStatus" class="driveWarn" aria-live="polite">Drive desconectado. O Foto Studio continua disponível com os backups locais.</p>
+<p class="tiny">Importante: o Drive exige internet e login. A conexão não sobrevive ao vencimento da autorização: quando necessário, toque em Conectar novamente. Para segurança, um backup encontrado no Drive nunca é sobrescrito automaticamente antes de você escolher entre recuperar ou salvar o projeto deste aparelho. Não coloque senha ou segredo do cliente no campo acima. Faça também cópias dos MP4 originais.</p>
+</section>
+<section id="videoExport"><h2>🎬 Vídeos finalizados — exportar sequência</h2><p class="tiny">Adicione o MP4 do Flow em cada cena. Os vídeos ficam separados do JSON, guardados neste navegador, sem recompressão. Para melhor persistência, abra pelo endereço HTTPS do GitHub Pages; arquivos HTML locais podem ter armazenamento limitado. Exporte um ZIP com os vídeos na ordem das cenas para editar as transições depois. Faça também cópias dos MP4 originais: backups JSON e o ZIP de projetos/modelos NÃO incluem os vídeos.</p><div class="actions"><button type="button" onclick="exportSceneVideos()">📦 Exportar vídeos em sequência (ZIP)</button></div><p class="tiny" id="videoExportStatus" aria-live="polite"></p></section><section id="portableStorage"><h2>📦 Transferir Foto Studio — ZIP ou pasta</h2><p class="tiny">O pacote inclui o projeto atual e todos os projetos e modelos salvos neste navegador, com imagens e referências incorporadas nos arquivos JSON. Para usar em outro aparelho, importe o ZIP. A opção pasta exige autorização e navegador compatível.</p><div class="actions"><button type="button" onclick="exportStudioZip()">📦 Exportar tudo em ZIP</button><label class="filebtn secondary">📥 Importar ZIP<input id="studioZipInput" type="file" accept=".zip,application/zip" style="display:none"></label><button type="button" class="secondary" onclick="saveStudioFolder()">📁 Salvar em pasta escolhida</button></div><p class="tiny" id="portableStatus" aria-live="polite"></p></section><section><h2>1. Música e identidade visual</h2><div class="grid"><div><label>Modo de criação</label><select id="creationMode" onchange="modeChanged()"><option value="random" selected>Aleatório — videoclipe musical</option><option value="story">História — narrativa contínua</option></select></div><div><label>Título da música</label><input id="song" value="I Still Wait for You"></div><div><label>Duração (mm:ss)</label><input id="duration" value="03:00" placeholder="03:00"></div><div><label>Segundos por cena</label><input id="seconds" type="number" min="1" max="60" value="6"></div><div><label>Sentimento da música</label><input id="mood" value="Saudade, espera, melancolia"></div><div><label>Ambiente geral</label><input id="setting" value="Cidade antiga, rua molhada, casas envelhecidas"></div><div><label>Paleta</label><input id="palette" value="Azul acinzentado, marrom gasto, bege sujo; âmbar apenas nas luzes"></div></div><div id="storySettings" class="notice" style="display:none;margin-top:12px"><label>Personagem principal (mesma aparência em toda a história)</label><input id="storyHero" value="Um viajante idoso de barro, casaco azul-acinzentado gasto e chapéu escuro"><label style="margin-top:9px">Objetivo ou conflito da história</label><input id="storyGoal" value="Procura alguém querido que não vê há muito tempo"><label style="margin-top:9px">Desfecho desejado</label><input id="storyEnding" value="Encontra um sinal de esperança e segue em frente"><p class="tiny">No modo História, as cenas seguem uma sequência narrativa. Os mesmos personagens, roupas e objetos permanecem consistentes. Planejar todas as cenas pede confirmação antes de substituir as não aprovadas.</p></div><p class="tiny">Padrão: massinha 3D feita à mão, marcas de dedos, argila fosca, personagens caricatos quando presentes, sem plástico ou borracha, mesma atmosfera em todas as cenas.</p><div class="swatches"><i style="background:#655144"></i><i style="background:#9b8267"></i><i style="background:#827b70"></i><i style="background:#494d52"></i><i style="background:#b39a75"></i></div><div style="margin-top:12px"><label>Referência visual (opcional; incorporada ao arquivo JSON exportado)</label><input type="file" id="reference" accept="image/*"><img id="referencePreview" class="thumb" style="display:none;margin-top:8px" alt="Referência visual"></div><div id="styleSheet" class="notice" style="margin-top:16px"><h2>🔒 Ficha do estilo gêmeo da referência</h2><p class="notice"><b>Correção V7:</b> estilo visual fixo + assunto variável por cena. A referência NÃO deve ser copiada como conteúdo. No modo Aleatório, cada cena pode mostrar um assunto diferente.</p><p class="tiny">A paleta é extraída dos pixels da imagem enviada. O prompt gêmeo descreve somente materiais, cores e iluminação, sem copiar os personagens da referência. A análise visual por IA ainda não está integrada; revise o resultado antes de bloquear.</p><div class="actions"><button onclick="extractPalette()">🎨 Extrair cores da referência</button><button onclick="buildTwin()">✨ Criar prompt gêmeo (só estilo)</button><button onclick="copyText($('twin').value,'Prompt gêmeo copiado!')" class="secondary">Copiar prompt gêmeo</button></div><label>Paleta extraída (valores hexadecimais)</label><div id="extractedSwatches" class="swatches"></div><input id="hexPalette" placeholder="Selecione uma imagem e toque em Extrair cores" readonly><label style="margin-top:12px">Prompt gêmeo visual — alterações atualizam automaticamente os prompts das cenas</label><textarea id="twin" rows="9" style="min-height:210px" placeholder="Crie o prompt gêmeo a partir da referência..."></textarea><label style="margin-top:12px">Nova instrução para acrescentar ao estilo (opcional)</label><textarea id="twinAddition" rows="3" placeholder="Cole aqui a nova instrução sem apagar o estilo existente"></textarea><div class="actions"><button type="button" onclick="applyTwinStyle()">🔄 Atualizar / Acrescentar estilo em todas as cenas</button></div><p class="tiny">Se preencher o campo de acréscimo, o texto será adicionado ao final do Prompt Gêmeo. Se deixar vazio, o botão aplicará as alterações já feitas no Prompt Gêmeo. As imagens e descrições não serão alteradas.</p><label style="margin-top:10px"><input type="checkbox" id="styleLocked" style="width:auto" onchange="setTwinLock()"> 🔒 Bloquear identidade visual aprovada</label><p id="twinStatus" class="status" aria-live="polite"></p><p class="tiny">V12: a prévia Gemini e os prompts Flow automáticos acompanham as alterações do estilo; prompts Flow escritos manualmente são preservados. O bloqueio protege o texto contra edições acidentais; não garante fidelidade absoluta de uma IA externa. Na geração, envie também a imagem original como referência visual.</p></div></section><section><h2>2. Gerar e revisar cenas</h2><p class="notice"><b>V12 — Fluxo gratuito:</b> toque em Copiar IMAGEM, depois Abrir Gemini. Cole o prompt no Gemini e gere a imagem. Salve a imagem no celular, volte aqui e toque em Importar imagem na mesma cena. O Gemini não recebe o prompt automaticamente e nenhuma API paga é utilizada.</p><p class="notice"><b>Correção V9:</b> o botão de IMAGEM copia somente o prompt Gemini da cena aberta; o botão de ANIMAÇÃO copia somente o prompt Flow. Confira o texto em “Ver exatamente o prompt de IMAGEM”. Para um trem, o texto precisa dizer <b>trem</b>, nunca caminhão. O prompt reforça que tudo é massinha artesanal, não fotografia realista.</p><p id="modeStatus" class="tiny">Modo Aleatório: cenas independentes, sem história.</p><div class="actions"><button onclick="generate()">Criar cenas pela duração</button><button onclick="planAll()">✨ Planejar todas as cenas</button><button class="secondary" onclick="createAllPrompts()">Criar todos os prompts Flow</button><button class="secondary" onclick="copyImagePrompts()">Copiar prompts de imagem (todas)</button><label class="filebtn secondary">📷 Importar várias imagens<input type="file" id="batchImages" accept="image/*" multiple style="display:none"></label><button class="secondary" onclick="addScene()">+ Adicionar cena</button><button class="secondary" onclick="saveLocal()">Salvar neste aparelho</button><button class="secondary" onclick="exportJSON()">Exportar projeto JSON</button><button class="secondary" onclick="exportTXT()">Exportar roteiro TXT</button><label class="filebtn secondary">Importar projeto JSON<input type="file" id="import" accept=".json,application/json" style="display:none"></label></div><p class="tiny">Criar cenas mantém as descrições existentes nas posições correspondentes. Imagens de miniatura são opcionais e ficam incorporadas no JSON exportado. Para usar no celular e PC, exporte o JSON e importe no outro dispositivo.</p><p class="notice"><b>V8:</b> Gere as imagens no ChatGPT, salve no celular com nomes como <b>cena_01.png, cena_02.png</b>, depois importe todas de uma vez. As imagens reais substituirão os esboços. Sem integração automática com IA nesta versão.</p><p id="importStatus" class="status" aria-live="polite"></p><p class="notice">As miniaturas ilustrativas abaixo são <b>desenhos esquemáticos locais</b>, não imagens de IA. Toque numa miniatura para abrir a edição logo abaixo da galeria. O botão Planejar todas as cenas preenche apenas cenas não aprovadas e pede confirmação antes de substituir descrições.</p><h2>Galeria do videoclipe — imagens reais ou esboços</h2><p class="tiny">Quando você importar imagens, elas aparecerão aqui no lugar dos esboços. Toque numa cena para abrir seu editor logo abaixo da galeria.</p><div id="editorSpot"></div><div id="gallery" class="gallery"></div><p id="count" class="status"></p><div id="scenes"></div></section></main><script src="https://accounts.google.com/gsi/client" async defer></script><script>
+const $=id=>document.getElementById(id);let scenes=[],refImage='';let activeSceneIndex=-1;const initial=['Velho músico tocando violão','Close das mãos tocando as cordas','Cachorro de massinha caminhando pela rua molhada','Placa antiga pendurada balançando ao vento','Senhora caricatural olhando a chuva pela janela','Trem antigo atravessando a cidade','Dois pássaros de argila numa cerca','Caneca antiga soltando vapor','Homem de chapéu atravessando a rua','Folhas de argila caindo numa poça'];
+const ideas=[
+['Velho músico tocando violão na escadaria molhada','🎸'],['Close das mãos enrugadas dedilhando as cordas do violão','🎶'],['Cachorro de argila caminhando sozinho pelos paralelepípedos','🐕'],['Placa antiga de madeira pendurada balançando ao vento','🪧'],['Senhora de cabelos grisalhos olhando a chuva pela janela','👵'],['Caneca de esmalte lascado soltando vapor sobre uma mesa','☕'],['Trem de carga antigo cruzando lentamente a ponte','🚂'],['Dois pássaros de argila pousados num fio molhado','🐦'],['Relógio de estação envelhecido marcando a passagem do tempo','🕰️'],['Homem de chapéu gasto atravessando uma rua vazia','🚶'],['Vitrine empoeirada com um vestido antigo atrás do vidro','👗'],['Bicicleta enferrujada encostada numa parede azul desbotada','🚲'],['Gotas de chuva escorrendo pelo vidro de uma janela','🌧️'],['Banco de praça vazio sob um poste de luz âmbar','🪑'],['Gato de massinha abrigado sob uma varanda de madeira','🐈'],['Folhas secas girando numa poça entre pedras','🍂'],['Flor de argila esquecida num vaso rachado','🌷'],['Sapatos antigos abandonados junto à porta de casa','👞'],['Ponte de pedra com neblina sobre o rio','🌉'],['Barco pequeno de madeira preso ao cais chuvoso','⛵'],['Lanterna de querosene iluminando uma parede descascada','🏮'],['Cartas antigas amarradas com barbante sobre uma escrivaninha','✉️'],['Mulher de casaco antigo caminhando com guarda-chuva fechado','☂️'],['Roda de carroça parada junto a uma oficina antiga','🛞'],['Sombra de galhos se movendo numa fachada azul acinzentada','🌳'],['Janela com cortina de renda agitada pela brisa','🪟'],['Par de luvas de couro sobre um banco de madeira','🧤'],['Sino de bronze de uma igreja antiga sob chuva fina','🔔'],['Caminhonete velha estacionada diante de uma loja fechada','🛻'],['Pombo de argila bebendo água numa poça','🕊️'],['Mãos de uma senhora costurando um tecido gasto','🧵'],['Chaminé soltando fumaça suave sobre os telhados','🏠'],['Jornal antigo preso sob uma pedra no degrau','📰'],['Portão de ferro enferrujado entreaberto','🚪'],['Bule de metal gasto ao lado de duas xícaras','🫖'],['Luzes distantes refletidas no asfalto molhado','✨'],['Árvore sem folhas diante de uma casa vazia','🌲'],['Velho sapateiro trabalhando sob uma lâmpada fraca','🔨'],['Guarda-chuva esquecido numa cadeira de madeira','🌂'],['Vista ampla da rua antiga com a torre de água ao fundo','🏘️'],['Ponteiro de vitrola antiga girando sobre um disco','📀'],['Caixa de correio enferrujada junto ao portão','📮'],['Corda de varal com roupas antigas balançando ao vento','👕'],['Pequeno moinho de madeira ao lado do riacho','⚙️'],['Sombras de dois pássaros atravessando a parede','🐦'],['Sapateira antiga com botas enlameadas','🥾'],['Escadaria de pedra vazia iluminada por lampião','🪜'],['Pequena loja com letreiro apagado e vitrines molhadas','🏬'],['Folhas de jornal levadas pelo vento na praça','🗞️'],['Luz de uma única janela acesa no fim da rua','🕯️']];
+const storyBeats=[
+ 'Apresentação: {hero} aparece no ambiente principal, demonstrando sua rotina',
+ 'Detalhe do mesmo personagem e de um objeto pessoal importante',
+ 'Um indício desperta o desejo de {goal}',
+ 'O personagem toma a decisão de partir ou agir',
+ 'O personagem atravessa a rua e segue seu objetivo',
+ 'Um obstáculo físico dificulta o caminho',
+ 'Close da reação emocional do mesmo personagem diante do obstáculo',
+ 'Uma nova pista aparece no ambiente e oferece esperança',
+ 'O personagem encontra alguém ou algo que pode ajudar',
+ 'A dificuldade aumenta, mantendo os mesmos figurinos e cenário',
+ 'O personagem hesita, mas decide continuar',
+ 'O personagem supera o obstáculo usando a pista anterior',
+ 'Um momento silencioso mostra o peso emocional da jornada',
+ 'Aparece o sinal de que a busca está perto do fim',
+ 'O personagem chega ao local decisivo',
+ 'Desfecho: {ending}',
+ 'Plano final poético que encerra a história e seu sentimento'
+];
+function modeChanged(){let story=$('creationMode').value==='story';$('storySettings').style.display=story?'block':'none';$('modeStatus').textContent=story?'Modo História: roteiro sequencial e continuidade de personagens.':'Modo Aleatório: cenas independentes, sem história.'}
+function storyIdea(i,n){let j=n<=1?16:Math.round(i*16/(n-1));return storyBeats[j].replaceAll('{hero}',$('storyHero').value).replaceAll('{goal}',$('storyGoal').value).replaceAll('{ending}',$('storyEnding').value)}
+function planAll(){if(!scenes.length)generate();if(!scenes.length)return;let count=scenes.filter(s=>!s.approved&&s.description).length;if(count&&!confirm('Substituir as descrições das cenas NÃO aprovadas por um roteiro variado? Cenas aprovadas serão preservadas.'))return;scenes.forEach((s,i)=>{if(s.approved||s.locked)return;let idea=ideas[i%ideas.length];s.description=$('creationMode').value==='story'?storyIdea(i,scenes.length):idea[0];s.animation='';s.symbol=$('creationMode').value==='story'?'🎬':idea[1]});render();document.getElementById('gallery').scrollIntoView({behavior:'smooth',block:'start'})}
+function createAllPrompts(){scenes.forEach(s=>{if(!s.locked&&(!s.animation||isAutoFlow(s.animation)))s.animation=makePrompt(s)});render()}
+function isAutoFlow(t){return /^Mode: (continuous narrative|independent music video vignette)/.test((t||'').trim())}
+function makePrompt(s){return `Mode: ${$('creationMode').value==='story'?'continuous narrative, preserve character clothing and props':'independent music video vignette, no narrative'}. Scene: ${s.description}. Gentle natural movement for slow melancholic blues, motion speed 2x. Preserve exactly the subjects and composition in the imported image, with subtle stop-motion movements, no new subjects, camera cuts or sudden transitions. 16:9.\n\nCURRENT APPROVED TWIN VISUAL STYLE (preserve throughout animation):\n${visualStyle()}\n\nProject palette: ${$('palette').value}. Environment: ${$('setting').value}. Reference image is for style only, never copy its specific objects or characters.`}
+function currentFlow(s){return !s.animation || isAutoFlow(s.animation) ? makePrompt(s) : s.animation}
+function refreshTwinPrompts(){document.querySelectorAll('.scene').forEach((div,i)=>{const s=scenes[i];if(!s)return;const preview=div.querySelector('.imagePreview');if(preview)preview.value=makeImagePrompt(s);if(isAutoFlow(s.animation)){s.animation=makePrompt(s);const flow=div.querySelector('.animation');if(flow)flow.value=s.animation}});}
+
+
+function visualStyle(){
+ const approved=$('twin').value.trim();
+ const base='HANDCRAFTED RUSTIC CLAYMATION STOP-MOTION MINIATURE AESTHETIC. Everything visible is sculpted from matte clay with strongly visible thumbprints, finger-pressed seams, hand-molded lumpy shapes, rough clay grains, tiny cracks, pores, irregular hand-shaped edges and weathering; deliberately imperfect handcrafted sculpture, NOT realistic wood, metal, rubber or glass. Predominantly cool muted slate-blue and blue-gray, restrained dirty beige and weathered brown. Tiny localized warm amber only from actual lanterns, windows or lights; NO overall orange cast. Soft overcast cinematic lighting, shallow depth of field, handcrafted miniature realism. No shiny plastic, rubber, polished digital CGI, bright saturated colors. 16:9.';
+ return approved || base;
+}
+function makeImagePrompt(s){
+ const story=$('creationMode').value==='story';
+ const palette=$('palette').value;
+ return `SCENE SUBJECT — THE ONLY CONTENT TO DEPICT:\n${s.description}.\n\nLOCKED VISUAL STYLE — TRANSFER MATERIALS, COLOR, LIGHTING AND CRAFT ONLY, NEVER SUBJECTS FROM THE REFERENCE:\n${visualStyle()}\n\nCOLOR PRIORITY: predominantly cool slate blue-gray, restrained muted brown and beige. Warm amber ONLY in small practical light sources; do not tint the whole scene orange. Project palette: ${palette}.\nPROJECT MOOD: ${$('mood').value}.\nPROJECT SETTING (atmosphere only; do not add unrelated objects): ${$('setting').value}.\n\n${story?`STORY MODE: preserve recurring character identity, clothing, props and locations when the scene explicitly involves them. Main character: ${$('storyHero').value}. Goal: ${$('storyGoal').value}.`: 'RANDOM MUSIC VIDEO MODE: independent shot; do not invent narrative continuity or repeat the previous scene’s characters or props unless explicitly requested.'}\n\nABSOLUTE SUBJECT CHECK: The final image MUST depict exactly the SCENE SUBJECT named in the first section. Do not replace a train with a truck, or any object with an object from a previous prompt. If the scene says train, show a locomotive on rails; if it says cups, show cups. Every element must be recognizably hand-sculpted clay, including wheels, windows, rain and surfaces. NO photographic realism.\n\nCRITICAL: The reference image is a STYLE REFERENCE, NOT A CONTENT REFERENCE. Never copy its musician, dog, mug, lantern, guitar, water tower, buildings or composition unless the current scene specifically asks for them. Depict the subject described at the top. All subjects and surroundings must have the SAME handmade matte-clay finish. No text, no collage, one shot, cinematic 16:9.`;
+}
+function copyText(t,ok){if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(()=>alert(ok)).catch(()=>fallbackCopy(t))}else fallbackCopy(t)}
+function fallbackCopy(t){let a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='0';a.style.opacity='0';document.body.appendChild(a);a.focus();a.select();a.setSelectionRange(0,a.value.length);let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();alert(ok?'Texto copiado!':'Não foi possível copiar automaticamente. Abra a prévia do prompt e selecione o texto para copiar.')}
+function copyImagePrompts(){copyText(scenes.map((s,i)=>`CENA ${String(i+1).padStart(2,'0')} (${time(i*(Number($('seconds').value)||6))})\\n${makeImagePrompt(s)}`).join('\\n\\n'),'Prompts de imagem copiados!')}
+function applyTwinStyle(){
+ const addition=$('twinAddition').value.trim();
+ if(addition){
+   if($('styleLocked').checked){alert('Desbloqueie a identidade visual antes de acrescentar novas instruções.');return}
+   const existing=$('twin').value.trim();
+   $('twin').value=existing?(existing.includes(addition)?existing:existing+'\n\n'+addition):addition;
+   $('twinAddition').value='';
+ }
+ if(!$('twin').value.trim()){alert('Escreva ou crie primeiro o Prompt Gêmeo Visual.');return}
+ let refreshed=0, preserved=0;
+ scenes.forEach(scene=>{
+   if(!scene.animation || isAutoFlow(scene.animation)){
+     scene.animation=makePrompt(scene);
+     refreshed++;
+   }else preserved++;
+ });
+ refreshTwinPrompts();
+ render();
+ scheduleSave();
+ $('twinStatus').textContent='✓ Estilo atualizado em '+scenes.length+' cenas (Gemini) e '+refreshed+' prompts Flow. '+preserved+' prompts Flow personalizados preservados.';
+ alert('Estilo aplicado! '+scenes.length+' cenas Gemini atualizadas e '+refreshed+' prompts Flow atualizados.');
+}
+function setTwinLock(){let locked=$('styleLocked').checked;$('twin').readOnly=locked;$('twinStatus').textContent=locked?'Estilo gêmeo bloqueado para edição. Os prompts de cena usarão este padrão atualizado.':'Estilo desbloqueado para revisão.';refreshTwinPrompts()}
+function buildTwin(){if($('styleLocked').checked){alert('Desbloqueie o estilo para editar.');return}if(!refImage){alert('Escolha primeiro uma imagem de referência.');return}
+$('twin').value=`HANDCRAFTED RUSTIC CLAYMATION STOP-MOTION MINIATURE AESTHETIC. Every visible person, animal, building, vehicle, tree, street and object is sculpted from matte clay, with strongly visible fingerprints, pressed thumb marks, uneven sculpted seams, rough clay grains, small cracks, pores, irregular handmade edges and subtle weathering. Even apparent wood, metal, glass, fabric, smoke and water must visibly be made of clay. Dominant cool desaturated slate-blue and blue-gray, muted dirty beige and weathered brown as secondary colors. Small isolated warm amber ONLY from practical lanterns, windows and lamps; NEVER an overall orange color cast. Overcast cinematic lighting, soft rain atmosphere when appropriate to the scene, shallow depth of field, miniature realism, 16:9. Use the supplied reference solely for MATERIAL, TEXTURE, COLOR HARMONY, LIGHT and HANDCRAFTED FINISH. NEVER reproduce its specific characters, animals, instruments, objects, buildings or composition unless the scene asks for them. No glossy plastic, rubber, polished CGI or saturated colors.`;
+$('twinStatus').textContent='Estilo-base V13 criado. Revise e bloqueie quando aprovado. O assunto da referência NÃO será copiado.';refreshTwinPrompts()}
+async function extractPalette(){if(!refImage){alert('Selecione primeiro a imagem de referência.');return}
+try{const img=new Image();img.src=refImage;await img.decode();const c=document.createElement('canvas');c.width=160;c.height=100;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,160,100);const data=ctx.getImageData(0,0,160,100).data;const buckets=new Map();for(let i=0;i<data.length;i+=16){if(data[i+3]<240)continue;const r=Math.min(255,Math.round(data[i]/24)*24),g=Math.min(255,Math.round(data[i+1]/24)*24),b=Math.min(255,Math.round(data[i+2]/24)*24);const k=[r,g,b].map(x=>Math.min(255,x).toString(16).padStart(2,'0')).join('');buckets.set(k,(buckets.get(k)||0)+1)}const ranked=[...buckets.entries()].sort((a,b)=>b[1]-a[1]);const selected=[];for(const [k] of ranked){const rgb=[0,2,4].map(j=>parseInt(k.slice(j,j+2),16));if(selected.every(v=>{const q=[0,2,4].map(j=>parseInt(v.slice(j,j+2),16));return Math.hypot(...rgb.map((n,i)=>n-q[i]))>52}))selected.push(k);if(selected.length===8)break}const colors=selected.map(k=>'#'+k);$('hexPalette').value=colors.join(', ');$('palette').value=colors.join(', ');$('extractedSwatches').innerHTML=colors.map(color=>`<i title="${color}" style="background:${color};height:42px"></i>`).join('');$('twinStatus').textContent='Cores extraídas da imagem. Revise antes de bloquear o estilo.'}catch(e){alert('Não foi possível ler a imagem para extrair as cores.')}}
+function storyboardSvg(s,i){
+  const d=(s.description||'').toLowerCase(), esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let subject='';
+  if(/músic|violão|cordas|dedilh/.test(d)){
+    subject='<ellipse cx="118" cy="85" rx="21" ry="29" fill="#8a6650" stroke="#423d38" stroke-width="3"/><path d="M117 66 L150 35" stroke="#a99477" stroke-width="9"/><circle cx="107" cy="78" r="5" fill="#343536"/><path d="M93 80 Q65 63 57 86" stroke="#b4a58b" stroke-width="9" fill="none"/><circle cx="61" cy="57" r="16" fill="#bba48b"/><path d="M48 43 Q61 27 76 43" fill="#4d5154"/><path d="M58 73 L49 113" stroke="#5d6264" stroke-width="16"/>';
+  } else if(/cachorr|gato|pássar|pombo/.test(d)){
+    subject='<ellipse cx="109" cy="94" rx="35" ry="20" fill="#a9987d" stroke="#5b554b" stroke-width="2"/><circle cx="143" cy="78" r="21" fill="#b4a28a"/><ellipse cx="130" cy="68" rx="10" ry="20" fill="#776657" transform="rotate(-25 130 68)"/><circle cx="150" cy="75" r="3" fill="#242b30"/><ellipse cx="159" cy="86" rx="7" ry="5" fill="#474747"/><path d="M86 108 L83 130 M125 109 L127 130 M76 87 Q56 61 52 76" fill="none" stroke="#a9987d" stroke-width="10" stroke-linecap="round"/>';
+  } else if(/senhora|mulher|homem|sapateiro/.test(d)){
+    subject='<rect x="95" y="78" width="44" height="55" rx="12" fill="#715a50"/><circle cx="118" cy="63" r="23" fill="#c3a48a"/><path d="M96 55 Q96 27 120 35 Q145 35 140 55" fill="#9e9d98"/><circle cx="110" cy="63" r="2.5" fill="#353a3d"/><circle cx="126" cy="63" r="2.5" fill="#353a3d"/><path d="M105 80 L89 113 M131 80 L147 110" stroke="#c3a48a" stroke-width="9"/>';
+  } else if(/caneca|xícara|bule|café/.test(d)){
+    subject='<rect x="79" y="78" width="65" height="48" rx="8" fill="#bcb5a5" stroke="#525a5b" stroke-width="3"/><path d="M145 85 Q180 79 171 103 Q164 117 144 111" fill="none" stroke="#bcb5a5" stroke-width="8"/><path d="M95 68 Q80 55 95 42 M122 66 Q137 53 123 37" stroke="#c3c3b8" stroke-width="4" fill="none" opacity=".8"/>';
+  } else if(/placa|letreiro|relógio|sino/.test(d)){
+    subject='<path d="M115 20 L115 57" stroke="#6b5c50" stroke-width="5"/><rect x="57" y="56" width="120" height="65" rx="6" fill="#8b765d" stroke="#4a4642" stroke-width="5"/><path d="M72 77 L161 77 M72 91 L152 91 M72 105 L130 105" stroke="#b6a18a" stroke-width="4"/>';
+  } else if(/trem|caminhonete|bicicleta|carroça|barco/.test(d)){
+    subject='<rect x="57" y="72" width="115" height="49" rx="9" fill="#6c7272" stroke="#343e43" stroke-width="4"/><rect x="77" y="52" width="52" height="30" rx="4" fill="#8c8b81"/><circle cx="84" cy="123" r="13" fill="#30373b" stroke="#9e8972" stroke-width="5"/><circle cx="146" cy="123" r="13" fill="#30373b" stroke="#9e8972" stroke-width="5"/>';
+  } else if(/janela|chuva|cortina|vitrine/.test(d)){
+    subject='<rect x="76" y="26" width="87" height="104" rx="3" fill="#414d55" stroke="#aaa18f" stroke-width="9"/><path d="M119 29 L119 128 M79 76 L161 76" stroke="#aaa18f" stroke-width="6"/><path d="M92 37 L84 53 M144 84 L132 102 M109 87 L99 106" stroke="#d0d2d1" opacity=".7" stroke-width="2"/>';
+  } else if(/flor|árvore|galho|folha/.test(d)){
+    subject='<path d="M118 134 Q105 90 119 48" stroke="#77765e" stroke-width="8" fill="none"/><circle cx="118" cy="48" r="29" fill="#777b6b"/><circle cx="95" cy="65" r="20" fill="#858572"/><circle cx="139" cy="69" r="22" fill="#6e766c"/>';
+  } else {
+    subject='<rect x="77" y="70" width="86" height="58" rx="7" fill="#8b7967" stroke="#4a4e50" stroke-width="4"/><path d="M90 85 L149 85 M90 100 L139 100" stroke="#c2ad90" stroke-width="4"/>';
+  }
+  return `<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esboço ilustrativo da cena ${i+1}">
+  <rect width="240" height="150" fill="#536069"/><rect x="0" y="18" width="70" height="99" fill="#4b565c"/><rect x="172" y="0" width="68" height="116" fill="#475157"/><path d="M0 125 L240 125 L240 150 L0 150Z" fill="#66655f"/><path d="M0 140 L240 135 M12 125 L24 150 M65 125 L74 150 M122 125 L128 150 M184 125 L193 150" stroke="#8c8a81" stroke-width="2"/><rect x="185" y="31" width="22" height="30" fill="#ab855a" opacity=".8"/><path d="M0 0 L240 0" stroke="#333c42" stroke-width="5"/>
+  ${subject}<path d="M30 5 L18 24 M92 5 L80 24 M162 5 L150 24 M219 5 L207 24" stroke="#b8c1c3" stroke-width="1.4" opacity=".35"/>
+  </svg>`;
+}
+function renderGallery(){
+ const g=$('gallery');g.innerHTML='';
+ scenes.forEach((s,i)=>{
+ const b=document.createElement('button');b.className='tile'+(s.approved?' ok':'');
+ const art=document.createElement('div');art.className='art';
+ if(s.image){const im=document.createElement('img');im.src=s.image;art.appendChild(im)}
+ else art.innerHTML=storyboardSvg(s,i);
+ const t=document.createElement('div');t.className='txt';const label=document.createElement('b');
+ label.textContent=`Cena ${i+1} · ${time(i*(Number($('seconds').value)||6))}`+(s.videoId?' 🎬':'')+(s.approved?' ✓':'');
+ const desc=document.createElement('span');desc.textContent=s.description||'Sem descrição';
+ t.append(label,desc);b.append(art,t);
+ b.onclick=()=>openEditor(i);g.appendChild(b);
+ })
+}
+function openEditor(i){
+ const spot=$('editorSpot'),el=document.querySelectorAll('.scene')[i];
+ if(!el)return;
+ document.querySelectorAll('.scene').forEach(e=>e.classList.remove('selected'));
+ el.classList.add('selected');spot.innerHTML='';
+ spot.appendChild(el);
+ spot.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function getInfo(){return Object.fromEntries(['song','duration','seconds','mood','setting','palette','creationMode','storyHero','storyGoal','storyEnding'].map(k=>[k,$(k).value]))}function setInfo(o){Object.keys(o||{}).forEach(k=>{if($(k))$(k).value=o[k]});modeChanged()}function time(s){let n=Math.floor(s);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}function durationSeconds(){let m=$('duration').value.trim().match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0}function defaultScene(i){return {locked:false,videoId:'',videoName:'',driveId:'',description:ideas[i%ideas.length][0],animation:'',image:'',approved:false,symbol:ideas[i%ideas.length][1]}}function generate(){let dur=durationSeconds(),step=Number($('seconds').value);if(!dur||!step||step<1){alert('Informe uma duração válida (mm:ss) e segundos por cena.');return}let count=Math.ceil(dur/step);if(count>500){alert('Limite de 500 cenas.');return}scenes=Array.from({length:count},(_,i)=>scenes[i]||defaultScene(i));render()}function addScene(){scenes.push(defaultScene(scenes.length));render()}function removeScene(i){if(scenes[i]?.locked){alert('Desbloqueie a cena antes de excluir.');return}if(confirm('Excluir esta cena?')){scenes.splice(i,1);render()}}function moveScene(i,delta){let j=i+delta;if(scenes[i]?.locked||scenes[j]?.locked){alert('Desbloqueie as cenas antes de mudar a ordem.');return}if(j<0||j>=scenes.length)return;[scenes[i],scenes[j]]=[scenes[j],scenes[i]];render()}function update(i,key,value){if(scenes[i]?.locked)return;scenes[i][key]=value;if(key==='approved')renderCount()}function renderCount(){let n=scenes.filter(s=>s.approved).length,vid=scenes.filter(s=>s.videoId||s.driveId).length;$('count').textContent=`${scenes.length} cenas • ${n} aprovadas • ${vid} vídeos anexados • ${scenes.length-vid} aguardando vídeo`}
+function escapeHtml(t){return String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){if(!restoring)scheduleSave();const selectedIndex=scenes.indexOf(document.querySelector('.scene.selected')?.__sceneRef);const root=$('scenes');$('editorSpot').innerHTML='';root.innerHTML='';let step=Number($('seconds').value)||6,dur=durationSeconds();scenes.forEach((s,i)=>{let div=document.createElement('div');div.className='scene'+(s.locked?' locked':'');let start=i*step,end=dur?Math.min((i+1)*step,dur):(i+1)*step;div.innerHTML=`<div class="scenehead"><h3>Cena ${i+1} <small class="tiny">${time(start)}–${time(end)}</small></h3><span class="tiny">${s.locked?'🔒 Protegida':(s.approved?'✓ Aprovada':'A revisar')}</span></div><button type="button" class="lockscene">${s.locked?'🔓 Desbloquear cena':'🔒 Bloquear cena pronta'}</button><img class="thumb" alt="Miniatura da cena" style="${s.image?'':'display:none'}"><div class="tiny" style="${s.image?'display:none':''}">Sem miniatura — adicione uma imagem se desejar.</div><label>Miniatura / imagem da cena</label><input type="file" accept="image/*" class="imagefile"><div class="sceneMedia"><b>🎬 Vídeo animado desta cena</b><div class="videoStatus ${s.videoId||s.driveId?'':'pending'}">${s.driveId?'✓ ☁️ Vídeo no Drive: '+escapeHtml(s.videoName||'MP4'):s.videoId?'✓ Vídeo local: '+escapeHtml(s.videoName||'MP4'):'Aguardando vídeo do Flow'}</div><video class="videoPreview" controls playsinline preload="metadata" style="${s.videoId||s.driveId?'':'display:none'}"></video><div class="videoControls" style="${s.videoId||s.driveId?'':'display:none'}"><button type="button" class="secondary playvideo">▶ Reproduzir</button><button type="button" class="secondary pausevideo">⏸ Pausar</button><button type="button" class="secondary openvideo">⛶ Abrir vídeo</button></div><div class="tiny videoHelp" aria-live="polite"></div><input type="file" accept="video/mp4,video/webm,.mp4,.webm" class="videofile" style="display:none"><div class="actions"><button type="button" class="secondary importvideo">📥 Adicionar / trocar vídeo</button><button type="button" class="secondary removevideo" ${s.videoId||s.driveId?'':'disabled'}>🗑️ Remover vídeo</button><button type="button" class="secondary senddrive">☁️ Enviar vídeo para o Drive</button></div><p class="tiny">O vídeo é guardado separado das imagens e dos backups JSON, para não sobrecarregar o projeto.</p></div><label>Assunto exclusivo desta cena (confira antes de copiar)</label><textarea class="description"></textarea><div class="tiny sceneSubject" style="padding:8px;border-left:3px solid #b39a75;margin:6px 0"></div><details class="promptPreview"><summary style="cursor:pointer;color:#dfc5a0;padding:8px 0">👁️ Ver exatamente o prompt de IMAGEM que será copiado</summary><textarea class="imagePreview" readonly rows="8" style="min-height:170px"></textarea></details><label>Prompt de animação Flow (2×)</label><textarea class="animation"></textarea><label><input class="approved" type="checkbox" style="width:auto"> Cena aprovada</label><div class="actions"><button class="secondary up">↑</button><button class="secondary down">↓</button><button class="secondary imageprompt">📷 Copiar IMAGEM (Gemini)</button><button class="secondary gemini">🌐 Abrir Gemini</button><button class="secondary importimage">📥 Importar imagem</button><button class="secondary prompt">🎞️ Criar ANIMAÇÃO (Flow)</button><button class="secondary copy">🎞️ Copiar ANIMAÇÃO (Flow)</button><button class="secondary delete">Excluir</button></div>`;const lockBtn=div.querySelector('.lockscene');lockBtn.onclick=()=>{if(s.locked){if(!confirm('Desbloquear esta cena para permitir alterações?'))return;s.locked=false}else{if(!confirm('Bloquear esta cena pronta? Imagem, vídeo, textos e ordem ficarão protegidos até desbloquear.'))return;s.locked=true}render();persistNow().catch(()=>{})};const player=div.querySelector('video');const help=div.querySelector('.videoHelp');div.querySelector('.playvideo').onclick=async()=>{try{if(!player.src&&(s.videoId||s.driveId))await loadSceneVideoPreview(s,player);await player.play();help.textContent='▶ Reproduzindo vídeo.'}catch(err){help.textContent='⚠️ Não foi possível reproduzir: '+err.message+' — tente Abrir vídeo.'}};div.querySelector('.pausevideo').onclick=()=>{player.pause();help.textContent='⏸ Vídeo pausado.'};div.querySelector('.openvideo').onclick=async()=>{try{if(!player.src&&(s.videoId||s.driveId))await loadSceneVideoPreview(s,player);if(!player.src)throw Error('vídeo não encontrado');const overlay=document.createElement('div');overlay.className='bigVideoOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-label','Vídeo ampliado');const large=document.createElement('video');large.controls=true;large.playsInline=true;large.src=player.src;large.currentTime=player.currentTime||0;const actions=document.createElement('div');actions.className='actions';const close=document.createElement('button');close.textContent='✕ Fechar tela grande';const full=document.createElement('button');full.textContent='⛶ Tela cheia';full.className='secondary';actions.append(full,close);overlay.append(large,actions);document.body.appendChild(overlay);player.pause();const finish=()=>{large.pause();overlay.remove();};close.onclick=finish;full.onclick=async()=>{try{if(large.webkitEnterFullscreen){large.webkitEnterFullscreen()}else if(large.requestFullscreen){await large.requestFullscreen()}else{help.textContent='Visualização ampliada aberta.'}}catch(e){help.textContent='Tela cheia não permitida neste navegador. Use a visualização ampliada.'}};overlay.onclick=e=>{if(e.target===overlay)finish()};large.play().catch(()=>{});help.textContent='Vídeo aberto em visualização ampliada.'}catch(err){help.textContent='⚠️ '+err.message}};player.addEventListener('error',()=>{help.textContent='⚠️ O navegador não conseguiu abrir este formato de vídeo. Confira se o MP4 usa H.264.'});div.querySelector('.importvideo').onclick=()=>div.querySelector('.videofile').click();div.querySelector('.removevideo').onclick=()=>{if(!s.videoId&&!s.driveId&&!temporaryVideos.has(s))return;if(!confirm('Remover o vídeo desta cena? A imagem e os prompts serão mantidos.'))return;const temp=temporaryVideos.get(s);if(temp){URL.revokeObjectURL(temp.url);temporaryVideos.delete(s)}const id=s.videoId;s.videoId='';s.driveId='';s.videoName='';render();if(id)deleteVideo(id).catch(()=>{});persistNow().catch(()=>{});queueDriveSync()};div.querySelector('.senddrive').onclick=async()=>{
+ if(s.locked){help.textContent='Desbloqueie a cena antes de enviar um vídeo.';return}
+ if(!driveReady()){help.textContent='Conecte o Google Drive primeiro.';return}
+ const temp=temporaryVideos.get(s);
+ try{
+  let file=temp?.file;
+  if(!file&&s.videoId)file=await libraryGet('videos',s.videoId);
+  if(!file){help.textContent='Selecione novamente o MP4 original para enviá-lo ao Drive.';div.querySelector('.videofile').click();return}
+  await saveSceneVideoToDrive(s,file,div);
+ }catch(err){help.textContent='⚠️ '+err.message;}
+};
+div.querySelector('.videofile').onchange=async e=>{
+ const input=e.target;
+ const file=input.files&&input.files[0];
+ if(!file)return;
+ const status=div.querySelector('.videoStatus');
+ if(!(/\.(mp4|webm)$/i.test(file.name)||/^video\/(mp4|webm)$/.test(file.type))){status.textContent='⚠️ Escolha MP4 ou WebM.';input.value='';return}
+ const previous=temporaryVideos.get(s);
+ if(previous)URL.revokeObjectURL(previous.url);
+ const url=URL.createObjectURL(file),ticket={url,file};
+ temporaryVideos.set(s,ticket);
+ const vid=div.querySelector('video');
+ vid.src=url;vid.style.display='block';vid.load();
+ div.querySelector('.videoControls').style.display='flex';
+ div.querySelector('.removevideo').disabled=false;
+ input.value='';
+ if(driveReady()){
+  try{await saveSceneVideoToDrive(s,file,div)}
+  catch(err){status.textContent='⚠️ Drive não concluiu o upload: '+err.message+' — prévia disponível nesta sessão. Mantenha o MP4 original e tente Enviar vídeo para o Drive.'}
+  return;
+ }
+ // Backward-compatible local behavior when Drive is not connected.
+ status.textContent='▶ Prévia pronta: '+file.name+' — Drive não conectado; tentando salvar localmente...';
+ const old=s.videoId,id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2);
+ try{
+  await libraryPut('videos',id,file);
+  if(temporaryVideos.get(s)!==ticket)return;
+  s.videoId=id;s.driveId='';s.videoName=file.name;
+  status.textContent='💾 Vídeo local salvo; salvando vínculo...';
+  renderCount();renderGallery();
+  try{await persistNow();if(temporaryVideos.get(s)===ticket)status.textContent='✓ Vídeo salvo neste navegador: '+file.name+' — conecte ao Drive para fazer cópia';if(old&&old!==id)deleteVideo(old).catch(()=>{});}
+  catch(saveErr){status.textContent='⚠️ Vídeo local salvo, mas vínculo não persistiu: '+saveErr.message+' — exporte backup JSON.'}
+ }catch(err){if(temporaryVideos.get(s)!==ticket)return;status.textContent='⚠️ Prévia disponível só nesta sessão. Armazenamento local falhou: '+err.message+' — conecte ao Drive e use Enviar vídeo para o Drive.'}
+};if(temporaryVideos.has(s)){const vid=div.querySelector('video');vid.src=temporaryVideos.get(s).url;vid.style.display='block';div.querySelector('.videoControls').style.display='flex';div.querySelector('.removevideo').disabled=false;div.querySelector('.videoStatus').textContent=s.driveId?'✓ ☁️ Vídeo salvo no Drive: '+(s.videoName||'MP4'):'▶ Vídeo temporário disponível — mantenha o MP4 original.'}else if(s.videoId||s.driveId){const vid=div.querySelector('video');loadSceneVideoPreview(s,vid)}div.querySelector('.description').value=s.description;div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+s.description;if(!s.locked&&isAutoFlow(s.animation))s.animation=makePrompt(s);div.querySelector('.animation').value=s.animation;div.querySelector('.imagePreview').value=makeImagePrompt(s);div.querySelector('.approved').checked=s.approved;const img=div.querySelector('img');if(s.image)img.src=s.image;div.querySelector('.description').oninput=e=>{update(i,'description',e.target.value);div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+e.target.value;div.querySelector('.imagePreview').value=makeImagePrompt(s);s.animation='';div.querySelector('.animation').value='';renderGallery()};div.querySelector('.animation').oninput=e=>update(i,'animation',e.target.value);div.querySelector('.approved').onchange=e=>{update(i,'approved',e.target.checked);renderGallery()};div.querySelector('.up').onclick=()=>moveScene(i,-1);div.querySelector('.down').onclick=()=>moveScene(i,1);div.querySelector('.delete').onclick=()=>removeScene(i);div.querySelector('.imageprompt').onclick=()=>{if(!s.description.trim()){alert('Preencha o assunto da cena antes de copiar.');return}const exact=makeImagePrompt(s);div.querySelector('.imagePreview').value=exact;copyText(exact,'IMAGEM da cena '+(i+1)+' copiada! Assunto: '+s.description)};div.querySelector('.gemini').onclick=()=>window.open('https://gemini.google.com/app','_blank','noopener,noreferrer');div.querySelector('.importimage').onclick=()=>div.querySelector('.imagefile').click();div.querySelector('.prompt').onclick=()=>{let prompt=makePrompt(s);s.animation=prompt;div.querySelector('.animation').value=prompt};div.querySelector('.copy').onclick=()=>{if(isAutoFlow(s.animation)){s.animation=makePrompt(s);div.querySelector('.animation').value=s.animation}if(!s.animation.trim()){alert('Primeiro toque em Criar ANIMAÇÃO (Flow) ou escreva o prompt de animação.');return}copyText(s.animation,'ANIMAÇÃO Flow da cena '+(i+1)+' copiada!')};div.querySelector('.imagefile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{s.image=reader.result;render();scheduleSave()};reader.readAsDataURL(file)};if(s.locked){for(const selector of ['.imagefile','.videofile','.importvideo','.removevideo','.senddrive','.description','.animation','.approved','.up','.down','.importimage','.prompt','.delete']){const control=div.querySelector(selector);if(control)control.disabled=true}div.querySelector('.description').readOnly=true;div.querySelector('.animation').readOnly=true}div.__sceneRef=s;root.appendChild(div)});renderCount();renderGallery();if(selectedIndex>=0&&selectedIndex<scenes.length)openEditor(selectedIndex)}
+$('twin').addEventListener('input',refreshTwinPrompts);
+$('twin').addEventListener('change',refreshTwinPrompts);
+function data(){return {version:24,app:'Foto Studio',info:getInfo(),reference:refImage,twin:$('twin').value,hexPalette:$('hexPalette').value,styleLocked:$('styleLocked').checked,scenes}}function download(name,content,type){let url=URL.createObjectURL(new Blob([content],{type}));let a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function exportJSON(){download('Projeto_Estilo_Barroso.json',JSON.stringify(data(),null,2),'application/json')}function exportTXT(){let o=getInfo(),step=Number(o.seconds)||6;let lines=[`MÚSICA: ${o.song}`,`DURAÇÃO: ${o.duration}`,`CLIMA: ${o.mood}`,`AMBIENTE: ${o.setting}`,`CORES: ${o.palette}`,`MODO: ${$('creationMode').value==='story'?'História':'Aleatório'}`,'ESTILO: massinha 3D artesanal, fosca, textura marcada, 16:9',''];scenes.forEach((s,i)=>{lines.push(`CENA ${i+1} | ${time(i*step)}–${time(Math.min((i+1)*step,durationSeconds()||99999))} | ${s.approved?'APROVADA':'REVISAR'}`,`Imagem: ${s.description}`,`Prompt de imagem V9: ${makeImagePrompt(s)}`,`Flow: ${s.animation}`,'')});download('Roteiro_Estilo_Barroso.txt',lines.join('\n'),'text/plain;charset=utf-8')}function saveLocal(){persistNow().then(()=>alert('Projeto salvo automaticamente neste aparelho!')).catch(()=>alert('Falha no armazenamento. Baixe o backup JSON.'))}function load(o){setInfo(o.info||{});scenes=o.scenes||[];refImage=o.reference||'';$('twin').value=o.twin||'';$('hexPalette').value=o.hexPalette||'';$('styleLocked').checked=!!o.styleLocked;setTwinLock();if(o.version<7 && /elderly man with|hound dog sleeps|he wears a rolled-up|as he plays a weathered/i.test($('twin').value)){$('styleLocked').checked=false;setTwinLock();$('twinStatus').textContent='ATENÇÃO: o estilo antigo parece descrever personagens. Toque em Criar prompt gêmeo (só estilo) e bloqueie novamente.'}$('referencePreview').src=refImage;$('referencePreview').style.display=refImage?'block':'none';render()}$('batchImages').onchange=async e=>{
+ const files=Array.from(e.target.files||[]);if(!files.length)return;
+ let imported=0,skipped=[];
+ for(const f of files){
+   const m=f.name.match(/(?:cena|scene|imagem|image)[ _-]*0*(\\d+)/i);
+   const idx=m?Number(m[1])-1:-1;
+   if(idx<0||idx>=scenes.length||scenes[idx].locked){skipped.push(f.name);continue}
+   const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)});
+   scenes[idx].image=data;imported++;
+ }
+ render();scheduleSave();$('importStatus').textContent=`${imported} imagem(ns) importada(s). ${skipped.length} ignorada(s) por não ter número válido de cena no nome.`;
+ e.target.value='';
+};
+
+// V11: persistencia local em IndexedDB, inclusive imagens; copia JSON continua sendo o backup portatil.
+let dbPromise=null,saveTimer=null,restoring=true,saveInFlight=Promise.resolve();
+function openBarrosoDB(){if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reject)=>{if(!window.indexedDB){reject(new Error('IndexedDB indisponivel'));return}let req=indexedDB.open('barroso-v11',3);req.onupgradeneeded=()=>{let db=req.result;if(!db.objectStoreNames.contains('projects'))db.createObjectStore('projects');if(!db.objectStoreNames.contains('models'))db.createObjectStore('models');if(!db.objectStoreNames.contains('videos'))db.createObjectStore('videos')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)}).catch(err=>{dbPromise=null;throw err});return dbPromise}
+// V14: biblioteca independente de projetos e modelos; preserva a chave 'current' da V11.
+async function libraryPut(store,key,value){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+async function libraryGet(store,key){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function libraryKeys(store){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).getAllKeys();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function libraryDelete(store,key){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+async function deleteVideo(id){if(!id)return;const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+const videoUrls=new Map();const temporaryVideos=new WeakMap();async function loadVideoPreview(id,element){try{let blob=await libraryGet('videos',id);if(!blob){element.style.display='none';element.closest('.sceneMedia').querySelector('.videoStatus').textContent='⚠️ Vídeo não encontrado neste navegador. Importe novamente o MP4.';return}let url=videoUrls.get(id);if(!url){url=URL.createObjectURL(blob);videoUrls.set(id,url)}if(element.isConnected)element.src=url}catch(err){if(element.isConnected)element.closest('.sceneMedia').querySelector('.videoStatus').textContent='⚠️ Erro ao carregar vídeo: '+err.message}}
+function libraryMessage(msg){$('libraryStatus').textContent=msg}
+async function refreshLibrary(){try{for(const [store,id] of [['projects','savedProjects'],['models','savedModels']]){const select=$(id),chosen=select.value;const keys=(await libraryKeys(store)).filter(k=>typeof k==='string'&&k!=='current').sort((a,b)=>a.localeCompare(b,'pt-BR'));select.replaceChildren(new Option('Selecione '+(store==='projects'?'um projeto':'um modelo')+'...',''));keys.forEach(k=>select.add(new Option(k,k)));if(keys.includes(chosen))select.value=chosen}}catch(e){libraryMessage('⚠️ Biblioteca indisponível neste navegador. Use backups JSON.')}}
+function visualModelData(){return {version:14,name:$('modelName').value.trim(),twin:$('twin').value,reference:refImage,hexPalette:$('hexPalette').value,styleLocked:$('styleLocked').checked,palette:$('palette').value}}
+function applyModelData(m){refImage=m.reference||'';$('referencePreview').src=refImage;$('referencePreview').style.display=refImage?'block':'none';$('twin').value=m.twin||'';$('hexPalette').value=m.hexPalette||'';$('palette').value=m.palette||$('palette').value;$('styleLocked').checked=!!m.styleLocked;setTwinLock();refreshTwinPrompts();render();scheduleSave()}
+async function saveVisualModel(){const name=$('modelName').value.trim();if(!name){alert('Digite um nome para o modelo visual.');return}if(!$('twin').value.trim()){const create=confirm('⚠️ Este modelo não tem Prompt Gêmeo. OK: criar agora usando a imagem de referência. Cancelar: escolher se deseja salvar mesmo assim.');if(create){if(!refImage){alert('Selecione primeiro uma imagem de referência ou cancele para salvar sem prompt.');return}buildTwin();if(!$('twin').value.trim())return}else if(!confirm('Salvar o modelo sem Prompt Gêmeo mesmo assim?'))return}try{if(await libraryGet('models',name)&&!confirm('Substituir o modelo visual "'+name+'"?'))return;await libraryPut('models',name,JSON.stringify(visualModelData()));await refreshLibrary();$('savedModels').value=name;libraryMessage('✓ Modelo visual salvo: '+name)}catch(e){alert('Não foi possível salvar o modelo. Exporte um backup JSON.') }}
+async function saveNamedProject(){const name=$('projectName').value.trim();if(!name){alert('Digite um nome para o projeto.');return}try{if(await libraryGet('projects',name)&&!confirm('Substituir o projeto salvo "'+name+'"?'))return;await libraryPut('projects',name,JSON.stringify(data()));await refreshLibrary();$('savedProjects').value=name;libraryMessage('✓ Projeto salvo: '+name)}catch(e){alert('Não foi possível salvar. Verifique o espaço disponível e exporte um backup JSON.')}}
+async function openNamedProject(){const name=$('savedProjects').value;if(!name){alert('Selecione um projeto salvo.');return}if(!confirm('Abrir "'+name+'"? As alterações atuais não salvas com nome serão substituídas.'))return;try{const raw=await libraryGet('projects',name);if(!raw)throw Error('não encontrado');const o=JSON.parse(raw);if(!Array.isArray(o.scenes))throw Error('formato inválido');load(o);$('projectName').value=name;await persistNow();libraryMessage('✓ Projeto aberto: '+name)}catch(e){alert('Não foi possível abrir o projeto: '+e.message)}}
+async function applySavedModel(){const name=$('savedModels').value;if(!name){alert('Selecione um modelo visual.');return}if(!confirm('Aplicar o modelo "'+name+'" às cenas atuais? O estilo e a referência atuais serão substituídos.'))return;try{const raw=await libraryGet('models',name);if(!raw)throw Error('não encontrado');applyModelData(JSON.parse(raw));$('modelName').value=name;libraryMessage('✓ Modelo aplicado: '+name)}catch(e){alert('Não foi possível carregar o modelo: '+e.message)}}
+async function newProjectFromModel(){const name=$('savedModels').value;if(!name){alert('Selecione um modelo visual.');return}if(!confirm('Criar novo projeto com o modelo "'+name+'"? As cenas e a música atuais serão substituídas. Salve o projeto anterior com nome antes de continuar.'))return;try{const raw=await libraryGet('models',name);if(!raw)throw Error('não encontrado');const m=JSON.parse(raw);scenes=[];$('song').value='Nova música';$('duration').value='03:00';$('seconds').value='6';$('mood').value='';$('setting').value='';$('creationMode').value='random';modeChanged();$('projectName').value='';applyModelData(m);$('modelName').value=name;await persistNow();libraryMessage('✓ Novo projeto iniciado com o modelo: '+name+' — crie as cenas quando desejar.')}catch(e){alert('Não foi possível criar o novo projeto: '+e.message)}}
+async function deleteNamed(store,id){const key=$(id).value;if(!key){alert('Selecione um item para excluir.');return}if(!confirm('Excluir definitivamente "'+key+'" da biblioteca deste navegador?'))return;try{await libraryDelete(store,key);await refreshLibrary();libraryMessage('Item excluído: '+key)}catch(e){alert('Não foi possível excluir: '+e.message)}}
+function saveStatus(t){let e=document.getElementById('saveState');if(e)e.textContent=t}
+async function persistNow(){if(restoring)return;const snapshot=JSON.stringify(data());saveStatus('Salvando...');saveInFlight=saveInFlight.catch(()=>{}).then(async()=>{let db=await openBarrosoDB();await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readwrite');tx.objectStore('projects').put(snapshot,'current');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})});try{await saveInFlight;saveStatus('Salvo neste aparelho ✓')}catch(e){saveStatus('⚠️ Não foi possível salvar. Baixe o backup JSON.');throw e}}
+function scheduleSave(){if(restoring)return;saveStatus('Alterações pendentes...');clearTimeout(saveTimer);saveTimer=setTimeout(()=>persistNow().catch(()=>{}),650)}
+async function recoverSaved(){try{let db=await openBarrosoDB();let saved=await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readonly');let r=tx.objectStore('projects').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});if(saved){let o=JSON.parse(saved);if(Array.isArray(o.scenes)){load(o);saveStatus('Projeto recuperado automaticamente ✓');return true}}}catch(e){saveStatus('Armazenamento indisponível. Use backup JSON.')}return false}
+// Eventos capturam alteracoes de campos, importacao e botoes, inclusive imagens carregadas assincronamente.
+document.addEventListener('input',()=>scheduleSave(),true);
+document.addEventListener('change',()=>scheduleSave(),true);
+document.addEventListener('click',e=>{if(e.target.closest('button'))setTimeout(scheduleSave,100)},true);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(saveTimer);persistNow().catch(()=>{})}});
+window.addEventListener('pagehide',()=>{clearTimeout(saveTimer);persistNow().catch(()=>{})});
+
+$('import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const raw=await f.text();let o;try{o=JSON.parse(raw.replace(/^\uFEFF/,''))}catch(err){throw new Error('O conteúdo não é um JSON válido: '+err.message)}if(!o||!Array.isArray(o.scenes))throw new Error('Este arquivo não contém uma lista de cenas de projeto.');if(!confirm('Importar '+f.name+' com '+o.scenes.length+' cenas? O projeto atual será substituído.'))return;try{load(o);scheduleSave();alert('Projeto importado com sucesso! '+o.scenes.length+' cenas recuperadas.')}catch(err){throw new Error('O JSON é válido, mas ocorreu um erro ao abrir o projeto: '+err.message)}}catch(err){console.error('Erro de importação:',err);alert('Não foi possível importar: '+err.message)}finally{e.target.value=''}};$('reference').onchange=e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{refImage=reader.result;if(!$('styleLocked').checked){$('twin').value='';$('hexPalette').value='';$('extractedSwatches').innerHTML=''}$('referencePreview').src=refImage;$('referencePreview').style.display='block';scheduleSave()};reader.readAsDataURL(f)};document.getElementById('restoreBackup').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let o=JSON.parse(r.result);if(!Array.isArray(o.scenes))throw Error();load(o);scheduleSave();alert('Backup recuperado!')}catch(err){alert('Arquivo de backup inválido.')}};r.readAsText(f)};
+(async()=>{let ok=await recoverSaved();if(!ok){try{let old=localStorage.getItem('barrosoProjectV9')||localStorage.getItem('barrosoProjectV7')||localStorage.getItem('barrosoProjectV6');if(old)load(JSON.parse(old));else generate()}catch(e){generate()}}restoring=false;scheduleSave();refreshLibrary()})();
+
+// V16: ZIP sem bibliotecas externas; formato ZIP STORE, compatível com descompactadores comuns.
+const enc16=new TextEncoder();
+function zipCRC(bytes){let crc=0xffffffff;for(const b of bytes){crc^=b;for(let j=0;j<8;j++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}return (crc^0xffffffff)>>>0}
+function z16(d,o,n){d[o]=n&255;d[o+1]=(n>>>8)&255}
+function z32(d,o,n){z16(d,o,n);z16(d,o+2,n>>>16)}
+function zipStore(entries){const local=[],central=[];let offset=0;for(const [name,content] of entries){const nm=enc16.encode(name),body=enc16.encode(content),crc=zipCRC(body);if(body.length>0xffffffff)throw Error('Arquivo muito grande');const head=new Uint8Array(30+nm.length);z32(head,0,0x04034b50);z16(head,4,20);z16(head,6,0x800);z16(head,8,0);z32(head,14,crc);z32(head,18,body.length);z32(head,22,body.length);z16(head,26,nm.length);head.set(nm,30);local.push(head,body);const c=new Uint8Array(46+nm.length);z32(c,0,0x02014b50);z16(c,4,20);z16(c,6,20);z16(c,8,0x800);z32(c,16,crc);z32(c,20,body.length);z32(c,24,body.length);z16(c,28,nm.length);z32(c,42,offset);c.set(nm,46);central.push(c);offset+=head.length+body.length}const centralSize=central.reduce((a,b)=>a+b.length,0);const end=new Uint8Array(22);z32(end,0,0x06054b50);z16(end,8,entries.length);z16(end,10,entries.length);z32(end,12,centralSize);z32(end,16,offset);return new Blob([...local,...central,end],{type:'application/zip'})}
+function unzipStored(buffer){const b=new Uint8Array(buffer),dv=new DataView(buffer),files=new Map();let p=0;while(p+30<=b.length&&dv.getUint32(p,true)===0x04034b50){const flags=dv.getUint16(p+6,true),method=dv.getUint16(p+8,true),size=dv.getUint32(p+18,true),n=dv.getUint16(p+26,true),extra=dv.getUint16(p+28,true);if(method!==0||(flags&8))throw Error('ZIP incompatível. Importe um ZIP exportado pelo Foto Studio.');const name=new TextDecoder().decode(b.slice(p+30,p+30+n));const start=p+30+n+extra;if(start+size>b.length)throw Error('ZIP incompleto');files.set(name,new TextDecoder().decode(b.slice(start,start+size)));p=start+size}if(!files.has('Foto Studio/manifesto.json'))throw Error('Este ZIP não é um backup do Foto Studio');return files}
+function safeName(name){return String(name).replace(/[\\/:*?"<>|\x00-\x1f]/g,'_').slice(0,90)||'Sem_nome'}
+async function studioEntries(){const entries=[['Foto Studio/manifesto.json',JSON.stringify({app:'Foto Studio',version:16,format:'studio-portable-v1',date:new Date().toISOString()},null,2)],['Foto Studio/Projeto_atual.json',JSON.stringify(data(),null,2)]];for(const [store,folder] of [['projects','Projetos'],['models','Modelos Visuais']]){const keys=(await libraryKeys(store)).filter(k=>typeof k==='string'&&k!=='current');for(const key of keys){const raw=await libraryGet(store,key);if(raw)entries.push([`Foto Studio/${folder}/${safeName(key)}.json`,JSON.stringify(JSON.parse(raw),null,2)])}}return entries}
+function portableMessage(t){$('portableStatus').textContent=t}
+// ZIP binário STORE: conserva os bytes originais dos MP4/WebM, sem recomprimir.
+function zipStoreBinary(entries){const local=[],central=[];let offset=0;for(const [name,body] of entries){const nm=enc16.encode(name),crc=zipCRC(body);if(body.length>0xffffffff)throw Error('Um vídeo ultrapassa o limite do ZIP');const head=new Uint8Array(30+nm.length);z32(head,0,0x04034b50);z16(head,4,20);z16(head,6,0x800);z16(head,8,0);z32(head,14,crc);z32(head,18,body.length);z32(head,22,body.length);z16(head,26,nm.length);head.set(nm,30);local.push(head,body);const c=new Uint8Array(46+nm.length);z32(c,0,0x02014b50);z16(c,4,20);z16(c,6,20);z16(c,8,0x800);z32(c,16,crc);z32(c,20,body.length);z32(c,24,body.length);z16(c,28,nm.length);z32(c,42,offset);c.set(nm,46);central.push(c);offset+=head.length+body.length}const size=central.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22);z32(end,0,0x06054b50);z16(end,8,entries.length);z16(end,10,entries.length);z32(end,12,size);z32(end,16,offset);return new Blob([...local,...central,end],{type:'application/zip'})}
+async function exportSceneVideos(){const status=$('videoExportStatus');const attached=scenes.filter(s=>s.videoId||s.driveId).length;if(!attached){alert('Ainda não há vídeos anexados às cenas.');return}if(attached<scenes.length&&!confirm('Há '+(scenes.length-attached)+' cenas sem vídeo. Exportar somente os '+attached+' vídeos disponíveis?'))return;try{status.textContent='Preparando vídeos para exportação...';const entries=[];let missing=0;for(let i=0;i<scenes.length;i++){const s=scenes[i];if(!s.videoId&&!s.driveId)continue;const blob=s.driveId?await driveDownloadFile(s.driveId):await libraryGet('videos',s.videoId);if(!blob){missing++;continue}const ext=/\.webm$/i.test(s.videoName||'')?'webm':'mp4';entries.push(['Cena_'+String(i+1).padStart(3,'0')+'.'+ext,new Uint8Array(await blob.arrayBuffer())])}if(!entries.length)throw Error('Nenhum vídeo disponível no armazenamento.');const zip=zipStoreBinary(entries);const url=URL.createObjectURL(zip),a=document.createElement('a');a.href=url;a.download='Foto_Studio_Videos_Em_Sequencia.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);status.textContent='✓ '+entries.length+' vídeos exportados em ordem, sem recompressão.'+(missing?' '+missing+' vídeo(s) não encontrado(s).':'')}catch(err){status.textContent='⚠️ '+err.message;alert('Falha ao exportar: '+err.message+' — tente exportar com menos vídeos ou use o computador.')}}
+async function exportStudioZip(){try{portableMessage('Preparando ZIP...');const entries=await studioEntries();const blob=zipStore(entries);const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Foto_Studio_Backup_Completo.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);portableMessage('✓ ZIP criado com '+(entries.length-2)+' projetos/modelos salvos e o projeto atual.')}catch(e){portableMessage('⚠️ '+e.message);alert('Falha ao criar ZIP: '+e.message)}}
+async function saveStudioFolder(){if(typeof window.showDirectoryPicker!=='function'){alert('Este navegador não permite escolher uma pasta diretamente. Use Exportar tudo em ZIP.');return}try{const root=await window.showDirectoryPicker({mode:'readwrite'});const entries=await studioEntries();for(const [path,content] of entries){const parts=path.split('/');let dir=root;for(const part of parts.slice(0,-1))dir=await dir.getDirectoryHandle(part,{create:true});const handle=await dir.getFileHandle(parts.at(-1),{create:true}),writer=await handle.createWritable();await writer.write(content);await writer.close()}portableMessage('✓ '+entries.length+' arquivos salvos na pasta escolhida.')}catch(e){if(e.name==='AbortError')return;portableMessage('⚠️ '+e.message)}}
+$('studioZipInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const items=unzipStored(await file.arrayBuffer());const manifest=JSON.parse(items.get('Foto Studio/manifesto.json'));if(manifest.format!=='studio-portable-v1')throw Error('Formato não reconhecido');const current=JSON.parse(items.get('Foto Studio/Projeto_atual.json'));if(!Array.isArray(current.scenes))throw Error('Projeto inválido');const restores=[];for(const [path,raw] of items){const match=path.match(/^Foto Studio\/(Projetos|Modelos Visuais)\/([^/]+)\.json$/);if(!match)continue;const obj=JSON.parse(raw);if(match[1]==='Projetos'&&!Array.isArray(obj.scenes))throw Error('Projeto salvo inválido');const store=match[1]==='Projetos'?'projects':'models';restores.push({store,name:match[2],raw})}if(!confirm('Importar '+restores.length+' projetos/modelos e abrir o projeto atual do ZIP? Itens com o mesmo nome serão substituídos. Faça antes um backup se necessário.'))return;for(const r of restores)await libraryPut(r.store,r.name,r.raw);load(current);await refreshLibrary();scheduleSave();portableMessage('✓ ZIP importado: '+restores.length+' projetos/modelos e projeto atual.')}catch(err){alert('Não foi possível importar: '+err.message);portableMessage('⚠️ Falha na importação')}finally{e.target.value=''}});
+
+// -------------------------------------------------------------
+// V24 | Google Identity Services + Drive REST v3 (drive.file scope)
+// Google OAuth access tokens are held in memory only, never exported.
+// -------------------------------------------------------------
+const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
+const DRIVE_BASE='https://www.googleapis.com/drive/v3/files';
+const DRIVE_UPLOAD='https://www.googleapis.com/upload/drive/v3/files';
+let driveToken='',driveUntil=0,driveFolderId='',driveProjectId='';
+let driveSyncArmed=false,driveSyncTimer=null,driveSyncBusy=false,driveSyncPending=false;
+let driveLastSnapshot='';
+
+function driveNotice(message,ok=false){
+ const el=$('driveStatus');if(!el)return;
+ el.textContent=message;el.className=ok?'driveGood':'driveWarn';
+}
+function driveReady(){return Boolean(driveToken&&Date.now()<driveUntil-60000)}
+function driveSetFolder(id){
+ driveFolderId=id||'';
+ const link=$('driveFolderLink');
+ if(link){link.style.display=id?'inline-block':'none';link.href=id?'https://drive.google.com/drive/u/0/folders/'+encodeURIComponent(id):'#'}
+}
+function disconnectDrive(){
+ driveToken='';driveUntil=0;driveSyncArmed=false;
+ clearTimeout(driveSyncTimer);driveNotice('Drive desconectado. Nenhum arquivo no Google Drive foi apagado.');
+}
+function friendlyDriveError(e){
+ if(e.message&&/401|unauthenticat|invalid.credentials/i.test(e.message))return 'Autorização expirada. Clique em Conectar Google Drive novamente.';
+ return e.message||'Falha de comunicação com o Google Drive.';
+}
+async function driveApi(url,options={}){
+ if(!driveReady())throw Error('Conecte-se novamente ao Google Drive para continuar.');
+ const headers=new Headers(options.headers||{});
+ headers.set('Authorization','Bearer '+driveToken);
+ let response;
+ try{response=await fetch(url,{...options,headers});}
+ catch(e){throw Error('Sem conexão com o Google Drive ou bloqueio de rede: '+e.message)}
+ if(!response.ok){
+  let detail='';try{const info=await response.json();detail=info?.error?.message||''}catch(e){}
+  throw Error('Drive HTTP '+response.status+(detail?' — '+detail:''));
+ }
+ return response;
+}
+async function driveList(query,fields='nextPageToken,files(id,name,mimeType)'){
+ const p=new URLSearchParams({q:query,fields,pageSize:'100'});
+ const response=await driveApi(DRIVE_BASE+'?'+p.toString());
+ return await response.json();
+}
+async function driveFindFile(name,parent,mime=''){
+ const quoted=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+ let q="name='"+quoted+"' and trashed=false";
+ if(parent)q+=" and '"+parent+"' in parents";
+ if(mime)q+=" and mimeType='"+mime+"'";
+ let token='';
+ do{
+  const p=new URLSearchParams({q,fields:'nextPageToken,files(id,name,mimeType)',pageSize:'100'});
+  if(token)p.set('pageToken',token);
+  const r=await (await driveApi(DRIVE_BASE+'?'+p.toString())).json();
+  const found=r.files?.find(f=>f.name===name&&(!mime||f.mimeType===mime));
+  if(found)return found;
+  token=r.nextPageToken||'';
+ }while(token);
+ return null;
+}
+async function driveConnectReady(){
+ driveNotice('Conectado! Localizando a pasta Foto Studio...');
+ let folder=await driveFindFile('Foto Studio',null,'application/vnd.google-apps.folder');
+ if(!folder){
+  const r=await driveApi(DRIVE_BASE+'?fields=id,name',{
+   method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({name:'Foto Studio',mimeType:'application/vnd.google-apps.folder'})
+  });
+  folder=await r.json();
+ }
+ if(!folder?.id)throw Error('Não foi possível localizar ou criar a pasta.');
+ driveSetFolder(folder.id);
+ let project=await driveFindFile('Foto_Studio_Projeto_Atual.json',folder.id);
+ driveProjectId=project?.id||'';
+ driveSyncArmed=!driveProjectId;
+ if(driveProjectId){
+  driveNotice('✓ Conectado à pasta Foto Studio. Há um projeto salvo no Drive. Escolha "Recuperar projeto" ou "Salvar projeto e ativar cópia automática" para não substituir nada sem querer.',true);
+ }else{
+  driveNotice('✓ Conectado! Pasta Foto Studio pronta. Os próximos vídeos serão enviados ao Drive e as alterações do projeto serão copiadas automaticamente.',true);
+  queueDriveSync();
+ }
+}
+function connectDrive(){
+ const clientId=$('driveClientId').value.trim();
+ if(!/^\d+-[a-zA-Z0-9_-]+\.apps\.googleusercontent\.com$/.test(clientId)){
+  driveNotice('Cole o ID do cliente OAuth Web que termina em .apps.googleusercontent.com. Não use o segredo do cliente.');return;
+ }
+ if(location.protocol!=='https:'&&location.hostname!=='localhost'){
+  driveNotice('Abra pelo endereço HTTPS do GitHub Pages cadastrado no Google Cloud. A conexão pode falhar ao abrir o HTML como arquivo local.');return;
+ }
+ try{localStorage.setItem('fotoStudioDriveClientIdV24',clientId)}catch(e){}
+ if(!window.google?.accounts?.oauth2){driveNotice('Biblioteca de login do Google não carregou. Confira a internet e atualize a página.');return;}
+ driveNotice('Abrindo autorização do Google...');
+ const tokenClient=google.accounts.oauth2.initTokenClient({
+  client_id:clientId,scope:DRIVE_SCOPE,
+  callback:async response=>{
+   if(response.error){driveNotice('Falha de autorização: '+response.error);return}
+   driveToken=response.access_token||'';
+   driveUntil=Date.now()+(Number(response.expires_in)||3600)*1000;
+   driveSyncArmed=false;
+   try{await driveConnectReady()}catch(e){driveNotice('⚠️ '+friendlyDriveError(e))}
+  },
+  error_callback:e=>driveNotice('Login cancelado ou bloqueado: '+(e.type||'erro desconhecido'))
+ });
+ tokenClient.requestAccessToken({prompt:'consent'});
+}
+async function driveUploadFile(file,metadata,existingId){
+ const editing=Boolean(existingId);
+ const url=editing?DRIVE_UPLOAD+'/'+encodeURIComponent(existingId)+'?uploadType=resumable&fields=id,name':DRIVE_UPLOAD+'?uploadType=resumable&fields=id,name';
+ const contentType=file.type||'application/octet-stream';
+ const init=await driveApi(url,{
+  method:editing?'PATCH':'POST',
+  headers:{'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':contentType,'X-Upload-Content-Length':String(file.size)},
+  body:JSON.stringify(editing?{name:metadata.name}:metadata)
+ });
+ const location=init.headers.get('Location');
+ if(!location)throw Error('O Google não retornou a URL da sessão de upload.');
+ // A single final chunk is accepted by resumable uploads. Avoid copying the file into RAM.
+ const result=await driveApi(location,{
+  method:'PUT',headers:{'Content-Type':contentType,'Content-Range':'bytes 0-'+(file.size-1)+'/'+file.size},body:file
+ });
+ const uploaded=await result.json();
+ if(!uploaded.id)throw Error('Upload não confirmado pelo Google Drive.');
+ return uploaded;
+}
+async function saveSceneVideoToDrive(scene,file,container){
+ if(!driveReady())throw Error('Conecte o Google Drive primeiro.');
+ if(!driveFolderId)throw Error('Pasta do Drive ainda não está pronta.');
+ if(scene.locked)throw Error('A cena está bloqueada; desbloqueie antes de importar.');
+ const status=container?.querySelector('.videoStatus');
+ if(status)status.textContent='☁️ Enviando '+file.name+' para o Google Drive. Não feche esta aba durante o envio...';
+ // Never delete an older Drive file on replacement; that is a separate user decision.
+ const uploaded=await driveUploadFile(file,{name:file.name,mimeType:file.type||'video/mp4',parents:[driveFolderId]});
+ scene.driveId=uploaded.id;scene.videoName=file.name;
+ const oldLocal=scene.videoId;scene.videoId='';
+ if(status)status.textContent='✓ ☁️ Upload confirmado pelo Google Drive: '+file.name;
+ renderCount();renderGallery();
+ if(oldLocal)deleteVideo(oldLocal).catch(()=>{});
+ try{await persistNow()}catch(e){if(status)status.textContent+=' — atenção: falhou o vínculo local ('+e.message+')'}
+ queueDriveSync();
+ return uploaded;
+}
+async function driveDownloadFile(fileId){
+ const response=await driveApi(DRIVE_BASE+'/'+encodeURIComponent(fileId)+'?alt=media');
+ return await response.blob();
+}
+async function loadSceneVideoPreview(scene,element){
+ if(scene.driveId){
+  const container=element.closest('.sceneMedia');
+  if(!driveReady()){
+   if(container)container.querySelector('.videoStatus').textContent='☁️ Vídeo está no Drive. Conecte a conta Google para reproduzir.';
+   return;
+  }
+  try{
+   const cacheKey='drive:'+scene.driveId;
+   let url=videoUrls.get(cacheKey);
+   if(!url){
+    if(container)container.querySelector('.videoStatus').textContent='☁️ Carregando prévia do Google Drive...';
+    const file=await driveDownloadFile(scene.driveId);
+    url=URL.createObjectURL(file);videoUrls.set(cacheKey,url);
+   }
+   if(element.isConnected){element.src=url;element.style.display='block';if(container)container.querySelector('.videoStatus').textContent='✓ ☁️ Vídeo disponível no Google Drive: '+(scene.videoName||'MP4')}
+  }catch(e){if(element.isConnected&&container)container.querySelector('.videoStatus').textContent='⚠️ Não foi possível abrir do Drive: '+friendlyDriveError(e)}
+ }else if(scene.videoId)await loadVideoPreview(scene.videoId,element);
+}
+function queueDriveSync(){
+ if(!driveReady()||!driveSyncArmed||restoring)return;
+ driveSyncPending=true;
+ clearTimeout(driveSyncTimer);
+ driveSyncTimer=setTimeout(()=>performDriveSync().catch(e=>driveNotice('⚠️ Falha ao salvar projeto no Drive: '+friendlyDriveError(e))),8000);
+}
+async function performDriveSync(force=false){
+ if(!driveReady()||!driveFolderId||!driveSyncArmed)return;
+ if(driveSyncBusy){driveSyncPending=true;return}
+ const snapshot=JSON.stringify(data());
+ if(!force&&snapshot===driveLastSnapshot){driveSyncPending=false;return}
+ driveSyncBusy=true;driveSyncPending=false;
+ try{
+  driveNotice('☁️ Salvando cópia do projeto no Google Drive...');
+  const blob=new Blob([snapshot],{type:'application/json'});
+  const result=await driveUploadFile(blob,{name:'Foto_Studio_Projeto_Atual.json',mimeType:'application/json',parents:[driveFolderId]},driveProjectId);
+  driveProjectId=result.id;
+  driveLastSnapshot=snapshot;
+  driveNotice('✓ Projeto salvo no Google Drive. Alterações futuras serão copiadas automaticamente.',true);
+ }finally{
+  driveSyncBusy=false;
+  if(driveSyncPending&&driveReady()&&driveSyncArmed)queueDriveSync();
+ }
+}
+async function saveCurrentProjectDrive(){
+ if(!driveReady()){driveNotice('Conecte o Google Drive primeiro.');return}
+ if(driveProjectId&&!driveSyncArmed){
+  if(!confirm('Já existe um projeto no Drive. Substituir sua cópia com o projeto que está ABERTO neste aparelho e ativar o salvamento automático?'))return;
+ }
+ driveSyncArmed=true;
+ try{await performDriveSync(true)}catch(e){driveNotice('⚠️ '+friendlyDriveError(e))}
+}
+async function restoreProjectDrive(){
+ if(!driveReady()){driveNotice('Conecte o Google Drive primeiro.');return}
+ try{
+  if(!driveProjectId){const f=await driveFindFile('Foto_Studio_Projeto_Atual.json',driveFolderId);driveProjectId=f?.id||''}
+  if(!driveProjectId){driveNotice('Ainda não existe um projeto salvo nessa pasta.');return}
+  if(!confirm('Recuperar projeto do Google Drive? As cenas abertas neste aparelho serão substituídas. Faça backup antes se necessário.'))return;
+  const response=await driveApi(DRIVE_BASE+'/'+encodeURIComponent(driveProjectId)+'?alt=media');
+  const raw=await response.text();
+  const project=JSON.parse(raw);
+  if(!Array.isArray(project?.scenes))throw Error('Backup do projeto não contém cenas válidas.');
+  driveSyncArmed=false;
+  load(project);
+  await persistNow();
+  driveLastSnapshot=JSON.stringify(data());
+  driveSyncArmed=true;
+  driveNotice('✓ Projeto recuperado do Drive, com vínculos dos vídeos. Se necessário, conecte-se novamente para assistir aos MP4.',true);
+ }catch(e){driveNotice('⚠️ Erro ao recuperar: '+friendlyDriveError(e))}
+}
+try{const savedClientId=localStorage.getItem('fotoStudioDriveClientIdV24');if(savedClientId)$('driveClientId').value=savedClientId}catch(e){}
+// Keep the app's existing IndexedDB autosave; mirror changes only after the user arms Drive sync.
+document.addEventListener('input',e=>{if(e.target?.id!=='driveClientId')queueDriveSync()},true);
+document.addEventListener('change',e=>{if(e.target?.id!=='driveClientId')queueDriveSync()},true);
+document.addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('#driveSection'))queueDriveSync()},true);
+
+</script></body></html>
