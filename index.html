@@ -1,5 +1,621 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Planejador Estilo Barroso V11</title><style>:root{font-family:system-ui,Arial;background:#151b20;color:#edf0ef}*{box-sizing:border-box}body{margin:0}header{padding:20px;background:#202b30;border-bottom:2px solid #b39a75}main{max-width:1150px;margin:auto;padding:16px}h1{margin:0;font-size:25px}h2{font-size:19px;color:#d4b995}p,.hint{color:#bac5c8}section{background:#222c31;border:1px solid #3a484e;border-radius:14px;padding:16px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}label{display:block;font-size:13px;color:#d4d9d9;margin-bottom:5px}input,textarea,select{width:100%;padding:11px;border-radius:8px;border:1px solid #59656a;background:#10191d;color:#fff;font:inherit}textarea{min-height:76px;resize:vertical}button,.filebtn{border:0;border-radius:9px;background:#a58a67;color:#15191b;padding:11px 14px;font-weight:700;cursor:pointer;display:inline-block;margin:3px}button.secondary,.filebtn.secondary{background:#3b4c55;color:white}.actions{display:flex;flex-wrap:wrap;gap:5px}.scene{border:1px solid #52616a;border-radius:12px;padding:13px;margin:12px 0;background:#1a252a}.scenehead{display:flex;justify-content:space-between;align-items:center;gap:10px}.scenehead h3{margin:0 0 10px}.thumb{width:100%;height:160px;object-fit:contain;background:#11181c;border:1px dashed #59656a;border-radius:8px}.swatches{display:flex;gap:6px;margin-top:9px}.swatches i{height:28px;flex:1;border-radius:5px}.status{color:#b3d2b2}.tiny{font-size:12px;color:#b9c5c7}input[type=file]{padding:7px}#scenes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}@media(max-width:550px){header{padding:15px}main{padding:10px}section{padding:12px}h1{font-size:21px}} .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin:12px 0}.tile{border:1px solid #56646b;border-radius:12px;overflow:hidden;background:#152127;cursor:pointer;text-align:left;color:#fff;padding:0;margin:0}.tile .art{height:93px;display:flex;align-items:center;justify-content:center;font-size:45px;background:linear-gradient(155deg,#3c4850 0%,#6a6256 65%,#a17c50 100%);position:relative}.tile .art:after{content:'';position:absolute;bottom:0;left:0;right:0;height:18px;background:repeating-linear-gradient(110deg,#283239,#283239 13px,#40464a 14px,#40464a 16px);opacity:.75}.tile img{width:100%;height:93px;object-fit:cover}.tile .txt{padding:9px;font-size:12px;line-height:1.35}.tile .txt b{display:block;color:#dfc5a0;margin-bottom:4px}.tile.ok{border-color:#8eb58c}.notice{background:#17252b;border-left:3px solid #b39a75;padding:10px;border-radius:5px}.scene{scroll-margin-top:12px}.tile .art svg{width:100%;height:100%;display:block}.tile .art:after{display:none}.tile:focus-visible{outline:3px solid #d4b995}.scene.selected{border:2px solid #d4b995}.editorHint{padding:12px;background:#17252b;border:1px solid #52616a;border-radius:10px;margin:10px 0}.gallery{scroll-margin-top:15px}@media(max-width:550px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}} </style></head><body><header><h1>🎸 Planejador de Videoclipes — Estilo Barroso V11</h1><div class="hint">Roteiro visual • 16:9 • cenas de 6 segundos • modos Aleatório e História</div></header><main><section class="notice" id="saveBanner" aria-live="polite"><b>💾 Salvamento automático:</b> <span id="saveState">Carregando projeto...</span><div class="actions"><button onclick="exportJSON()">📦 Baixar backup completo (JSON)</button><label class="filebtn secondary">📂 Recuperar backup<input type="file" id="restoreBackup" accept=".json,application/json" style="display:none"></label></div><p class="tiny">O salvamento automático usa o armazenamento deste navegador. Para segurança, baixe um backup JSON após importar imagens. Não limpe os dados do navegador nem use aba anônima.</p></section><section><h2>1. Música e identidade visual</h2><div class="grid"><div><label>Modo de criação</label><select id="creationMode" onchange="modeChanged()"><option value="random" selected>Aleatório — videoclipe musical</option><option value="story">História — narrativa contínua</option></select></div><div><label>Título da música</label><input id="song" value="I Still Wait for You"></div><div><label>Duração (mm:ss)</label><input id="duration" value="03:00" placeholder="03:00"></div><div><label>Segundos por cena</label><input id="seconds" type="number" min="1" max="60" value="6"></div><div><label>Sentimento da música</label><input id="mood" value="Saudade, espera, melancolia"></div><div><label>Ambiente geral</label><input id="setting" value="Cidade antiga, rua molhada, casas envelhecidas"></div><div><label>Paleta</label><input id="palette" value="Azul acinzentado, marrom gasto, bege sujo; âmbar apenas nas luzes"></div></div><div id="storySettings" class="notice" style="display:none;margin-top:12px"><label>Personagem principal (mesma aparência em toda a história)</label><input id="storyHero" value="Um viajante idoso de barro, casaco azul-acinzentado gasto e chapéu escuro"><label style="margin-top:9px">Objetivo ou conflito da história</label><input id="storyGoal" value="Procura alguém querido que não vê há muito tempo"><label style="margin-top:9px">Desfecho desejado</label><input id="storyEnding" value="Encontra um sinal de esperança e segue em frente"><p class="tiny">No modo História, as cenas seguem uma sequência narrativa. Os mesmos personagens, roupas e objetos permanecem consistentes. Planejar todas as cenas pede confirmação antes de substituir as não aprovadas.</p></div><p class="tiny">Padrão: massinha 3D feita à mão, marcas de dedos, argila fosca, personagens caricatos quando presentes, sem plástico ou borracha, mesma atmosfera em todas as cenas.</p><div class="swatches"><i style="background:#655144"></i><i style="background:#9b8267"></i><i style="background:#827b70"></i><i style="background:#494d52"></i><i style="background:#b39a75"></i></div><div style="margin-top:12px"><label>Referência visual (opcional; incorporada ao arquivo JSON exportado)</label><input type="file" id="reference" accept="image/*"><img id="referencePreview" class="thumb" style="display:none;margin-top:8px" alt="Referência visual"></div><div id="styleSheet" class="notice" style="margin-top:16px"><h2>🔒 Ficha do estilo gêmeo da referência</h2><p class="notice"><b>Correção V7:</b> estilo visual fixo + assunto variável por cena. A referência NÃO deve ser copiada como conteúdo. No modo Aleatório, cada cena pode mostrar um assunto diferente.</p><p class="tiny">A paleta é extraída dos pixels da imagem enviada. O prompt gêmeo descreve somente materiais, cores e iluminação, sem copiar os personagens da referência. A análise visual por IA ainda não está integrada; revise o resultado antes de bloquear.</p><div class="actions"><button onclick="extractPalette()">🎨 Extrair cores da referência</button><button onclick="buildTwin()">✨ Criar prompt gêmeo (só estilo)</button><button onclick="copyText($('twin').value,'Prompt gêmeo copiado!')" class="secondary">Copiar prompt gêmeo</button></div><label>Paleta extraída (valores hexadecimais)</label><div id="extractedSwatches" class="swatches"></div><input id="hexPalette" placeholder="Selecione uma imagem e toque em Extrair cores" readonly><label style="margin-top:12px">Prompt gêmeo visual — edite e aprove antes de bloquear</label><textarea id="twin" rows="9" style="min-height:210px" placeholder="Crie o prompt gêmeo a partir da referência..."></textarea><label style="margin-top:10px"><input type="checkbox" id="styleLocked" style="width:auto" onchange="setTwinLock()"> 🔒 Bloquear identidade visual aprovada</label><p id="twinStatus" class="status" aria-live="polite"></p><p class="tiny">O bloqueio protege o texto do estilo contra edições acidentais; não garante fidelidade absoluta de uma IA externa. Na geração, envie também a imagem original como referência visual.</p></div></section><section><h2>2. Gerar e revisar cenas</h2><p class="notice"><b>V11 — Fluxo gratuito:</b> toque em Copiar IMAGEM, depois Abrir Gemini. Cole o prompt no Gemini e gere a imagem. Salve a imagem no celular, volte aqui e toque em Importar imagem na mesma cena. O Gemini não recebe o prompt automaticamente e nenhuma API paga é utilizada.</p><p class="notice"><b>Correção V9:</b> o botão de IMAGEM copia somente o prompt Gemini da cena aberta; o botão de ANIMAÇÃO copia somente o prompt Flow. Confira o texto em “Ver exatamente o prompt de IMAGEM”. Para um trem, o texto precisa dizer <b>trem</b>, nunca caminhão. O prompt reforça que tudo é massinha artesanal, não fotografia realista.</p><p id="modeStatus" class="tiny">Modo Aleatório: cenas independentes, sem história.</p><div class="actions"><button onclick="generate()">Criar cenas pela duração</button><button onclick="planAll()">✨ Planejar todas as cenas</button><button class="secondary" onclick="createAllPrompts()">Criar todos os prompts Flow</button><button class="secondary" onclick="copyImagePrompts()">Copiar prompts de imagem (todas)</button><label class="filebtn secondary">📷 Importar várias imagens<input type="file" id="batchImages" accept="image/*" multiple style="display:none"></label><button class="secondary" onclick="addScene()">+ Adicionar cena</button><button class="secondary" onclick="saveLocal()">Salvar neste aparelho</button><button class="secondary" onclick="exportJSON()">Exportar projeto JSON</button><button class="secondary" onclick="exportTXT()">Exportar roteiro TXT</button><label class="filebtn secondary">Importar projeto JSON<input type="file" id="import" accept=".json,application/json" style="display:none"></label></div><p class="tiny">Criar cenas mantém as descrições existentes nas posições correspondentes. Imagens de miniatura são opcionais e ficam incorporadas no JSON exportado. Para usar no celular e PC, exporte o JSON e importe no outro dispositivo.</p><p class="notice"><b>V8:</b> Gere as imagens no ChatGPT, salve no celular com nomes como <b>cena_01.png, cena_02.png</b>, depois importe todas de uma vez. As imagens reais substituirão os esboços. Sem integração automática com IA nesta versão.</p><p id="importStatus" class="status" aria-live="polite"></p><p class="notice">As miniaturas ilustrativas abaixo são <b>desenhos esquemáticos locais</b>, não imagens de IA. Toque numa miniatura para abrir a edição logo abaixo da galeria. O botão Planejar todas as cenas preenche apenas cenas não aprovadas e pede confirmação antes de substituir descrições.</p><h2>Galeria do videoclipe — imagens reais ou esboços</h2><p class="tiny">Quando você importar imagens, elas aparecerão aqui no lugar dos esboços. Toque numa cena para abrir seu editor logo abaixo da galeria.</p><div id="editorSpot"></div><div id="gallery" class="gallery"></div><p id="count" class="status"></p><div id="scenes"></div></section></main><script>
-const $=id=>document.getElementById(id);let scenes=[],refImage='';const initial=['Velho músico tocando violão','Close das mãos tocando as cordas','Cachorro de massinha caminhando pela rua molhada','Placa antiga pendurada balançando ao vento','Senhora caricatural olhando a chuva pela janela','Trem antigo atravessando a cidade','Dois pássaros de argila numa cerca','Caneca antiga soltando vapor','Homem de chapéu atravessando a rua','Folhas de argila caindo numa poça'];
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>KN Studio V30 — Criador de Cenas</title><link href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23d84662%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%232a73b5%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2230%22%20fill%3D%22%23101a2c%22%2F%3E%3Crect%20x%3D%229%22%20y%3D%229%22%20width%3D%22110%22%20height%3D%22110%22%20rx%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22url%28%23g%29%22%20stroke-width%3D%227%22%2F%3E%3Ctext%20x%3D%2264%22%20y%3D%2280%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2256%22%20font-weight%3D%22900%22%20fill%3D%22%23fff%22%20text-anchor%3D%22middle%22%3EKN%3C%2Ftext%3E%3Crect%20x%3D%2231%22%20y%3D%2291%22%20width%3D%2266%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22url%28%23g%29%22%2F%3E%3C%2Fsvg%3E" rel="icon" type="image/svg+xml"/><meta content="#201b32" name="theme-color"/><style>:root{font-family:system-ui,Arial;background:#111827;color:#f6f7fd}*{box-sizing:border-box}body{margin:0}header{padding:20px;background:#201b32;border-bottom:2px solid #ee6882}main{max-width:1150px;margin:auto;padding:16px}h1{margin:0;font-size:25px}h2{font-size:19px;color:#ffb9ca}p,.hint{color:#aebcd5}section{background:#1b273b;border:1px solid #344961;border-radius:14px;padding:16px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}label{display:block;font-size:13px;color:#dce6f6;margin-bottom:5px}input,textarea,select{width:100%;padding:11px;border-radius:8px;border:1px solid #49627d;background:#0e1a2e;color:#fff;font:inherit}textarea{min-height:76px;resize:vertical}button,.filebtn{border:0;border-radius:9px;background:#d84662;color:#ffffff;padding:11px 14px;font-weight:700;cursor:pointer;display:inline-block;margin:3px}button.secondary,.filebtn.secondary{background:#285a87;color:white}.actions{display:flex;flex-wrap:wrap;gap:5px}.scene{border:1px solid #456486;border-radius:12px;padding:13px;margin:12px 0;background:#17253d}.scenehead{display:flex;justify-content:space-between;align-items:center;gap:10px}.scenehead h3{margin:0 0 10px}.thumb{width:100%;height:160px;object-fit:contain;background:#101b2b;border:1px dashed #49627d;border-radius:8px}.swatches{display:flex;gap:6px;margin-top:9px}.swatches i{height:28px;flex:1;border-radius:5px}.status{color:#8fe6c5}.tiny{font-size:12px;color:#aebfd9}input[type=file]{padding:7px}#scenes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}@media(max-width:550px){header{padding:15px}main{padding:10px}section{padding:12px}h1{font-size:21px}} .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin:12px 0}.tile{border:1px solid #496783;border-radius:12px;overflow:hidden;background:#15253b;cursor:pointer;text-align:left;color:#fff;padding:0;margin:0}.tile .art{height:93px;display:flex;align-items:center;justify-content:center;font-size:45px;background:linear-gradient(155deg,#315778 0%,#75425f 65%,#c44769 100%);position:relative}.tile .art:after{content:'';position:absolute;bottom:0;left:0;right:0;height:18px;background:repeating-linear-gradient(110deg,#23405d,#23405d 13px,#3f668d 14px,#3f668d 16px);opacity:.75}.tile img{width:100%;height:93px;object-fit:cover}.tile .txt{padding:9px;font-size:12px;line-height:1.35}.tile .txt b{display:block;color:#ffc0d1;margin-bottom:4px}.tile.ok{border-color:#87d0f1}.notice{background:#12243a;border-left:3px solid #ee6882;padding:10px;border-radius:5px}.scene{scroll-margin-top:12px}.tile .art svg{width:100%;height:100%;display:block}.tile .art.freePromptArt{background:linear-gradient(135deg,#204b78,#4d355c);gap:2px}.tile .art:after{display:none}.tile:focus-visible{outline:3px solid #ffb9ca}.scene.selected{border:2px solid #ffb9ca}.editorHint{padding:12px;background:#12243a;border:1px solid #456486;border-radius:10px;margin:10px 0}.gallery{scroll-margin-top:15px}@media(max-width:550px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}  .videoControls{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.videoControls button{flex:1;min-width:95px}.videoPreview{width:100%;max-height:240px;background:#0b1729;border-radius:9px;margin:8px 0}.videoStatus{font-size:12px;color:#8fdfc7;margin:7px 0}.videoStatus.pending{color:#ffd3b8}.sceneMedia{border:1px solid #476484;padding:10px;border-radius:10px;margin:10px 0;background:#101f35}  .scene.locked{border-color:#8fb9ed}.scene.locked .scenehead{color:#accfff}.scene .lockscene{background:#386da7;color:#fff}.scene.locked .lockscene{background:#9a3e66}.bigVideoOverlay{position:fixed;inset:0;z-index:99999;background:#0a1222f5;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:12px}.bigVideoOverlay video{width:100%;height:auto;max-height:80vh;object-fit:contain;background:black}.bigVideoOverlay button{font-size:16px}.bigVideoOverlay .actions{justify-content:center} 
+/* V24: cloud storage controls, do not change approved editor layout. */
+#driveSection{border-color:#347bb5}
+#driveSection .driveToolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#driveSection .driveToolbar button{margin:2px}
+#driveStatus{min-height:1.5em;white-space:pre-wrap;overflow-wrap:anywhere}
+.driveGood{color:#8fe4d1}.driveWarn{color:#ffc8c0}
+#driveFolderLink{display:none;color:#ffb9ca;overflow-wrap:anywhere}
+
+/* V27 — os controles antigos continuam preservados apenas para compatibilidade de projetos. */
+.legacy-control{display:none!important}
+.prompt-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.prompt-box{border:1px solid #456486;border-radius:12px;padding:14px;background:#182740}
+.prompt-box h3{margin:0 0 9px;color:#ffc0d4}
+.prompt-box textarea{min-height:220px}
+#historyBar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+#historyBar button:disabled{opacity:.4;cursor:not-allowed}
+
+/* V28: imagem + paleta pertencem ao Prompt 1; apenas uma cena é editada de cada vez. */
+.style-reference{padding:12px;border-radius:10px;border:1px solid #4b6b91;background:#111e33;margin:8px 0 14px}
+.style-reference img.thumb{height:140px;max-width:260px;object-fit:contain}
+.style-reference .swatches{margin:8px 0}
+.style-reference button{margin:6px 0}
+.style-reference #hexPalette{margin-top:6px}
+.style-details{margin:9px 0 12px}
+.style-details summary{cursor:pointer;color:#ffb9ca;font-size:12px;padding:6px 0}
+.style-final{white-space:pre-wrap;overflow-wrap:anywhere;background:#0e1a2e;border:1px solid #49627d;padding:10px;border-radius:8px;max-height:220px;overflow:auto;font-size:12px}
+.tile.active{border:2px solid #f27691;box-shadow:0 0 0 2px #f2769133}
+.tile.active .txt b{color:#fff}
+#scenes{display:block;max-width:100%}
+#scenes .scene{max-width:850px;margin:12px auto}
+#sceneEmpty{margin:12px 0}
+#contentSceneMode{margin:5px 0 9px}
+#sceneImportStatus{min-height:18px;white-space:pre-wrap}
+
+.oldMediaWarning{padding:10px;margin:8px 0;border:1px solid #d77e9e;border-radius:8px;background:#3d263e;color:#ffe0e8;font-size:13px;line-height:1.45}
+
+/* KN Studio V30 — identidade rubi + azul (somente apresentação). */
+:root{color-scheme:dark;--kn-ruby:#d84662;--kn-ruby-light:#f06b86;--kn-blue:#438dd4;--kn-navy:#101827;--kn-border:#365477}
+body{background:radial-gradient(ellipse 1100px 540px at 95% 0%,rgba(45,102,167,.14),transparent 70%),radial-gradient(ellipse 850px 440px at 3% 0%,rgba(200,51,82,.12),transparent 68%),#101827;color:#f6f7fd}
+header{background:linear-gradient(115deg,#381e37 0%,#21243e 56%,#173c5d 100%);border-bottom:2px solid var(--kn-ruby-light);box-shadow:0 2px 24px #07132288}
+header h1{font-weight:850;letter-spacing:-.55px;color:#fff;line-height:1.25}
+header h1 .brand-v{font-size:.63em;color:#ffc2d2;vertical-align:middle;border-radius:6px;padding:3px 7px;border:1px solid #e47b93aa;background:#54243c}
+header h1 .brand-sub{font-size:.68em;font-weight:600;color:#bddbff;letter-spacing:0}
+header>.hint{margin-top:8px;color:#bdcde8}
+section{background:linear-gradient(155deg,#1e2a40,#19243a);border:1px solid #3a5372;box-shadow:0 4px 12px rgba(4,14,30,.13)}
+section h2{color:#ffc0d0}
+button,.filebtn{background:linear-gradient(135deg,#db4964 0%,#b82e55 100%);color:#fff;border:1px solid #e7637b55;box-shadow:0 2px 7px rgba(4,8,24,.2);transition:background-color .15s ease,filter .15s ease}
+button:hover,.filebtn:hover{filter:brightness(1.10)}
+button.secondary,.filebtn.secondary{background:linear-gradient(115deg,#23517d,#326fa4);color:#fff;border:1px solid #679bcc55}
+button:disabled{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
+input,textarea,select{border-color:#4d6886;background:#0e1b2e;color:#f8faff}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,.tile:focus-visible{outline:2px solid #6cb4ff;outline-offset:2px}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#ec5879}
+.prompt-box,.sceneMedia,.style-reference{background:#14263e;border-color:#43617f}
+.scene.selected,.tile.active{border-color:#f27691;box-shadow:0 0 0 2px #f2769133}
+.notice,.editorHint{background:#152943;border-color:#4675a0}
+.status,.driveGood{color:#9ee5cd}
+.tile .txt b{color:#ffd0dc}
+#driveSection{border-color:#3e80b2}
+#driveFolderLink{color:#9bd0ff}
+@media(max-width:550px){header h1 .brand-sub{display:block;margin-top:6px;font-size:.72em}header h1 .brand-v{margin-left:4px}}
+</style></head><body><header><h1>KN Studio <span class="brand-v">V30</span> <span class="brand-sub">Criador de Cenas</span></h1><div class="hint">Roteiro visual &bull; 16:9 &bull; cenas de 6 segundos &bull; modos Numeradas e Aleat&oacute;rias</div></header><main><section aria-live="polite" class="notice" id="saveBanner"><b>💾 Salvamento autom&aacute;tico:</b> <span id="saveState">Carregando projeto...</span><div class="actions"><button onclick="exportJSON()">📦 Baixar backup completo (JSON)</button><label class="filebtn secondary">📂 Recuperar backup<input accept=".json,application/json" id="restoreBackup" style="display:none" type="file"/></label></div><p class="tiny">O salvamento autom&aacute;tico usa o armazenamento deste navegador. Para seguran&ccedil;a, baixe um backup JSON ap&oacute;s importar imagens. N&atilde;o limpe os dados do navegador nem use aba an&ocirc;nima.</p></section><section id="librarySection"><h2>📁 Meus projetos</h2><p class="tiny">Salve v&aacute;rios videoclipes separadamente ou guarde somente a identidade visual para reutilizar em m&uacute;sicas novas. Os dados ficam neste navegador; exporte backups JSON para seguran&ccedil;a.</p><div class="grid"><div><label>Nome do projeto</label><input id="projectName" placeholder="Ex.: Blues &mdash; I Still Wait for You"/><div class="actions"><button onclick="saveNamedProject()" type="button">💾 Salvar projeto com nome</button></div><label>Projetos salvos</label><select id="savedProjects"><option value="">Selecione um projeto...</option></select><div class="actions"><button class="secondary" onclick="openNamedProject()" type="button">📂 Abrir projeto</button><button class="secondary" onclick="deleteNamed('projects','savedProjects')" type="button">🗑️ Excluir</button></div></div><div class="legacy-control"><label>Nome do modelo visual</label><input id="modelName" placeholder="Ex.: Barroso Caricato"/><div class="actions"><button onclick="saveVisualModel()" type="button">🎨 Salvar modelo visual</button></div><label>Modelos visuais salvos</label><select id="savedModels"><option value="">Selecione um modelo...</option></select><div class="actions"><button class="secondary" onclick="applySavedModel()" type="button">🎨 Carregar modelo</button><button class="secondary" onclick="newProjectFromModel()" type="button">✨ Novo projeto com modelo</button><button class="secondary" onclick="deleteNamed('models','savedModels')" type="button">🗑️ Excluir</button></div></div></div><p aria-live="polite" class="status" id="libraryStatus"></p><p class="tiny legacy-control">Carregar modelo mant&eacute;m as cenas atuais. Novo projeto com modelo limpa as cenas e os dados da m&uacute;sica, mas mant&eacute;m o estilo, a paleta e a imagem de refer&ecirc;ncia. Antes de trocar de projeto, salve o atual com nome.</p></section><section id="creativePromptSection">
+<h2>🧩 Dire&ccedil;&atilde;o Criativa &mdash; dois prompts que trabalham juntos</h2>
+<p class="tiny">O Prompt 1 determina a apar&ecirc;ncia e a refer&ecirc;ncia. O Prompt 2 define o que acontece: letra, hist&oacute;ria, a&ccedil;&otilde;es ou cenas aleat&oacute;rias. As descri&ccedil;&otilde;es e anima&ccedil;&otilde;es combinam os dois.</p>
+<div class="prompt-pair">
+<div class="prompt-box"><h3>🎨 Prompt 1 &mdash; Estilo visual</h3><div class="style-reference" id="styleReferenceBox"><label for="reference">Imagem de refer&ecirc;ncia &mdash; somente do Prompt 1</label><input accept="image/*" id="reference" type="file"/><img alt="Refer&ecirc;ncia visual" class="thumb" id="referencePreview" style="display:none;margin-top:8px"/><p class="tiny">A imagem orienta a apar&ecirc;ncia. Para gerar no Gemini/Flow, anexe tamb&eacute;m a mesma foto de refer&ecirc;ncia.</p><button class="secondary" onclick="extractPalette()" type="button">🎨 Extrair paleta da refer&ecirc;ncia</button><label for="hexPalette">Paleta extra&iacute;da &mdash; integrada automaticamente ao Prompt 1</label><div class="swatches" id="extractedSwatches"></div><input id="hexPalette" placeholder="Selecione uma imagem e toque em Extrair cores" readonly=""/><p class="tiny">Estilo + refer&ecirc;ncia + cores entram na gera&ccedil;&atilde;o visual; o Prompt 2 continua s&oacute; para hist&oacute;ria e a&ccedil;&otilde;es.</p></div>
+<label for="creativePromptName">Nome do estilo para salvar</label><input id="creativePromptName" placeholder="Ex.: Barroso Frio, Gospel Realista, Desenho 3D"/>
+<label for="creativePrompt">Apar&ecirc;ncia, materiais, paleta, c&acirc;mera e regras da refer&ecirc;ncia</label>
+<textarea id="creativePrompt" placeholder="Descreva o estilo: realismo/3D/massinha, cores, ilumina&ccedil;&atilde;o, texturas, cortes, composi&ccedil;&atilde;o. Se usar imagem de refer&ecirc;ncia, explique o que deve ser seguido." rows="8"></textarea><details class="style-details"><summary>Conferir Prompt 1 completo (estilo + refer&ecirc;ncia + paleta)</summary><pre class="style-final" id="promptOnePreview">O estilo completo aparece aqui quando voc&ecirc; preencher o Prompt 1.</pre></details>
+<div class="actions"><button onclick="usePromptDraft()" type="button">&checkmark; Aplicar estilo</button><button class="secondary" onclick="saveCreativePrompt()" type="button">💾 Salvar estilo</button></div>
+<label for="savedCreativePrompts">Estilos salvos</label><select id="savedCreativePrompts"><option value="">Selecione...</option><option value="__barroso__">Massinha Barroso &mdash; original</option></select>
+<div class="actions"><button onclick="applyCreativePrompt()" type="button">📂 Carregar estilo</button><button class="secondary" onclick="deleteCreativePrompt()" type="button">🗑️ Excluir</button></div>
+<p aria-live="polite" class="tiny" id="creativePromptStatus">A apar&ecirc;ncia ser&aacute; aplicada aos prompts de imagem e anima&ccedil;&atilde;o.</p></div>
+<div class="prompt-box"><h3>🎬 Prompt 2 &mdash; Conte&uacute;do e a&ccedil;&otilde;es</h3>
+<label for="contentPromptName">Nome do conte&uacute;do para salvar</label><input id="contentPromptName" placeholder="Ex.: Louvor de Esperan&ccedil;a, Hist&oacute;ria do Reencontro"/>
+<label for="contentSceneMode">Como criar as cenas?</label>
+<select id="contentSceneMode" onchange="contentSceneModeChanged()"><option value="numbered">📋 Cenas prontas numeradas (01, 02, 03...)</option><option value="random">🎲 Cenas aleatórias com ações naturais</option></select>
+<p class="tiny">Prontas: cole todas as cenas numeradas, cada número numa linha. Aleatórias: descreva o clima e o assunto da música; as ações terão causas físicas naturais.</p>
+<label for="contentPrompt">Letra, hist&oacute;ria, cenas, a&ccedil;&otilde;es, ritmo e montagem</label>
+<textarea id="contentPrompt" placeholder="Ex.: Modo: aleat&oacute;rio. M&uacute;sica sobre f&eacute; e supera&ccedil;&atilde;o. Cenas: pessoa orando &agrave; janela; m&atilde;os levantadas sob chuva; sol nascendo sobre montanhas. A&ccedil;&otilde;es: c&acirc;mera aproxima suavemente..." rows="8"></textarea>
+<p aria-live="polite" class="tiny" id="sceneImportStatus">Ao colar cenas numeradas, o programa identificará automaticamente cada cena.</p>
+<div class="actions"><button onclick="applyContentPrompt()" type="button">&checkmark; Aplicar conte&uacute;do</button><button class="secondary" onclick="saveContentPrompt()" type="button">💾 Salvar conte&uacute;do</button></div>
+<label for="savedContentPrompts">Conte&uacute;dos salvos</label><select id="savedContentPrompts"><option value="">Selecione...</option></select>
+<div class="actions"><button onclick="loadContentPrompt()" type="button">📂 Carregar conte&uacute;do</button><button class="secondary" onclick="deleteContentPrompt()" type="button">🗑️ Excluir</button></div>
+<p aria-live="polite" class="tiny" id="contentPromptStatus">Cenas prontas: cole 01. ... / 02. ... / 03. ... em linhas separadas. Cenas aleat&oacute;rias: escreva o clima, a letra ou as a&ccedil;&otilde;es.</p></div></div>
+</section><section id="driveSection">
+<h2>☁️ Google Drive &mdash; v&iacute;deos e seguran&ccedil;a (mantido da V24)</h2>
+<p class="tiny">Conecte a sua conta exclusiva do canal. Quando conectado, cada MP4 ou WebM importado ser&aacute; enviado direto ao Drive, sem depender de salvar o arquivo grande no celular. O projeto (descri&ccedil;&otilde;es, imagens, prompts e v&iacute;nculos dos v&iacute;deos) tamb&eacute;m pode ser sincronizado. O Google pedir&aacute; autoriza&ccedil;&atilde;o na primeira conex&atilde;o.</p>
+<div class="grid"><div><label for="driveClientId">ID do cliente OAuth Web do Google Cloud (n&atilde;o &eacute; senha)</label><input autocomplete="off" id="driveClientId" placeholder="123456789-xxxx.apps.googleusercontent.com" spellcheck="false"/></div><div><label>Destino do armazenamento</label><div class="tiny">Pasta de armazenamento preservada: <b>Foto Studio</b> (nome antigo, mantido para compatibilidade). Com acesso limitado aos arquivos do pr&oacute;prio app, uma pasta manual antiga pode n&atilde;o ser encontrada e outra pasta com o mesmo nome pode ser criada.</div><a href="#" id="driveFolderLink" rel="noopener noreferrer" target="_blank">📁 Abrir pasta de projetos no Drive</a></div></div>
+<div class="driveToolbar">
+<button id="driveConnect" onclick="connectDrive()" type="button">🔑 Conectar Google Drive</button>
+<button class="secondary" id="driveSaveNow" onclick="saveCurrentProjectDrive()" type="button">☁️ Salvar projeto e ativar c&oacute;pia autom&aacute;tica</button>
+<button class="secondary" id="driveRestore" onclick="restoreProjectDrive()" type="button">📥 Recuperar projeto do Drive</button>
+<button class="secondary" id="driveDisconnect" onclick="disconnectDrive()" type="button">Desconectar</button>
+</div>
+<p aria-live="polite" class="driveWarn" id="driveStatus">Drive desconectado. O KN Studio continua dispon&iacute;vel com os backups locais.</p>
+<p class="tiny">Importante: o Drive exige internet e login. A conex&atilde;o n&atilde;o sobrevive ao vencimento da autoriza&ccedil;&atilde;o: quando necess&aacute;rio, toque em Conectar novamente. Para seguran&ccedil;a, um backup encontrado no Drive nunca &eacute; sobrescrito automaticamente antes de voc&ecirc; escolher entre recuperar ou salvar o projeto deste aparelho. N&atilde;o coloque senha ou segredo do cliente no campo acima. Fa&ccedil;a tamb&eacute;m c&oacute;pias dos MP4 originais.</p>
+</section>
+<section id="videoExport"><h2>🎬 V&iacute;deos finalizados &mdash; exportar sequ&ecirc;ncia</h2><p class="tiny">Adicione o MP4 do Flow em cada cena. Os v&iacute;deos ficam separados do JSON, guardados neste navegador, sem recompress&atilde;o. Para melhor persist&ecirc;ncia, abra pelo endere&ccedil;o HTTPS do GitHub Pages; arquivos HTML locais podem ter armazenamento limitado. Exporte um ZIP com os v&iacute;deos na ordem das cenas para editar as transi&ccedil;&otilde;es depois. Fa&ccedil;a tamb&eacute;m c&oacute;pias dos MP4 originais: backups JSON e o ZIP de projetos/modelos N&Atilde;O incluem os v&iacute;deos.</p><div class="actions"><button onclick="exportSceneVideos()" type="button">📦 Exportar v&iacute;deos em sequ&ecirc;ncia (ZIP)</button></div><p aria-live="polite" class="tiny" id="videoExportStatus"></p></section><section id="portableStorage"><h2>📦 Transferir KN Studio &mdash; ZIP ou pasta</h2><p class="tiny">O pacote inclui o projeto atual e todos os projetos e modelos salvos neste navegador, com imagens e refer&ecirc;ncias incorporadas nos arquivos JSON. Para usar em outro aparelho, importe o ZIP. A op&ccedil;&atilde;o pasta exige autoriza&ccedil;&atilde;o e navegador compat&iacute;vel.</p><div class="actions"><button onclick="exportStudioZip()" type="button">📦 Exportar tudo em ZIP</button><label class="filebtn secondary">📥 Importar ZIP<input accept=".zip,application/zip" id="studioZipInput" style="display:none" type="file"/></label><button class="secondary" onclick="saveStudioFolder()" type="button">📁 Salvar em pasta escolhida</button></div><p aria-live="polite" class="tiny" id="portableStatus"></p></section><section><h2>1. M&uacute;sica e dura&ccedil;&atilde;o</h2><div class="grid"><div class="legacy-control"><label>Modo de cria&ccedil;&atilde;o</label><select id="creationMode" onchange="modeChanged()"><option selected="" value="random">Aleat&oacute;rio &mdash; videoclipe musical</option><option value="story">Hist&oacute;ria &mdash; narrativa cont&iacute;nua</option></select></div><div><label>T&iacute;tulo da m&uacute;sica</label><input id="song" value="I Still Wait for You"/></div><div><label>Dura&ccedil;&atilde;o (mm:ss)</label><input id="duration" placeholder="03:00" value="03:00"/></div><div><label>Segundos por cena</label><input id="seconds" max="60" min="1" type="number" value="6"/></div><div class="legacy-control"><label>Sentimento da m&uacute;sica</label><input id="mood" value="Saudade, espera, melancolia"/></div><div class="legacy-control"><label>Ambiente geral</label><input id="setting" value="Cidade antiga, rua molhada, casas envelhecidas"/></div><div class="legacy-control"><label>Paleta</label><input id="palette" value="Azul acinzentado, marrom gasto, bege sujo; &acirc;mbar apenas nas luzes"/></div></div><div class="notice legacy-control" id="storySettings" style="display:none;margin-top:12px"><label>Personagem principal (mesma apar&ecirc;ncia em toda a hist&oacute;ria)</label><input id="storyHero" value="Um viajante idoso de barro, casaco azul-acinzentado gasto e chap&eacute;u escuro"/><label style="margin-top:9px">Objetivo ou conflito da hist&oacute;ria</label><input id="storyGoal" value="Procura algu&eacute;m querido que n&atilde;o v&ecirc; h&aacute; muito tempo"/><label style="margin-top:9px">Desfecho desejado</label><input id="storyEnding" value="Encontra um sinal de esperan&ccedil;a e segue em frente"/><p class="tiny">No modo Hist&oacute;ria, as cenas seguem uma sequ&ecirc;ncia narrativa. Os mesmos personagens, roupas e objetos permanecem consistentes. Planejar todas as cenas pede confirma&ccedil;&atilde;o antes de substituir as n&atilde;o aprovadas.</p></div><p class="tiny legacy-control">Padr&atilde;o original: Estilo Barroso de massinha 3D. Para outros estilos, abra a Biblioteca de Prompts V25 acima e aplique um prompt livre.</p><div class="swatches legacy-control"><i style="background:#655144"></i><i style="background:#9b8267"></i><i style="background:#827b70"></i><i style="background:#494d52"></i><i style="background:#b39a75"></i></div><div class="notice legacy-control" id="styleSheet" style="margin-top:16px"><h2>🔒 Ficha do estilo g&ecirc;meo da refer&ecirc;ncia</h2><p class="notice"><b>Corre&ccedil;&atilde;o V7:</b> estilo visual fixo + assunto vari&aacute;vel por cena. A refer&ecirc;ncia N&Atilde;O deve ser copiada como conte&uacute;do. No modo Aleat&oacute;rio, cada cena pode mostrar um assunto diferente.</p><p class="tiny">A paleta &eacute; extra&iacute;da dos pixels da imagem enviada. O prompt g&ecirc;meo descreve somente materiais, cores e ilumina&ccedil;&atilde;o, sem copiar os personagens da refer&ecirc;ncia. A an&aacute;lise visual por IA ainda n&atilde;o est&aacute; integrada; revise o resultado antes de bloquear.</p><div class="actions"><button onclick="extractPalette()">🎨 Extrair cores da refer&ecirc;ncia</button><button onclick="buildTwin()">✨ Criar prompt g&ecirc;meo (s&oacute; estilo)</button><button class="secondary" onclick="copyText($('twin').value,'Prompt g&ecirc;meo copiado!')">Copiar prompt g&ecirc;meo</button></div><label>Paleta extra&iacute;da (valores hexadecimais)</label><label style="margin-top:12px">Prompt g&ecirc;meo visual &mdash; altera&ccedil;&otilde;es atualizam automaticamente os prompts das cenas</label><textarea id="twin" placeholder="Crie o prompt g&ecirc;meo a partir da refer&ecirc;ncia..." rows="9" style="min-height:210px"></textarea><label style="margin-top:12px">Nova instru&ccedil;&atilde;o para acrescentar ao estilo (opcional)</label><textarea id="twinAddition" placeholder="Cole aqui a nova instru&ccedil;&atilde;o sem apagar o estilo existente" rows="3"></textarea><div class="actions"><button onclick="applyTwinStyle()" type="button">🔄 Atualizar / Acrescentar estilo em todas as cenas</button></div><p class="tiny">Se preencher o campo de acr&eacute;scimo, o texto ser&aacute; adicionado ao final do Prompt G&ecirc;meo. Se deixar vazio, o bot&atilde;o aplicar&aacute; as altera&ccedil;&otilde;es j&aacute; feitas no Prompt G&ecirc;meo. As imagens e descri&ccedil;&otilde;es n&atilde;o ser&atilde;o alteradas.</p><label style="margin-top:10px"><input id="styleLocked" onchange="setTwinLock()" style="width:auto" type="checkbox"/> 🔒 Bloquear identidade visual aprovada</label><p aria-live="polite" class="status" id="twinStatus"></p><p class="tiny">V12: a pr&eacute;via Gemini e os prompts Flow autom&aacute;ticos acompanham as altera&ccedil;&otilde;es do estilo; prompts Flow escritos manualmente s&atilde;o preservados. O bloqueio protege o texto contra edi&ccedil;&otilde;es acidentais; n&atilde;o garante fidelidade absoluta de uma IA externa. Na gera&ccedil;&atilde;o, envie tamb&eacute;m a imagem original como refer&ecirc;ncia visual.</p></div></section><section><h2>2. Gerar e revisar cenas</h2><p class="notice legacy-control"><b>V12 &mdash; Fluxo gratuito:</b> toque em Copiar IMAGEM, depois Abrir Gemini. Cole o prompt no Gemini e gere a imagem. Salve a imagem no celular, volte aqui e toque em Importar imagem na mesma cena. O Gemini n&atilde;o recebe o prompt automaticamente e nenhuma API paga &eacute; utilizada.</p><p class="notice legacy-control"><b>Corre&ccedil;&atilde;o V9:</b> o bot&atilde;o de IMAGEM copia somente o prompt Gemini da cena aberta; o bot&atilde;o de ANIMA&Ccedil;&Atilde;O copia somente o prompt Flow. Confira o texto em &ldquo;Ver exatamente o prompt de IMAGEM&rdquo;. Para um trem, o texto precisa dizer <b>trem</b>, nunca caminh&atilde;o. No estilo Barroso, a massinha continua. Com um prompt livre, o estilo escolhido tem prioridade.</p><p class="tiny" id="modeStatus">Modo Aleat&oacute;rio: cenas independentes, sem hist&oacute;ria.</p><div class="actions" id="historyBar"><button class="secondary" disabled="" id="undoButton" onclick="undoProject()" type="button">&curvearrowleft; Desfazer</button><button class="secondary" disabled="" id="redoButton" onclick="redoProject()" type="button">&curvearrowright; Refazer</button><span aria-live="polite" class="tiny" id="historyStatus" style="align-self:center">Hist&oacute;rico da edi&ccedil;&atilde;o atual (at&eacute; 25 altera&ccedil;&otilde;es).</span></div><div class="actions"><button onclick="generate()">Criar cenas pela dura&ccedil;&atilde;o</button><button onclick="planAll()">✨ Planejar todas as cenas</button><button onclick="replanWithCreativePrompt()" type="button">🎨 Recriar cenas com o prompt</button><button class="secondary" onclick="createAllPrompts()">Criar todos os prompts Flow</button><button class="secondary" onclick="copyImagePrompts()">Copiar prompts de imagem (todas)</button><label class="filebtn secondary">📷 Importar v&aacute;rias imagens<input accept="image/*" id="batchImages" multiple="" style="display:none" type="file"/></label><button class="secondary" onclick="addScene()">+ Adicionar cena</button><button class="secondary" onclick="saveLocal()">Salvar neste aparelho</button><button class="secondary" onclick="exportJSON()">Exportar projeto JSON</button><button class="secondary" onclick="exportTXT()">Exportar roteiro TXT</button><label class="filebtn secondary">Importar projeto JSON<input accept=".json,application/json" id="import" style="display:none" type="file"/></label></div><p aria-live="polite" class="tiny" id="scenePlanStatus">Com um prompt livre ativo, o aplicativo troca automaticamente somente assuntos antigos ainda n&atilde;o editados. Para recriar outros assuntos, use &ldquo;Recriar cenas com o prompt&rdquo;.</p><p class="tiny">Criar cenas mant&eacute;m as descri&ccedil;&otilde;es editadas nas posi&ccedil;&otilde;es correspondentes. Imagens de miniatura s&atilde;o opcionais e ficam incorporadas no JSON exportado. Para usar no celular e PC, exporte o JSON e importe no outro dispositivo.</p><p class="notice legacy-control"><b>V8:</b> Gere as imagens no ChatGPT, salve no celular com nomes como <b>cena_01.png, cena_02.png</b>, depois importe todas de uma vez. As imagens reais substituir&atilde;o os esbo&ccedil;os. Sem integra&ccedil;&atilde;o autom&aacute;tica com IA nesta vers&atilde;o.</p><p aria-live="polite" class="status" id="importStatus"></p><p class="notice">As miniaturas ilustrativas abaixo s&atilde;o <b>desenhos esquem&aacute;ticos locais</b>, n&atilde;o imagens de IA. Toque numa miniatura para abrir a edi&ccedil;&atilde;o logo abaixo da galeria. O bot&atilde;o Planejar todas as cenas preenche apenas cenas n&atilde;o aprovadas e pede confirma&ccedil;&atilde;o antes de substituir descri&ccedil;&otilde;es.</p><h2>Galeria do videoclipe &mdash; imagens reais ou esbo&ccedil;os</h2><p class="tiny">Toque em uma miniatura: somente a cena selecionada abrir&aacute; seus comandos de foto e v&iacute;deo.</p><div class="gallery" id="gallery"></div><p class="status" id="count"></p><p class="editorHint" id="sceneEmpty">Selecione uma miniatura na galeria para abrir a foto, o v&iacute;deo e os comandos daquela cena. Clique novamente para fechar.</p><div id="scenes"></div></section></main><script async="" defer="" src="https://accounts.google.com/gsi/client"></script><script>/* FOTO STUDIO V29 — BLOCO INDEPENDENTE: Biblioteca de estilos + conteúdo.
+   Armazenamento separado para preservar o banco de dados do Foto Studio V24.
+   Um unico prompt descreve estilo, cenas, acoes, ambientes e movimentos. */
+let promptDbPromise = null;
+function openPromptDB() {
+  if (promptDbPromise) return promptDbPromise;
+  promptDbPromise = new Promise((resolve, reject) => {
+    if (!window.indexedDB) { reject(new Error('Armazenamento de prompts indisponível')); return; }
+    const req = indexedDB.open('foto-studio-prompts-v25', 1);
+    req.onupgradeneeded = () => {
+      if (!req.result.objectStoreNames.contains('presets')) req.result.createObjectStore('presets');
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error || new Error('Falha ao abrir a biblioteca'));
+    req.onblocked = () => reject(new Error('Feche outras abas do Foto Studio e tente novamente'));
+  }).catch(error => { promptDbPromise = null; throw error; });
+  return promptDbPromise;
+}
+async function promptList() {
+  const db = await openPromptDB();
+  return new Promise((resolve, reject) => {
+    const req = db.transaction('presets', 'readonly').objectStore('presets').getAllKeys();
+    req.onsuccess = () => resolve(req.result.filter(k => typeof k === 'string'));
+    req.onerror = () => reject(req.error);
+  });
+}
+async function promptRead(name) {
+  const db = await openPromptDB();
+  return new Promise((resolve, reject) => {
+    const req = db.transaction('presets', 'readonly').objectStore('presets').get(name);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function promptWrite(name, value) {
+  const db = await openPromptDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('presets', 'readwrite');
+    tx.objectStore('presets').put(value, name);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  });
+}
+async function promptRemove(name) {
+  const db = await openPromptDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('presets', 'readwrite');
+    tx.objectStore('presets').delete(name);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+function getCreativePrompt() { return (document.getElementById('creativePrompt')?.value || '').trim(); }
+function promptStatus(message) { const el = document.getElementById('creativePromptStatus'); if (el) el.textContent = message; }
+async function refreshPromptChoices(selected = '') {
+  const control = document.getElementById('savedCreativePrompts');
+  if (!control) return;
+  try {
+    const names = (await promptList()).filter(k=>!k.startsWith(CONTENT_PREFIX)).sort((a,b) => a.localeCompare(b, 'pt-BR'));
+    const chosen = selected || control.value;
+    control.replaceChildren(new Option('Selecione um prompt salvo...', ''), new Option('Massinha Barroso — padrão original V24', '__barroso__'));
+    for (const name of names) control.add(new Option(name, name));
+    if (Array.from(control.options).some(o => o.value === chosen)) control.value = chosen;
+  } catch (error) { promptStatus('⚠️ Biblioteca indisponível: ' + error.message + '. O prompt atual ainda pode ser usado.'); }
+}
+async function saveCreativePrompt() {
+  const name = document.getElementById('creativePromptName').value.trim();
+  const prompt = getCreativePrompt();
+  if (!name || !prompt) { alert('Digite o nome e o texto do seu prompt antes de salvar.'); return; }
+  if (name === '__barroso__') { alert('Escolha outro nome para seu prompt.'); return; }
+  try {
+    if (await promptRead(name) && !confirm('Substituir o prompt salvo "' + name + '"?')) return;
+    await promptWrite(name, { name, prompt, reference:refImage, hexPalette:document.getElementById('hexPalette').value, savedAt: new Date().toISOString() });
+    await refreshPromptChoices(name);
+    promptStatus('✓ Prompt salvo: ' + name + '. Pronto para reutilizar.');
+    scheduleSave();
+  } catch(error) { alert('Não foi possível salvar o prompt: ' + error.message); }
+}
+async function applyCreativePrompt() {
+  const chosen = document.getElementById('savedCreativePrompts').value;
+  if (!chosen) { alert('Selecione um prompt salvo.'); return; }
+  if (chosen === '__barroso__') {
+    if (getCreativePrompt() && !confirm('Voltar ao Estilo Barroso da V24? O texto livre continua salvo na biblioteca, se você usou Salvar Prompt.')) return;
+    document.getElementById('creativePrompt').value = '';
+    document.getElementById('creativePromptName').value = 'Massinha Barroso';
+    promptStatus('✓ Estilo Barroso original reativado. Nenhuma cena foi excluída.');
+  } else {
+    try {
+      const stored = await promptRead(chosen);
+      if (!stored?.prompt) throw new Error('Prompt não encontrado');
+      document.getElementById('creativePrompt').value = stored.prompt;
+      document.getElementById('creativePromptName').value = chosen;
+      restoreStyleVisualExtras(stored);
+      promptStatus('✓ Estilo selecionado: ' + chosen + '. Visual dos prompts atualizado. Para trocar assuntos antigos, toque em Recriar cenas com o prompt.');
+    } catch(error) { alert('Não foi possível abrir o prompt: ' + error.message); return; }
+  }
+  refreshTwinPrompts(); updatePromptOnePreview(); render(); scheduleSave();
+}
+async function deleteCreativePrompt() {
+  const name = document.getElementById('savedCreativePrompts').value;
+  if (!name || name === '__barroso__') { alert('Selecione um prompt salvo por você. O estilo original Barroso não pode ser excluído.'); return; }
+  if (!confirm('Excluir definitivamente o prompt "' + name + '"?')) return;
+  try {
+    await promptRemove(name);
+    await refreshPromptChoices();
+    document.getElementById('savedCreativePrompts').value = '';
+    promptStatus('✓ Prompt excluído. O prompt aplicado ao projeto atual foi preservado.');
+  } catch(error) { alert('Não foi possível excluir: ' + error.message); }
+}
+function usePromptDraft() {
+  if (!getCreativePrompt()) { alert('Escreva seu prompt ou selecione um salvo.'); return; }
+  refreshTwinPrompts(); updatePromptOnePreview(); render(); scheduleSave();
+  promptStatus('✓ Direção visual aplicada. Assuntos já escritos foram preservados. Para trocar, toque em Recriar cenas com o prompt.');
+}
+// Um único prompt pode conter a direção e, opcionalmente, uma lista de ações depois de "Cenas:".
+// Extrai apenas descrições realmente escritas; sem inventar pessoas ou objetos da referência.
+// Ideias de assunto separadas da identidade visual, sem repetir os exemplos antigos.
+// Para controlar cenas exatas, o usuário pode escrever "Cenas: ...; ..." DENTRO do único prompt.
+function creativeSceneIdeas() {
+  const source=getContentPrompt();
+  if(!source)return [];
+  const match=source.match(/(?:^|[\n\r.])\s*(?:cenas|sequência|sequencia|planos|momentos)\s*:\s*([\s\S]*?)(?=\n\s*(?:estilo|visual|ações|acoes|ilumina[cç][aã]o|movimento|anima[cç][aã]o|paleta|clima|observa[cç][oõ]es)\s*:|$)/i);
+  if(!match)return [];
+  const text=match[1].trim();
+  return text.split(/\s*;\s*|\n\s*(?:[-•*]|\d+[.)-])\s*/)
+    .map(v=>v.trim().replace(/[.;,]+$/,'')).filter(v=>v.length>5).slice(0,150);
+}
+function creativeGenre() {
+  const p=(getContentPrompt()+" "+getCreativePrompt()).toLowerCase();
+  if(/gospel|adora[cç][aã]o|orar|orando|louvor|f[eé] em deus|jesus|b[ií]blic/.test(p))return 'gospel';
+  if(/cartoon|desenho animado|animated feature|3d animated|animated music video|anima[cç][aã]o 3d/.test(p))return 'cartoon';
+  if(/claymation|stop.motion|massinha|argila|barroso/.test(p))return 'clay';
+  return 'livre';
+}
+function randomClayIdeas(){
+ const additions=[
+ 'Bule antigo de ferro sobre fogão de lenha, vapor subindo lentamente',
+ 'Cesto de maçãs apoiado num degrau úmido, câmera desliza lateralmente',
+ 'Roupas de algodão penduradas no varal, a brisa move apenas os tecidos',
+ 'Jornal amarelado repousa sobre uma mesa, uma ponta levanta com a brisa da janela',
+ 'Mãos de um velho artesão lixando lentamente uma peça de madeira',
+ 'Pena caída sobre pedras molhadas, gotas de chuva formando pequenas poças',
+ 'Roda d’água girando por força do riacho em uma velha oficina',
+ 'Chaleira de barro aquecida na cozinha, pequena nuvem de vapor saindo do bico',
+ 'Botas de couro imóveis junto à varanda, sombras de folhas passam pelo chão',
+ 'Sombra de uma árvore balança sobre a fachada de uma estação antiga',
+ 'Músico sopra suavemente uma gaita em um quarto simples',
+ 'Lenço preso ao pescoço de um viajante, tecido ondula com o vento',
+ 'Barco amarrado oscila suavemente nas ondas pequenas do cais',
+ 'Chuva fina escorre pela madeira de uma velha cerca',
+ 'Ferroviário ergue uma ferramenta e a apoia no banco de trabalho',
+ 'Pássaro pousado no telhado vira a cabeça e abre as asas',
+ 'Luz de vela oscila devido ao ar que entra pela fresta da janela',
+ 'Mulher idosa embala lentamente uma cadeira de balanço com os pés',
+ 'Gotas de orvalho deslizam da ponta de uma folha para a terra',
+ 'Cachorro velho dorme junto ao fogão, respiração calma faz seu peito subir',
+ 'Água cai de uma goteira dentro de um balde de metal',
+ 'Homem segura um bilhete envelhecido sem mover a folha, câmera aproxima',
+ 'Lampião suspenso oscila levemente com o vento na varanda',
+ 'Ponte de madeira sobre riacho, água corre naturalmente sob as tábuas',
+ 'Escada antiga encostada na parede, folhas soltas rolam pela terra',
+ 'Violão gasto apoiado imóvel junto a um banco, luz de fim de tarde muda',
+ 'Costureira puxa uma linha por entre tecido grosso com movimentos delicados',
+ 'Poeira iluminada gira numa faixa de luz junto à janela aberta',
+ 'Gato se espreguiça lentamente sobre tapete áspero',
+ 'Chuva pinga do chapéu de um homem parado na entrada da estação',
+ 'Sinos de vento de metal se tocam delicadamente quando a brisa chega',
+ 'Papel amarrado num poste vibra nas bordas pelo vento'
+ ];return ideas.map(x=>x[0]).concat(additions);
+}
+function randomizedSceneIdea(index){
+ const p=creativeGenre()==='clay'?randomClayIdeas():null;
+ if(p&&p.length){const seed=(getContentPrompt()+'|'+getCreativePrompt()).split('').reduce((v,c)=>(v*31+c.charCodeAt(0))>>>0,0)%p.length;return p[(seed+index*37)%p.length]}
+ return '';
+}
+function numberedSceneData(){const chosen=numberedSceneItems();return chosen.map(x=>({description:x.description,sceneSource:x.raw,originalNumber:x.number}));}
+function creativeSceneIdea(index) {
+  const numbered=numberedSceneItems();
+  if(numbered.length)return numbered[index%numbered.length].description;
+  if(getSceneInputMode()==='random'){
+   const randomIdea=randomizedSceneIdea(index);
+   if(randomIdea)return randomIdea;
+  }
+  const given=creativeSceneIdeas();
+  if(given.length)return given[index%given.length];
+  const collections={
+    cartoon:[
+      'Personagem de desenho animado observa o horizonte, com expressão de expectativa',
+      'Close nas mãos de um personagem segurando um pequeno objeto de valor sentimental',
+      'Rua charmosa com árvores e casas coloridas, folhas se movendo com o vento',
+      'Personagem caminha por uma praça, gesticulando suavemente ao ritmo da música',
+      'Pássaro estilizado pousa em um galho diante de um céu luminoso',
+      'Duas pessoas animadas compartilham um abraço emocionado',
+      'Relógio antigo na parede enquanto a luz atravessa uma janela',
+      'Personagem sentado em um banco acompanha as nuvens passando',
+      'Gotas de chuva deslizam pelo vidro e refletem luzes coloridas',
+      'Personagem olha uma fotografia e sorri discretamente',
+      'Papel colorido levado pelo vento atravessa uma pequena rua',
+      'Vista aérea de uma vila estilizada com colinas ao fundo',
+      'Personagem sobe uma escadaria em direção à luz da manhã',
+      'Close dos olhos expressivos de um personagem demonstrando esperança',
+      'Pequena ponte sobre um rio que reflete as luzes do cenário',
+      'Porta de madeira se abre revelando um novo caminho',
+      'Personagem dança discretamente e expressa alegria espontânea',
+      'Campo verde com flores e borboletas em movimento',
+      'Duas pessoas se reconhecem de longe e começam a caminhar uma até a outra',
+      'Lâmpada de mesa ilumina um quarto acolhedor no fim do dia',
+      'Um personagem respira fundo antes de dar um passo importante',
+      'Plano aberto de montanhas suaves sob nuvens iluminadas',
+      'Personagem abre os braços ao sentir uma brisa no alto de uma colina',
+      'Cena final com personagens olhando o amanhecer ao longe'
+    ],
+    gospel:[
+      'Pessoa sozinha em oração ao lado de uma janela iluminada',
+      'Bíblia aberta sobre uma mesa com luz suave atravessando a página',
+      'Mãos levantadas em adoração diante de um céu amplo',
+      'Pessoa caminha lentamente por uma estrada após a chuva',
+      'Sol surgindo entre montanhas cobertas por nuvens',
+      'Close de uma lágrima no rosto de alguém em oração',
+      'Pequena igreja vista de longe entre árvores',
+      'Pessoa de joelhos em um quarto simples, em momento de fé',
+      'Nuvens se abrem e raios de sol iluminam um vale',
+      'Mãos segurando uma Bíblia com cuidado',
+      'Família compartilha um abraço de reconciliação',
+      'Pessoa ajuda outra a se levantar na estrada',
+      'Uma vela acesa ilumina um ambiente silencioso',
+      'Grupo de pessoas canta em adoração visto de costas',
+      'Close de um rosto que passa da tristeza para a esperança',
+      'Estrada estreita seguindo em direção ao horizonte luminoso',
+      'Pessoa contempla uma paisagem após atravessar uma dificuldade',
+      'Pequenos pássaros cruzam o céu ao amanhecer',
+      'Mãos entrelaçadas em oração durante um encontro',
+      'Cruz simples ao longe em uma colina ao pôr do sol',
+      'Pessoa fecha os olhos e respira com expressão de alívio',
+      'Chuva cessa e o sol atravessa uma janela',
+      'Pessoas se abraçam em um momento de gratidão',
+      'Plano final de um céu iluminado representando esperança'
+    ],
+    livre:[
+      'Uma pessoa caminha sozinha por um caminho aberto',
+      'Close em mãos segurando um objeto com valor sentimental',
+      'Plano geral de paisagem com atmosfera cinematográfica',
+      'Luz atravessando uma janela no início da manhã',
+      'Pessoa observa o horizonte em silêncio',
+      'Detalhes da natureza se movendo suavemente com o vento',
+      'Plano de uma rua tranquila sob luz suave',
+      'Close em uma expressão de emoção ou esperança',
+      'Pássaros cruzam o céu acima de uma paisagem ampla',
+      'Pessoa atravessa uma ponte sobre um rio',
+      'Uma porta se abre revelando um ambiente iluminado',
+      'Plano de flores e folhas em movimento',
+      'Duas pessoas se encontram e conversam sem palavras',
+      'Mãos repousam sobre uma mesa perto da janela',
+      'Sol aparece por trás de montanhas distantes',
+      'Pessoa caminha entre árvores sob luz difusa',
+      'Close nos olhos de alguém refletindo sobre uma lembrança',
+      'Ondas suaves chegam à margem de um lago',
+      'Pessoa ergue o olhar após um momento de tristeza',
+      'Plano geral de cidade ao anoitecer',
+      'Um caminho se estende além de uma curva',
+      'Pessoa abraça alguém querido em reconciliação',
+      'Uma luz acende em uma casa distante',
+      'Plano final de horizonte aberto e tranquilo'
+    ]
+  };
+  // O estilo de massinha mantém os assuntos aprovados da versão original se nenhum assunto foi descrito.
+  if(creativeGenre()==='clay' && !getContentPrompt())return ideas[index%ideas.length][0];
+  const list=collections[creativeGenre()]||collections.livre;
+  return list[index%list.length];
+}
+function showPlanMessage(message) {
+  const e=document.getElementById('scenePlanStatus');
+  if(e)e.textContent=message;
+}
+function isPristineLegacyScene(s,i) {
+  return !!s && !s.locked && !s.approved && !s.image && !s.videoId && !s.driveId &&
+    (s.description||'').trim()===ideas[i%ideas.length][0];
+}
+function protectSceneFromReplan(s) {
+  return !!(s.locked||s.approved||s.image||s.videoId||s.driveId);
+}
+function replanWithCreativePrompt() {
+  if(numberedSceneItems().length){generate();return;}
+  if(!hasDirectorPrompts()) {alert('Primeiro preencha o Prompt 1 e o Prompt 2.');return;}
+  if(!scenes.length){generate();return;}
+  const eligible=scenes.filter(s=>!protectSceneFromReplan(s)).length;
+  if(!eligible){showPlanMessage('As cenas estão aprovadas, bloqueadas ou têm imagens/vídeos. Nada foi substituído.');return;}
+  if(!confirm('Recriar '+eligible+' assuntos de cena com o prompt escolhido? Cenas aprovadas, bloqueadas e com imagens/vídeos serão preservadas.'))return;
+  let changed=0;
+  scenes.forEach((s,i)=>{
+    if(protectSceneFromReplan(s))return;
+    s.description=creativeSceneIdea(i);delete s.sceneSource;delete s.originalNumber;
+    if(!s.animation||isAutoFlow(s.animation))s.animation=makePrompt(s);
+    s.symbol='🎬';changed++;
+  });
+  render();
+  showPlanMessage('✓ '+changed+' assuntos recriados com o prompt atual; cenas prontas preservadas. Revise as descrições antes de copiar as imagens.');
+}
+function contentSummary() { return getContentPrompt().slice(0,1600); }
+
+/* V28 — a foto e as cores entram SOMENTE na direcao visual do Prompt 1. */
+function promptOneVisualDirection(){
+ const own=getCreativePrompt().replace(/\[\s*DESCREVA[^\]]+\]/gi,'').replace(/,\s*,/g,',').trim();
+ const palette=(document.getElementById('hexPalette')?.value||'').trim();
+ const reference=typeof refImage==='string'&&!!refImage;
+ let style=own || ((getContentPrompt()||reference||palette)
+     ? 'Visual coerente com o projeto, sem assumir argila, massinha ou outra estetica nao pedida. O estilo principal deve seguir as instrucoes e a imagem de referencia fornecidas.'
+     : visualStyle());
+ if(reference)style+='\n\nREFERENCIA VISUAL ANEXADA: usar a foto fornecida exclusivamente para materiais, design, paleta, iluminacao, acabamento e linguagem visual. Nao copiar personagens, objetos ou composicao especificos se a cena nao os pedir. A foto deve ser anexada manualmente ao gerador externo.';
+ if(palette)style+='\n\nPALETA EXTRAIDA DA REFERENCIA (cores de apoio para o estilo): '+palette+'. Harmonizar com as regras escritas no Prompt 1; nunca usar a paleta como instrucao de historia ou objeto.';
+ return style;
+}
+function updatePromptOnePreview(){
+ const el=document.getElementById('promptOnePreview');
+ if(el)el.textContent=promptOneVisualDirection();
+}
+function restoreStyleVisualExtras(saved){
+ if(!saved)return;
+ // Presets V25/V28 nao continham foto nem paleta: nao apagar a referencia atual do usuario ao importar esses presets.
+ if(!Object.hasOwn(saved,'reference')&&!Object.hasOwn(saved,'hexPalette'))return;
+ refImage=saved.reference||'';
+ document.getElementById('referencePreview').src=refImage;
+ document.getElementById('referencePreview').style.display=refImage?'block':'none';
+ const palette=saved.hexPalette||'';
+ document.getElementById('hexPalette').value=palette;
+ const swatch=document.getElementById('extractedSwatches');
+ const colors=palette.match(/#[0-9a-fA-F]{6}/g)||[];
+ if(swatch)swatch.innerHTML=colors.map(c=>'<i title="'+c+'" style="background:'+c+';height:30px"></i>').join('');
+ updatePromptOnePreview();
+}
+
+function creativeImagePrompt(scene) {
+ const style=promptOneVisualDirection();
+ const content=scenePromptContent(scene);
+ const story=getPlanningMode()==='story';
+ return `SCENE SUBJECT — ONLY THIS ONE SCENE, NEVER THE FULL LIST:\n${scene.description}\n\nPROMPT 1 — LOCKED VISUAL ART DIRECTION (MATERIALS, PALETTE, COLOR, LIGHT, CAMERA, TEXTURES):\n${style}\n\nREFERENCE IMAGE POLICY: use any supplied reference ONLY for visual materials, lighting, color and craft. NEVER copy its people, objects or composition unless they belong in this scene.\n\nPROMPT 2 — CONTENT OF THIS SCENE ONLY:\n${content||scene.description}\n\nTYPE OF VIDEO: ${story?'continuous narrative; preserve recurring characters and props':'independent or poetic music-video scenes'}.\n\nPRIORITIES: depict ONLY the scene subject, without borrowing people or objects from other numbered scenes. Prompt 1 controls style; Prompt 2 controls subject and actions. This is a SINGLE still frame: suggest action through pose, never try to animate a still image. No subtitles, labels, watermark or collage unless explicitly requested. 16:9.`;
+}
+function creativeAnimationPrompt(scene) {
+ const style=promptOneVisualDirection();
+ const content=scenePromptContent(scene);
+ return `Mode: ${getPlanningMode()==='story'?'continuous narrative, preserve identities':'independent music video vignette, no required narrative'}.\nSCENE SUBJECT: ${scene.description}\n\nPROMPT 1 — PRESERVE VISUAL IDENTITY EXACTLY:\n${style}\n\nPROMPT 2 — ACTION FROM THIS SCENE ONLY:\n${content||scene.description}\n\nPHYSICAL MOTION CAUSALITY — STRICT:\n${physicsMotionForScene(scene)}${scene.imageOutdated?'\nIMPORTANT: The stored scene image is outdated and must be replaced before animation.':''}\nNo supernatural or autonomous movement of clothes, shoes, furniture, cups, tools, instruments, signs or any other inert object. If a dress hangs on a clothesline, only the breeze can move the fabric. Never animate it as a person or ghost. Avoid inventing people or animals to justify movement.\n\nAnimate ONLY subjects present in the source image. Follow this scene's explicitly requested actions and camera motion. Preserve subject, identity, colors, lighting and composition; no unrelated characters, objects or cuts. Use a subtle, physically plausible stop-motion rhythm; preserve this scene's FPS instruction if specified. 16:9.`;
+}
+// A inicialização da interface não depende da carga dos projetos da V24.
+document.addEventListener('DOMContentLoaded', () => {
+  refreshPromptChoices();
+  updatePromptOnePreview();
+  const input = document.getElementById('creativePrompt');
+  if (input) input.addEventListener('input', () => {updatePromptOnePreview();promptStatus('Texto alterado. Toque em Aplicar para atualizar as prévias e em Salvar para reutilizar.');});
+});
+
+// V28 — Prompt 2 (conteúdo), persistido separadamente do Prompt 1 (estilo).
+const CONTENT_PREFIX='::content::';
+function getContentPrompt(){return (document.getElementById('contentPrompt')?.value||'').trim();}
+/* V29: Prompt 2 supports an exact numbered scene list OR independent random scenes.
+   Parsing is line anchored: 12fps, dimensions, and numbers inside a scene stay inside that scene. */
+function parseNumberedScenes(text=getContentPrompt()){
+ const lines=String(text||'').replace(/\r\n?/g,'\n').split('\n');
+ const items=[];let current=null;
+ for(const line of lines){
+  const m=line.match(/^\s*(?:(?:cena|scene)\s*)?(\d{1,3})\s*[.):\-]\s*(.*)$/i);
+  if(m){
+   if(current){current.raw=current.parts.join('\n').trim();delete current.parts;items.push(current)}
+   current={number:Number(m[1]),parts:[m[2]]};
+  }else if(current){current.parts.push(line)}
+ }
+ if(current){current.raw=current.parts.join('\n').trim();delete current.parts;items.push(current)}
+ // Require a sequence of at least two distinct numbered items to avoid misreading numbered prose.
+ if(items.length<2||new Set(items.map(x=>x.number)).size!==items.length)return [];
+ return items.filter(x=>x.raw.length>4).slice(0,500).map(x=>({number:x.number,raw:x.raw,description:sceneSubjectFromRaw(x.raw)}));
+}
+function sceneSubjectFromRaw(raw){
+ return String(raw||'').replace(/^(?:(?:gritty|handcrafted|rustic|cinematic)\s+)?(?:stop[ -]?motion\s+)?(?:claymation|puppet animation|miniature animation)\s*,?\s*(?:\d{1,3}\s*fps)?\.\s*/i,'').trim();
+}
+function getSceneInputMode(){return document.getElementById('contentSceneMode')?.value||'numbered'}
+function numberedSceneItems(){return getSceneInputMode()==='numbered'?parseNumberedScenes():[]}
+function contentSceneModeChanged(){
+ const numbered=getSceneInputMode()==='numbered',list=parseNumberedScenes();
+ const status=document.getElementById('sceneImportStatus');
+ if(status)status.textContent=numbered?(list.length?`✓ ${list.length} cenas numeradas reconhecidas. Ao criar cenas, cada miniatura receberá apenas seu próprio texto.`:'Cole uma lista como 01. ..., 02. ..., 03. ... no Prompt 2.'):'Cenas aleatórias: assuntos variados; movimentos só com vento, gravidade, seres vivos, mecanismos ou câmera.';
+ if(!restoring)scheduleSave();
+}
+function scenePromptContent(scene){
+ if(scene.sceneSource)return sceneSubjectFromRaw(scene.sceneSource);
+ if(numberedSceneItems().length)return scene.description||'';
+ const p=getContentPrompt();return p.length>550?p.slice(0,550)+'…':p;
+}
+function physicsMotionForScene(scene){
+ const t=String(scene.description||'').toLowerCase();
+ if(/vestido|saia|camisa|cortina|varal|tecido|pano|casaco pendurado|roupa pendurada|dress|shirt|skirt|curtain|fabric|cloth|laundry|hanging coat|hanging clothes|scarf/.test(t))
+  return 'Fabric moves ONLY where supported by a gentle breeze, an identified person, or gravity. A hanging dress does not walk, float or move like a ghost.';
+ if(/porta|portão|janela|gaveta|baú|tampa|door|gate|window|drawer|lid|chest/.test(t))
+  return 'Doors, lids and hinged objects remain still unless visibly moved by a person, a clearly established breeze or a plausible mechanism. Never open or close by magic.';
+ if(/xícara|caneca|copo|garrafa|prato|mala|sapato|bota|violão|guitarra|violino|instrumento|cadeira|relógio|retrato|livro|mesa|placa|roupa|vestido|cup|mug|glass|bottle|suitcase|shoe|boot|guitar|violin|instrument|chair|clock|book|table|sign/.test(t))
+  return 'Inanimate props remain fixed unless a visible hand, wind, gravity or an actual mechanism moves them. If static, use gentle camera movement, ambient dust, light or steam instead.';
+ if(/folha|árvore|galho|flor|pássaro|nuvem|chuva|rio|mar|lago|neblina|fumaça|vapor|fogo|chama|brisa|vento|leaves|leaf|tree|branch|flower|bird|cloud|rain|river|lake|mist|smoke|steam|fire|flame|breeze|wind/.test(t))
+  return 'Only naturally moving environmental elements respond to their physical cause: breeze, falling rain, flowing water, rising smoke or a living creature.';
+ return 'Every motion has a believable physical cause. Living characters may breathe, walk or gesture; inanimate objects NEVER move on their own. If no physical action is suitable, keep objects still and move the camera subtly.';
+}
+function hasDirectorPrompts(){return !!(getCreativePrompt()||getContentPrompt());}
+function getPlanningMode(){
+ const p=getContentPrompt().toLowerCase();
+ if(/(?:modo|montagem)\s*:\s*(?:hist[oó]ria|narrativa)|hist[oó]ria\s+cont[ií]nua|narrativa\s+cont[ií]nua/.test(p))return 'story';
+ if(/(?:modo|montagem)\s*:\s*(?:aleat[oó]rio|livre|po[eé]tico)|cenas\s+independentes|sem\s+narrativa/.test(p))return 'random';
+ return document.getElementById('creationMode')?.value||'random';
+}
+function syncPlanningMode(){document.getElementById('creationMode').value=getPlanningMode();modeChanged();}
+function contentStatus(msg){const el=document.getElementById('contentPromptStatus');if(el)el.textContent=msg;}
+async function refreshContentPrompts(chosen=''){
+ const control=document.getElementById('savedContentPrompts');if(!control)return;
+ try{
+  const keys=(await promptList()).filter(k=>k.startsWith(CONTENT_PREFIX)).map(k=>k.slice(CONTENT_PREFIX.length)).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const prior=chosen||control.value;
+  control.replaceChildren(new Option('Selecione um conteúdo salvo...',''));
+  keys.forEach(k=>control.add(new Option(k,k)));
+  if(keys.includes(prior))control.value=prior;
+ }catch(e){contentStatus('⚠️ Não foi possível listar os conteúdos: '+e.message);}
+}
+async function saveContentPrompt(){
+ const name=document.getElementById('contentPromptName').value.trim(),prompt=getContentPrompt();
+ if(!name||!prompt){alert('Preencha o nome e o texto do Prompt 2.');return;}
+ try{if(await promptRead(CONTENT_PREFIX+name)&&!confirm('Substituir este conteúdo salvo?'))return;
+ await promptWrite(CONTENT_PREFIX+name,{name,prompt,mode:getSceneInputMode(),savedAt:new Date().toISOString()});await refreshContentPrompts(name);
+ contentStatus('✓ Conteúdo salvo: '+name);scheduleSave();}catch(e){alert('Não foi possível salvar o conteúdo: '+e.message);}
+}
+async function loadContentPrompt(){
+ const name=document.getElementById('savedContentPrompts').value;
+ if(!name){alert('Escolha um conteúdo salvo.');return;}
+ try{const saved=await promptRead(CONTENT_PREFIX+name);if(!saved||!saved.prompt)throw Error('Não encontrado');
+ document.getElementById('contentPrompt').value=saved.prompt;document.getElementById('contentPromptName').value=name;document.getElementById('contentSceneMode').value=saved.mode|| (parseNumberedScenes(saved.prompt).length?'numbered':'random');contentSceneModeChanged();
+ syncPlanningMode();refreshTwinPrompts();updatePromptOnePreview();render();scheduleSave();contentStatus('✓ Conteúdo carregado: '+name);}
+ catch(e){alert('Falha ao carregar conteúdo: '+e.message);}
+}
+async function deleteContentPrompt(){
+ const name=document.getElementById('savedContentPrompts').value;if(!name)return;
+ if(!confirm('Excluir o conteúdo salvo "'+name+'"?'))return;
+ try{await promptRemove(CONTENT_PREFIX+name);await refreshContentPrompts();contentStatus('Conteúdo salvo excluído. O texto atual do projeto não foi apagado.');}
+ catch(e){alert('Falha ao excluir conteúdo: '+e.message);}
+}
+function applyContentPrompt(){
+ if(!getContentPrompt()){alert('Preencha o Prompt 2.');return;}
+ syncPlanningMode();contentSceneModeChanged();refreshTwinPrompts();updatePromptOnePreview();render();scheduleSave();
+ contentStatus('✓ Conteúdo aplicado. Toque em Criar cenas para montar a sequência.');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ refreshContentPrompts();
+ const el=document.getElementById('contentPrompt');
+ if(el)el.addEventListener('input',()=>{syncPlanningMode();contentSceneModeChanged();contentStatus('Conteúdo alterado; toque em Criar cenas para aplicar.');});
+});
+</script><script>
+
+// V27 — histórico de alterações do projeto, limitado a 25 estados completos.
+// Prompts salvos no catálogo são registros independentes e não entram no histórico.
+let historyPast=[],historyFuture=[],historyBaseline=null,historyTimer=null,historyApplying=false;
+// Imagens e referências ficam numa coleção única, não em 25 cópias enormes.
+let historyAssetIndex=new Map(),historyAssetValues=new Map(),historyAssetNumber=0;
+function historyEncodeAsset(value){
+ if(typeof value!=='string'||!value.startsWith('data:image/'))return value;
+ let token=historyAssetIndex.get(value);
+ if(!token){token='__FS_ASSET_'+(++historyAssetNumber)+'__';historyAssetIndex.set(value,token);historyAssetValues.set(token,value);}
+ return token;
+}
+function historySnapshot(){
+ const project=data();
+ return JSON.stringify({...project,reference:historyEncodeAsset(project.reference),scenes:project.scenes.map(scene=>({...scene,image:historyEncodeAsset(scene.image)}))});
+}
+function historyRestore(snapshot){
+ const project=JSON.parse(snapshot);
+ const unpack=value=>typeof value==='string'&&value.startsWith('__FS_ASSET_')?(historyAssetValues.get(value)||''):value;
+ project.reference=unpack(project.reference);
+ project.scenes=(project.scenes||[]).map(scene=>({...scene,image:unpack(scene.image)}));
+ return project;
+}
+function historyPruneAssets(){
+ const needed=new Set((historyPast.join('')+historyFuture.join('')+(historyBaseline||'')).match(/__FS_ASSET_\d+__/g)||[]);
+ for(const [token,value] of historyAssetValues){if(!needed.has(token)){historyAssetValues.delete(token);historyAssetIndex.delete(value);}}
+}
+function historyButtons(){
+ const u=document.getElementById('undoButton'),r=document.getElementById('redoButton');
+ if(u)u.disabled=!historyPast.length;
+ if(r)r.disabled=!historyFuture.length;
+ const status=document.getElementById('historyStatus');
+ if(status)status.textContent='Desfazer: '+historyPast.length+' · Refazer: '+historyFuture.length+' (sessão atual)';
+}
+function historyReset(){clearTimeout(historyTimer);historyTimer=null;historyPast=[];historyFuture=[];historyBaseline=historySnapshot();historyButtons();}
+function historyCapture(){
+ if(restoring||historyApplying)return;
+ clearTimeout(historyTimer);historyTimer=null;
+ const current=historySnapshot();
+ if(historyBaseline===null){historyBaseline=current;historyButtons();return;}
+ if(current===historyBaseline)return;
+ historyPast.push(historyBaseline);
+ if(historyPast.length>25)historyPast.shift();
+ historyFuture=[];historyBaseline=current;historyPruneAssets();historyButtons();
+}
+function historyQueue(delay=350){
+ if(restoring||historyApplying||historyBaseline===null)return;
+ clearTimeout(historyTimer);historyTimer=setTimeout(historyCapture,delay);
+}
+function undoProject(){
+ historyCapture();if(!historyPast.length)return;
+ const previous=historyPast.pop();historyFuture.push(historySnapshot());
+ historyApplying=true;try{load(historyRestore(previous));historyBaseline=historySnapshot();}finally{historyApplying=false;}
+ historyButtons();scheduleSave();
+}
+function redoProject(){
+ historyCapture();if(!historyFuture.length)return;
+ const next=historyFuture.pop();historyPast.push(historySnapshot());
+ historyApplying=true;try{load(historyRestore(next));historyBaseline=historySnapshot();}finally{historyApplying=false;}
+ historyButtons();scheduleSave();
+}
+document.addEventListener('input',()=>historyQueue(550),false);
+document.addEventListener('change',()=>historyQueue(40),false);
+document.addEventListener('click',event=>{if(event.target.closest('button'))historyQueue(35)},false);
+document.addEventListener('pointerdown',event=>{if(event.target.closest('button')&&historyTimer)historyCapture()},true);
+
+const $=id=>document.getElementById(id);let scenes=[],refImage='';let activeSceneIndex=-1;const initial=['Velho músico tocando violão','Close das mãos tocando as cordas','Cachorro de massinha caminhando pela rua molhada','Placa antiga pendurada balançando ao vento','Senhora caricatural olhando a chuva pela janela','Trem antigo atravessando a cidade','Dois pássaros de argila numa cerca','Caneca antiga soltando vapor','Homem de chapéu atravessando a rua','Folhas de argila caindo numa poça'];
 const ideas=[
 ['Velho músico tocando violão na escadaria molhada','🎸'],['Close das mãos enrugadas dedilhando as cordas do violão','🎶'],['Cachorro de argila caminhando sozinho pelos paralelepípedos','🐕'],['Placa antiga de madeira pendurada balançando ao vento','🪧'],['Senhora de cabelos grisalhos olhando a chuva pela janela','👵'],['Caneca de esmalte lascado soltando vapor sobre uma mesa','☕'],['Trem de carga antigo cruzando lentamente a ponte','🚂'],['Dois pássaros de argila pousados num fio molhado','🐦'],['Relógio de estação envelhecido marcando a passagem do tempo','🕰️'],['Homem de chapéu gasto atravessando uma rua vazia','🚶'],['Vitrine empoeirada com um vestido antigo atrás do vidro','👗'],['Bicicleta enferrujada encostada numa parede azul desbotada','🚲'],['Gotas de chuva escorrendo pelo vidro de uma janela','🌧️'],['Banco de praça vazio sob um poste de luz âmbar','🪑'],['Gato de massinha abrigado sob uma varanda de madeira','🐈'],['Folhas secas girando numa poça entre pedras','🍂'],['Flor de argila esquecida num vaso rachado','🌷'],['Sapatos antigos abandonados junto à porta de casa','👞'],['Ponte de pedra com neblina sobre o rio','🌉'],['Barco pequeno de madeira preso ao cais chuvoso','⛵'],['Lanterna de querosene iluminando uma parede descascada','🏮'],['Cartas antigas amarradas com barbante sobre uma escrivaninha','✉️'],['Mulher de casaco antigo caminhando com guarda-chuva fechado','☂️'],['Roda de carroça parada junto a uma oficina antiga','🛞'],['Sombra de galhos se movendo numa fachada azul acinzentada','🌳'],['Janela com cortina de renda agitada pela brisa','🪟'],['Par de luvas de couro sobre um banco de madeira','🧤'],['Sino de bronze de uma igreja antiga sob chuva fina','🔔'],['Caminhonete velha estacionada diante de uma loja fechada','🛻'],['Pombo de argila bebendo água numa poça','🕊️'],['Mãos de uma senhora costurando um tecido gasto','🧵'],['Chaminé soltando fumaça suave sobre os telhados','🏠'],['Jornal antigo preso sob uma pedra no degrau','📰'],['Portão de ferro enferrujado entreaberto','🚪'],['Bule de metal gasto ao lado de duas xícaras','🫖'],['Luzes distantes refletidas no asfalto molhado','✨'],['Árvore sem folhas diante de uma casa vazia','🌲'],['Velho sapateiro trabalhando sob uma lâmpada fraca','🔨'],['Guarda-chuva esquecido numa cadeira de madeira','🌂'],['Vista ampla da rua antiga com a torre de água ao fundo','🏘️'],['Ponteiro de vitrola antiga girando sobre um disco','📀'],['Caixa de correio enferrujada junto ao portão','📮'],['Corda de varal com roupas antigas balançando ao vento','👕'],['Pequeno moinho de madeira ao lado do riacho','⚙️'],['Sombras de dois pássaros atravessando a parede','🐦'],['Sapateira antiga com botas enlameadas','🥾'],['Escadaria de pedra vazia iluminada por lampião','🪜'],['Pequena loja com letreiro apagado e vitrines molhadas','🏬'],['Folhas de jornal levadas pelo vento na praça','🗞️'],['Luz de uma única janela acesa no fim da rua','🕯️']];
 const storyBeats=[
@@ -21,11 +637,15 @@ const storyBeats=[
  'Desfecho: {ending}',
  'Plano final poético que encerra a história e seu sentimento'
 ];
-function modeChanged(){let story=$('creationMode').value==='story';$('storySettings').style.display=story?'block':'none';$('modeStatus').textContent=story?'Modo História: roteiro sequencial e continuidade de personagens.':'Modo Aleatório: cenas independentes, sem história.'}
-function storyIdea(i,n){let j=n<=1?16:Math.round(i*16/(n-1));return storyBeats[j].replaceAll('{hero}',$('storyHero').value).replaceAll('{goal}',$('storyGoal').value).replaceAll('{ending}',$('storyEnding').value)}
-function planAll(){if(!scenes.length)generate();if(!scenes.length)return;let count=scenes.filter(s=>!s.approved&&s.description).length;if(count&&!confirm('Substituir as descrições das cenas NÃO aprovadas por um roteiro variado? Cenas aprovadas serão preservadas.'))return;scenes.forEach((s,i)=>{if(s.approved)return;let idea=ideas[i%ideas.length];s.description=$('creationMode').value==='story'?storyIdea(i,scenes.length):idea[0];s.animation='';s.symbol=$('creationMode').value==='story'?'🎬':idea[1]});render();document.getElementById('gallery').scrollIntoView({behavior:'smooth',block:'start'})}
-function createAllPrompts(){scenes.forEach(s=>{if(!s.animation)s.animation=makePrompt(s)});render()}
-function makePrompt(s){return `Mode: ${$('creationMode').value==='story'?'continuous narrative, preserve character clothing and props':'independent music video vignette, no narrative'}. Handcrafted 3D claymation stop-motion, Estilo Barroso. Scene: ${s.description}. Gentle natural movement for slow melancholic blues, motion speed 2x. Preserve exact original subjects, rough hand-sculpted clay with fingerprints and matte texture, weathered blue-gray and dirty beige/brown colors, environment: ${$('setting').value}. Amber only in practical lamps. No rubber, plastic, gloss, extra subjects, camera cuts, or sudden transitions. 16:9.`}
+function modeChanged(){let story=getPlanningMode()==='story';$('storySettings').style.display=story?'block':'none';$('modeStatus').textContent=story?'Modo História: roteiro sequencial e continuidade de personagens.':'Modo Aleatório: cenas independentes, sem história.'}
+function storyIdea(i,n){if(getContentPrompt()){const beats=['Apresentar os personagens e o cenário descritos','Mostrar o que motiva os personagens','Mostrar uma primeira ação importante','Introduzir o desafio','Mostrar uma dificuldade ou conflito','Retratar a reação emocional','Mostrar uma tentativa de superação','Aprofundar o momento de reflexão','Revelar uma mudança ou descoberta','Caminhar para o desfecho','Mostrar o momento decisivo','Encerrar a história com seu significado'];const j=n<=1?beats.length-1:Math.round(i*(beats.length-1)/(n-1));return beats[j]+' da história: '+getContentPrompt().slice(0,260)}let j=n<=1?16:Math.round(i*16/(n-1));return storyBeats[j].replaceAll('{hero}',$('storyHero').value).replaceAll('{goal}',$('storyGoal').value).replaceAll('{ending}',$('storyEnding').value)}
+function planAll(){if(numberedSceneItems().length){generate();return;}if(!scenes.length)generate();if(!scenes.length)return;let count=scenes.filter(s=>!s.approved&&s.description).length;if(count&&!confirm('Substituir as descrições das cenas NÃO aprovadas por um roteiro variado? Cenas aprovadas serão preservadas.'))return;scenes.forEach((s,i)=>{if(s.approved||s.locked||s.image||s.videoId||s.driveId)return;let idea=ideas[i%ideas.length],free=hasDirectorPrompts();s.description=getPlanningMode()==='story'?(free&&creativeSceneIdeas().length?creativeSceneIdea(i):storyIdea(i,scenes.length)):(free?creativeSceneIdea(i):idea[0]);delete s.sceneSource;delete s.originalNumber;if(!s.animation||isAutoFlow(s.animation))s.animation='';s.symbol=free||getPlanningMode()==='story'?'🎬':idea[1]});render();if(hasDirectorPrompts())showPlanMessage('✓ Assuntos não protegidos replanejados com o prompt escolhido. Imagens/vídeos existentes foram mantidos.');document.getElementById('gallery').scrollIntoView({behavior:'smooth',block:'start'})}
+function createAllPrompts(){scenes.forEach(s=>{if(!s.locked&&(!s.animation||isAutoFlow(s.animation)))s.animation=makePrompt(s)});render()}
+function isAutoFlow(t){return /^Mode: (continuous narrative|independent music video vignette)/.test((t||'').trim())}
+function makePrompt(s){if(hasDirectorPrompts())return creativeAnimationPrompt(s);return `Mode: ${getPlanningMode()==='story'?'continuous narrative, preserve character clothing and props':'independent music video vignette, no narrative'}. Scene: ${s.description}. Gentle natural movement for slow melancholic blues, motion speed 2x. Preserve exactly the subjects and composition in the imported image, with subtle stop-motion movements, no new subjects, camera cuts or sudden transitions. 16:9.\n\nCURRENT APPROVED TWIN VISUAL STYLE (preserve throughout animation):\n${visualStyle()}\n\nProject palette: ${$('palette').value}. Environment: ${$('setting').value}. Reference image is for style only, never copy its specific objects or characters.`}
+function currentFlow(s){return !s.animation || isAutoFlow(s.animation) ? makePrompt(s) : s.animation}
+function refreshTwinPrompts(){document.querySelectorAll('.scene').forEach((div)=>{const s=div.__sceneRef;if(!s)return;const preview=div.querySelector('.imagePreview');if(preview)preview.value=makeImagePrompt(s);if(isAutoFlow(s.animation)){s.animation=makePrompt(s);const flow=div.querySelector('.animation');if(flow)flow.value=s.animation}});}
+
 
 function visualStyle(){
  const approved=$('twin').value.trim();
@@ -33,19 +653,43 @@ function visualStyle(){
  return approved || base;
 }
 function makeImagePrompt(s){
- const story=$('creationMode').value==='story';
+ if(hasDirectorPrompts())return creativeImagePrompt(s);
+ const story=getPlanningMode()==='story';
  const palette=$('palette').value;
  return `SCENE SUBJECT — THE ONLY CONTENT TO DEPICT:\n${s.description}.\n\nLOCKED VISUAL STYLE — TRANSFER MATERIALS, COLOR, LIGHTING AND CRAFT ONLY, NEVER SUBJECTS FROM THE REFERENCE:\n${visualStyle()}\n\nCOLOR PRIORITY: predominantly cool slate blue-gray, restrained muted brown and beige. Warm amber ONLY in small practical light sources; do not tint the whole scene orange. Project palette: ${palette}.\nPROJECT MOOD: ${$('mood').value}.\nPROJECT SETTING (atmosphere only; do not add unrelated objects): ${$('setting').value}.\n\n${story?`STORY MODE: preserve recurring character identity, clothing, props and locations when the scene explicitly involves them. Main character: ${$('storyHero').value}. Goal: ${$('storyGoal').value}.`: 'RANDOM MUSIC VIDEO MODE: independent shot; do not invent narrative continuity or repeat the previous scene’s characters or props unless explicitly requested.'}\n\nABSOLUTE SUBJECT CHECK: The final image MUST depict exactly the SCENE SUBJECT named in the first section. Do not replace a train with a truck, or any object with an object from a previous prompt. If the scene says train, show a locomotive on rails; if it says cups, show cups. Every element must be recognizably hand-sculpted clay, including wheels, windows, rain and surfaces. NO photographic realism.\n\nCRITICAL: The reference image is a STYLE REFERENCE, NOT A CONTENT REFERENCE. Never copy its musician, dog, mug, lantern, guitar, water tower, buildings or composition unless the current scene specifically asks for them. Depict the subject described at the top. All subjects and surroundings must have the SAME handmade matte-clay finish. No text, no collage, one shot, cinematic 16:9.`;
 }
 function copyText(t,ok){if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(()=>alert(ok)).catch(()=>fallbackCopy(t))}else fallbackCopy(t)}
 function fallbackCopy(t){let a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='0';a.style.opacity='0';document.body.appendChild(a);a.focus();a.select();a.setSelectionRange(0,a.value.length);let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();alert(ok?'Texto copiado!':'Não foi possível copiar automaticamente. Abra a prévia do prompt e selecione o texto para copiar.')}
 function copyImagePrompts(){copyText(scenes.map((s,i)=>`CENA ${String(i+1).padStart(2,'0')} (${time(i*(Number($('seconds').value)||6))})\\n${makeImagePrompt(s)}`).join('\\n\\n'),'Prompts de imagem copiados!')}
-function setTwinLock(){let locked=$('styleLocked').checked;$('twin').readOnly=locked;$('twinStatus').textContent=locked?'Estilo gêmeo bloqueado para edição. Os prompts de cena usarão este padrão.':'Estilo desbloqueado para revisão.'}
+function applyTwinStyle(){
+ const addition=$('twinAddition').value.trim();
+ if(addition){
+   if($('styleLocked').checked){alert('Desbloqueie a identidade visual antes de acrescentar novas instruções.');return}
+   const existing=$('twin').value.trim();
+   $('twin').value=existing?(existing.includes(addition)?existing:existing+'\n\n'+addition):addition;
+   $('twinAddition').value='';
+ }
+ if(!$('twin').value.trim()){alert('Escreva ou crie primeiro o Prompt Gêmeo Visual.');return}
+ let refreshed=0, preserved=0;
+ scenes.forEach(scene=>{
+   if(!scene.animation || isAutoFlow(scene.animation)){
+     scene.animation=makePrompt(scene);
+     refreshed++;
+   }else preserved++;
+ });
+ refreshTwinPrompts();
+ render();
+ scheduleSave();
+ $('twinStatus').textContent='✓ Estilo atualizado em '+scenes.length+' cenas (Gemini) e '+refreshed+' prompts Flow. '+preserved+' prompts Flow personalizados preservados.';
+ alert('Estilo aplicado! '+scenes.length+' cenas Gemini atualizadas e '+refreshed+' prompts Flow atualizados.');
+}
+function setTwinLock(){let locked=$('styleLocked').checked;$('twin').readOnly=locked;$('twinStatus').textContent=locked?'Estilo gêmeo bloqueado para edição. Os prompts de cena usarão este padrão atualizado.':'Estilo desbloqueado para revisão.';refreshTwinPrompts()}
 function buildTwin(){if($('styleLocked').checked){alert('Desbloqueie o estilo para editar.');return}if(!refImage){alert('Escolha primeiro uma imagem de referência.');return}
 $('twin').value=`HANDCRAFTED RUSTIC CLAYMATION STOP-MOTION MINIATURE AESTHETIC. Every visible person, animal, building, vehicle, tree, street and object is sculpted from matte clay, with strongly visible fingerprints, pressed thumb marks, uneven sculpted seams, rough clay grains, small cracks, pores, irregular handmade edges and subtle weathering. Even apparent wood, metal, glass, fabric, smoke and water must visibly be made of clay. Dominant cool desaturated slate-blue and blue-gray, muted dirty beige and weathered brown as secondary colors. Small isolated warm amber ONLY from practical lanterns, windows and lamps; NEVER an overall orange color cast. Overcast cinematic lighting, soft rain atmosphere when appropriate to the scene, shallow depth of field, miniature realism, 16:9. Use the supplied reference solely for MATERIAL, TEXTURE, COLOR HARMONY, LIGHT and HANDCRAFTED FINISH. NEVER reproduce its specific characters, animals, instruments, objects, buildings or composition unless the scene asks for them. No glossy plastic, rubber, polished CGI or saturated colors.`;
-$('twinStatus').textContent='Estilo-base V7 criado. Revise e bloqueie quando aprovado. O assunto da referência NÃO será copiado.'}
+$('twinStatus').textContent='Estilo-base V13 criado. Revise e bloqueie quando aprovado. O assunto da referência NÃO será copiado.';refreshTwinPrompts()}
+function renderReferenceSwatches(){const colors=($('hexPalette').value||'').match(/#[0-9a-fA-F]{6}/g)||[];$('extractedSwatches').innerHTML=colors.map(c=>`<i title="${c}" style="background:${c};height:30px"></i>`).join('')}
 async function extractPalette(){if(!refImage){alert('Selecione primeiro a imagem de referência.');return}
-try{const img=new Image();img.src=refImage;await img.decode();const c=document.createElement('canvas');c.width=160;c.height=100;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,160,100);const data=ctx.getImageData(0,0,160,100).data;const buckets=new Map();for(let i=0;i<data.length;i+=16){if(data[i+3]<240)continue;const r=Math.min(255,Math.round(data[i]/24)*24),g=Math.min(255,Math.round(data[i+1]/24)*24),b=Math.min(255,Math.round(data[i+2]/24)*24);const k=[r,g,b].map(x=>Math.min(255,x).toString(16).padStart(2,'0')).join('');buckets.set(k,(buckets.get(k)||0)+1)}const ranked=[...buckets.entries()].sort((a,b)=>b[1]-a[1]);const selected=[];for(const [k] of ranked){const rgb=[0,2,4].map(j=>parseInt(k.slice(j,j+2),16));if(selected.every(v=>{const q=[0,2,4].map(j=>parseInt(v.slice(j,j+2),16));return Math.hypot(...rgb.map((n,i)=>n-q[i]))>52}))selected.push(k);if(selected.length===8)break}const colors=selected.map(k=>'#'+k);$('hexPalette').value=colors.join(', ');$('palette').value=colors.join(', ');$('extractedSwatches').innerHTML=colors.map(color=>`<i title="${color}" style="background:${color};height:42px"></i>`).join('');$('twinStatus').textContent='Cores extraídas da imagem. Revise antes de bloquear o estilo.'}catch(e){alert('Não foi possível ler a imagem para extrair as cores.')}}
+try{const img=new Image();img.src=refImage;await img.decode();const c=document.createElement('canvas');c.width=160;c.height=100;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,160,100);const data=ctx.getImageData(0,0,160,100).data;const buckets=new Map();for(let i=0;i<data.length;i+=16){if(data[i+3]<240)continue;const r=Math.min(255,Math.round(data[i]/24)*24),g=Math.min(255,Math.round(data[i+1]/24)*24),b=Math.min(255,Math.round(data[i+2]/24)*24);const k=[r,g,b].map(x=>Math.min(255,x).toString(16).padStart(2,'0')).join('');buckets.set(k,(buckets.get(k)||0)+1)}const ranked=[...buckets.entries()].sort((a,b)=>b[1]-a[1]);const selected=[];for(const [k] of ranked){const rgb=[0,2,4].map(j=>parseInt(k.slice(j,j+2),16));if(selected.every(v=>{const q=[0,2,4].map(j=>parseInt(v.slice(j,j+2),16));return Math.hypot(...rgb.map((n,i)=>n-q[i]))>52}))selected.push(k);if(selected.length===8)break}const colors=selected.map(k=>'#'+k);$('hexPalette').value=colors.join(', ');$('palette').value=colors.join(', ');$('extractedSwatches').innerHTML=colors.map(color=>`<i title="${color}" style="background:${color};height:42px"></i>`).join('');$('twinStatus').textContent='Cores extraídas da referência e incorporadas ao Prompt 1.';updatePromptOnePreview();refreshTwinPrompts();scheduleSave();}catch(e){alert('Não foi possível ler a imagem para extrair as cores.')}}
 function storyboardSvg(s,i){
   const d=(s.description||'').toLowerCase(), esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let subject='';
@@ -76,36 +720,136 @@ function storyboardSvg(s,i){
 function renderGallery(){
  const g=$('gallery');g.innerHTML='';
  scenes.forEach((s,i)=>{
- const b=document.createElement('button');b.className='tile'+(s.approved?' ok':'');
+ const b=document.createElement('button');b.type='button';b.className='tile'+(s.approved?' ok':'')+(i===activeSceneIndex?' active':'');
+ b.setAttribute('aria-pressed',i===activeSceneIndex?'true':'false');
+ b.setAttribute('aria-label','Cena '+(i+1)+(i===activeSceneIndex?', edição aberta':', abrir edição'));
  const art=document.createElement('div');art.className='art';
- if(s.image){const im=document.createElement('img');im.src=s.image;art.appendChild(im)}
- else art.innerHTML=storyboardSvg(s,i);
+ if(s.image && !s.imageOutdated){const im=document.createElement('img');im.src=s.image;art.appendChild(im)}
+ else if(s.image && s.imageOutdated){art.classList.add('freePromptArt');art.innerHTML='<span style="font-size:26px">⚠️</span><span style="font-size:11px;opacity:.95;text-align:center;padding:0 6px">Imagem anterior preservada — precisa ser trocada</span>';art.style.flexDirection='column';}
+ else if(hasDirectorPrompts()){art.classList.add('freePromptArt');art.innerHTML='<span style="font-size:28px;opacity:.75">🎬</span><span style="font-size:10px;letter-spacing:.02em;opacity:.85">Imagem ainda não gerada</span>';art.style.flexDirection='column';}else art.innerHTML=storyboardSvg(s,i);
  const t=document.createElement('div');t.className='txt';const label=document.createElement('b');
- label.textContent=`Cena ${i+1} · ${time(i*(Number($('seconds').value)||6))}`+(s.approved?' ✓':'');
+ label.textContent=`Cena ${i+1} · ${time(i*(Number($('seconds').value)||6))}`+((s.videoId||s.driveId)?' 🎬':'')+(s.approved?' ✓':'');
  const desc=document.createElement('span');desc.textContent=s.description||'Sem descrição';
  t.append(label,desc);b.append(art,t);
  b.onclick=()=>openEditor(i);g.appendChild(b);
- })
+ });
 }
 function openEditor(i){
- const spot=$('editorSpot'),el=document.querySelectorAll('.scene')[i];
- if(!el)return;
- document.querySelectorAll('.scene').forEach(e=>e.classList.remove('selected'));
- el.classList.add('selected');spot.innerHTML='';
- spot.appendChild(el);
- spot.scrollIntoView({behavior:'smooth',block:'start'});
+ if(i<0||i>=scenes.length)return;
+ activeSceneIndex=activeSceneIndex===i?-1:i;
+ render();
+ if(activeSceneIndex>=0){const e=$('scenes');e.scrollIntoView({behavior:'smooth',block:'start'});}
 }
-function getInfo(){return Object.fromEntries(['song','duration','seconds','mood','setting','palette','creationMode','storyHero','storyGoal','storyEnding'].map(k=>[k,$(k).value]))}function setInfo(o){Object.keys(o||{}).forEach(k=>{if($(k))$(k).value=o[k]});modeChanged()}function time(s){let n=Math.floor(s);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}function durationSeconds(){let m=$('duration').value.trim().match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0}function defaultScene(i){return {description:ideas[i%ideas.length][0],animation:'',image:'',approved:false,symbol:ideas[i%ideas.length][1]}}function generate(){let dur=durationSeconds(),step=Number($('seconds').value);if(!dur||!step||step<1){alert('Informe uma duração válida (mm:ss) e segundos por cena.');return}let count=Math.ceil(dur/step);if(count>500){alert('Limite de 500 cenas.');return}scenes=Array.from({length:count},(_,i)=>scenes[i]||defaultScene(i));render()}function addScene(){scenes.push(defaultScene(scenes.length));render()}function removeScene(i){if(confirm('Excluir esta cena?')){scenes.splice(i,1);render()}}function moveScene(i,delta){let j=i+delta;if(j<0||j>=scenes.length)return;[scenes[i],scenes[j]]=[scenes[j],scenes[i]];render()}function update(i,key,value){scenes[i][key]=value;if(key==='approved')renderCount()}function renderCount(){let n=scenes.filter(s=>s.approved).length;$('count').textContent=`${scenes.length} cenas • ${n} aprovadas • ${scenes.length-n} a revisar`}
-function render(){if(!restoring)scheduleSave();const root=$('scenes');$('editorSpot').innerHTML='';root.innerHTML='';let step=Number($('seconds').value)||6,dur=durationSeconds();scenes.forEach((s,i)=>{let div=document.createElement('div');div.className='scene';let start=i*step,end=dur?Math.min((i+1)*step,dur):(i+1)*step;div.innerHTML=`<div class="scenehead"><h3>Cena ${i+1} <small class="tiny">${time(start)}–${time(end)}</small></h3><span class="tiny">${s.approved?'✓ Aprovada':'A revisar'}</span></div><img class="thumb" alt="Miniatura da cena" style="${s.image?'':'display:none'}"><div class="tiny" style="${s.image?'display:none':''}">Sem miniatura — adicione uma imagem se desejar.</div><label>Miniatura / imagem da cena</label><input type="file" accept="image/*" class="imagefile"><label>Assunto exclusivo desta cena (confira antes de copiar)</label><textarea class="description"></textarea><div class="tiny sceneSubject" style="padding:8px;border-left:3px solid #b39a75;margin:6px 0"></div><details class="promptPreview"><summary style="cursor:pointer;color:#dfc5a0;padding:8px 0">👁️ Ver exatamente o prompt de IMAGEM que será copiado</summary><textarea class="imagePreview" readonly rows="8" style="min-height:170px"></textarea></details><label>Prompt de animação Flow (2×)</label><textarea class="animation"></textarea><label><input class="approved" type="checkbox" style="width:auto"> Cena aprovada</label><div class="actions"><button class="secondary up">↑</button><button class="secondary down">↓</button><button class="secondary imageprompt">📷 Copiar IMAGEM (Gemini)</button><button class="secondary gemini">🌐 Abrir Gemini</button><button class="secondary importimage">📥 Importar imagem</button><button class="secondary prompt">🎞️ Criar ANIMAÇÃO (Flow)</button><button class="secondary copy">🎞️ Copiar ANIMAÇÃO (Flow)</button><button class="secondary delete">Excluir</button></div>`;div.querySelector('.description').value=s.description;div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+s.description;div.querySelector('.animation').value=s.animation;div.querySelector('.imagePreview').value=makeImagePrompt(s);div.querySelector('.approved').checked=s.approved;const img=div.querySelector('img');if(s.image)img.src=s.image;div.querySelector('.description').oninput=e=>{update(i,'description',e.target.value);div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+e.target.value;div.querySelector('.imagePreview').value=makeImagePrompt(s);s.animation='';div.querySelector('.animation').value='';renderGallery()};div.querySelector('.animation').oninput=e=>update(i,'animation',e.target.value);div.querySelector('.approved').onchange=e=>{update(i,'approved',e.target.checked);renderGallery()};div.querySelector('.up').onclick=()=>moveScene(i,-1);div.querySelector('.down').onclick=()=>moveScene(i,1);div.querySelector('.delete').onclick=()=>removeScene(i);div.querySelector('.imageprompt').onclick=()=>{if(!s.description.trim()){alert('Preencha o assunto da cena antes de copiar.');return}const exact=makeImagePrompt(s);div.querySelector('.imagePreview').value=exact;copyText(exact,'IMAGEM da cena '+(i+1)+' copiada! Assunto: '+s.description)};div.querySelector('.gemini').onclick=()=>window.open('https://gemini.google.com/app','_blank','noopener,noreferrer');div.querySelector('.importimage').onclick=()=>div.querySelector('.imagefile').click();div.querySelector('.prompt').onclick=()=>{let prompt=makePrompt(s);s.animation=prompt;div.querySelector('.animation').value=prompt};div.querySelector('.copy').onclick=()=>{if(!s.animation.trim()){alert('Primeiro toque em Criar ANIMAÇÃO (Flow) ou escreva o prompt de animação.');return}copyText(s.animation,'ANIMAÇÃO Flow da cena '+(i+1)+' copiada!')};div.querySelector('.imagefile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{s.image=reader.result;render();scheduleSave()};reader.readAsDataURL(file)};root.appendChild(div)});renderCount();renderGallery()}
-function data(){return {version:11,app:'Planejador Estilo Barroso',info:getInfo(),reference:refImage,twin:$('twin').value,hexPalette:$('hexPalette').value,styleLocked:$('styleLocked').checked,scenes}}function download(name,content,type){let url=URL.createObjectURL(new Blob([content],{type}));let a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function exportJSON(){download('Projeto_Estilo_Barroso.json',JSON.stringify(data(),null,2),'application/json')}function exportTXT(){let o=getInfo(),step=Number(o.seconds)||6;let lines=[`MÚSICA: ${o.song}`,`DURAÇÃO: ${o.duration}`,`CLIMA: ${o.mood}`,`AMBIENTE: ${o.setting}`,`CORES: ${o.palette}`,`MODO: ${$('creationMode').value==='story'?'História':'Aleatório'}`,'ESTILO: massinha 3D artesanal, fosca, textura marcada, 16:9',''];scenes.forEach((s,i)=>{lines.push(`CENA ${i+1} | ${time(i*step)}–${time(Math.min((i+1)*step,durationSeconds()||99999))} | ${s.approved?'APROVADA':'REVISAR'}`,`Imagem: ${s.description}`,`Prompt de imagem V9: ${makeImagePrompt(s)}`,`Flow: ${s.animation}`,'')});download('Roteiro_Estilo_Barroso.txt',lines.join('\n'),'text/plain;charset=utf-8')}function saveLocal(){persistNow().then(()=>alert('Projeto salvo automaticamente neste aparelho!')).catch(()=>alert('Falha no armazenamento. Baixe o backup JSON.'))}function load(o){setInfo(o.info||{});scenes=o.scenes||[];refImage=o.reference||'';$('twin').value=o.twin||'';$('hexPalette').value=o.hexPalette||'';$('styleLocked').checked=!!o.styleLocked;setTwinLock();if(o.version<7 && /elderly man with|hound dog sleeps|he wears a rolled-up|as he plays a weathered/i.test($('twin').value)){$('styleLocked').checked=false;setTwinLock();$('twinStatus').textContent='ATENÇÃO: o estilo antigo parece descrever personagens. Toque em Criar prompt gêmeo (só estilo) e bloqueie novamente.'}$('referencePreview').src=refImage;$('referencePreview').style.display=refImage?'block':'none';render()}$('batchImages').onchange=async e=>{
+function getInfo(){return Object.fromEntries(['song','duration','seconds','mood','setting','palette','creationMode','storyHero','storyGoal','storyEnding'].map(k=>[k,$(k).value]))}function setInfo(o){Object.keys(o||{}).forEach(k=>{if($(k))$(k).value=o[k]});modeChanged()}function time(s){let n=Math.floor(s);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}function durationSeconds(){let m=$('duration').value.trim().match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0}function defaultScene(i){return {locked:false,videoId:'',videoName:'',driveId:'',description:hasDirectorPrompts()?creativeSceneIdea(i):ideas[i%ideas.length][0],animation:'',image:'',approved:false,symbol:hasDirectorPrompts()?'🎬':ideas[i%ideas.length][1]}}/* V30: media-only scenes can receive new numbered text without losing the image.
+   Incompatible media is marked outdated; locked/approved/video scenes remain protected.
+   The user must not see an old thumbnail pretending to represent the new prompt. */
+function protectNumberedImport(s){return !!(s && (s.locked || s.approved || s.videoId || s.driveId));}
+function generate(){
+ const numbered=numberedSceneData();
+ if(numbered.length){
+  const target=numbered.length, old=scenes;
+  if(old.length>target&&old.slice(target).some(protectSceneFromReplan)){
+   alert(`A lista tem ${target} cenas, mas há cenas protegidas além desse total. Desbloqueie-as ou salve outro projeto primeiro.`);return;
+  }
+  const mismatches=numbered.filter((item,i)=>old[i] && old[i].description?.trim()!==item.description.trim());
+  const blocked=numbered.filter((item,i)=>old[i] && protectNumberedImport(old[i]) && old[i].description?.trim()!==item.description.trim()).length;
+  const imagesToReview=numbered.filter((item,i)=>old[i]?.image && !protectNumberedImport(old[i]) && old[i].description?.trim()!==item.description.trim()).length;
+  if(mismatches.length && !confirm(`Importar ${target} cenas numeradas? ${mismatches.length} assuntos são diferentes dos atuais. ${imagesToReview} imagem(ns) antiga(s) serão PRESERVADAS e marcadas para revisão, sem serem usadas como miniatura nova.${blocked?' ATENÇÃO: '+blocked+' cena(s) bloqueada(s), aprovada(s) ou com vídeo permanecerão antigas; desbloqueie-as para atualizar.':''} Continuar?`))return;
+  let updated=0, unchangedProtected=0, staleImages=0;
+  scenes=numbered.map((item,i)=>{
+   const prior=old[i];
+   const changed=!!prior && prior.description?.trim()!==item.description.trim();
+   if(prior&&protectNumberedImport(prior)&&changed){unchangedProtected++;return prior;}
+   const result={...(prior||defaultScene(i)),description:item.description,sceneSource:item.sceneSource,originalNumber:item.originalNumber,symbol:'🎬'};
+   if(changed){
+    updated++;
+    if(result.image){result.imageOutdated=true;staleImages++;}
+    if(!result.animation||isAutoFlow(result.animation)){result.animation='';result.animationOutdated=false;}
+    else result.animationOutdated=true;
+   }
+   return result;
+  });
+  if(activeSceneIndex>=scenes.length)activeSceneIndex=-1;
+  render();
+  const numbers=numbered.map(x=>x.originalNumber), missing=[];
+  for(let i=1;i<numbers.length;i++)if(numbers[i]!==numbers[i-1]+1)missing.push(numbers[i-1]+'→'+numbers[i]);
+  showPlanMessage('✓ Lista de '+target+' cenas processada; '+(target-unchangedProtected)+' sincronizadas com o texto do Prompt 2.'+(staleImages?' ⚠ '+staleImages+' imagem(ns) antigas preservadas e marcadas para troca.':'')+(unchangedProtected?' ⚠ '+unchangedProtected+' cena(s) protegida(s) NÃO foram alteradas.':'')+(missing.length?' Confira números: '+missing.slice(0,8).join(', '):'')+' Duração sugerida: '+time(target*(Number($('seconds').value)||6))+'.');
+  contentSceneModeChanged();return;
+ }
+ let dur=durationSeconds(),step=Number($('seconds').value);
+ if(!dur||!step||step<1){alert('Informe uma duração válida (mm:ss) e segundos por cena.');return}
+ let count=Math.ceil(dur/step);if(count>500){alert('Limite de 500 cenas.');return}
+ if(scenes.length>count&&scenes.slice(count).some(protectSceneFromReplan)){alert('Há cenas protegidas depois do novo limite. Aumente a duração, ou desbloqueie-as antes de gerar. Nenhuma mídia foi removida.');return}
+ let replaced=0;const old=scenes;
+ const changeExisting=hasDirectorPrompts()&&old.some((s,i)=>i<count&&!protectSceneFromReplan(s)&&s.description!==creativeSceneIdea(i));
+ if(changeExisting&&!confirm('Gerar novos assuntos para as cenas não protegidas? Imagens, vídeos e cenas bloqueadas ou aprovadas serão preservados.'))return;
+ scenes=Array.from({length:count},(_,i)=>{
+  const s=old[i]||defaultScene(i);
+  if(hasDirectorPrompts()&&(!old[i]||!protectSceneFromReplan(s))){
+   s.description=creativeSceneIdea(i);delete s.sceneSource;delete s.originalNumber;
+   if(!s.animation||isAutoFlow(s.animation))s.animation='';s.symbol='🎬';replaced++
+  }
+  return s;
+ });render();
+ if(hasDirectorPrompts())showPlanMessage(replaced?'✓ '+replaced+' assuntos antigos substituídos pelo novo prompt. Cenas editadas ou com mídia foram preservadas.':'✓ Cenas aleatórias criadas. Os temas podem variar; cenas protegidas foram preservadas.');
+}
+function addScene(){scenes.push(defaultScene(scenes.length));render()}function removeScene(i){if(scenes[i]?.locked){alert('Desbloqueie a cena antes de excluir.');return}if(confirm('Excluir esta cena?')){scenes.splice(i,1);activeSceneIndex=-1;render()}}function moveScene(i,delta){let j=i+delta;if(scenes[i]?.locked||scenes[j]?.locked){alert('Desbloqueie as cenas antes de mudar a ordem.');return}if(j<0||j>=scenes.length)return;[scenes[i],scenes[j]]=[scenes[j],scenes[i]];activeSceneIndex=j;render()}function update(i,key,value){if(scenes[i]?.locked)return;scenes[i][key]=value;if(key==='approved')renderCount()}function renderCount(){let n=scenes.filter(s=>s.approved).length,vid=scenes.filter(s=>s.videoId||s.driveId).length;$('count').textContent=`${scenes.length} cenas • ${n} aprovadas • ${vid} vídeos anexados • ${scenes.length-vid} aguardando vídeo`}
+function escapeHtml(t){return String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){if(!restoring)scheduleSave();if(activeSceneIndex>=scenes.length)activeSceneIndex=-1;const root=$('scenes');root.innerHTML='';let step=Number($('seconds').value)||6,dur=durationSeconds();scenes.forEach((s,i)=>{if(i!==activeSceneIndex)return;let div=document.createElement('div');div.className='scene'+(s.locked?' locked':'');let start=i*step,end=dur?Math.min((i+1)*step,dur):(i+1)*step;div.innerHTML=`<div class="scenehead"><h3>Cena ${i+1} <small class="tiny">${time(start)}–${time(end)}</small></h3><span class="tiny">${s.locked?'🔒 Protegida':(s.approved?'✓ Aprovada':'A revisar')}</span></div><button type="button" class="lockscene">${s.locked?'🔓 Desbloquear cena':'🔒 Bloquear cena pronta'}</button><img class="thumb" alt="Miniatura da cena" style="${s.image?'':'display:none'}"><div class="tiny" style="${s.image?'display:none':''}">Sem miniatura — adicione uma imagem se desejar.</div><div class="oldMediaWarning" style="${s.imageOutdated?'':'display:none'}">⚠ Esta imagem pertence ao conteúdo anterior e foi preservada. Gere ou importe uma imagem correta para esta cena antes de animá-la.</div><div class="oldMediaWarning" style="${s.animationOutdated?'':'display:none'}">⚠ A animação manual também pertence ao conteúdo anterior. Toque em Criar ANIMAÇÃO para atualizá-la.</div><label>Miniatura / imagem da cena</label><input type="file" accept="image/*" class="imagefile"><div class="sceneMedia"><b>🎬 Vídeo animado desta cena</b><div class="videoStatus ${s.videoId||s.driveId?'':'pending'}">${s.driveId?'✓ ☁️ Vídeo no Drive: '+escapeHtml(s.videoName||'MP4'):s.videoId?'✓ Vídeo local: '+escapeHtml(s.videoName||'MP4'):'Aguardando vídeo do Flow'}</div><video class="videoPreview" controls playsinline preload="metadata" style="${s.videoId||s.driveId?'':'display:none'}"></video><div class="videoControls" style="${s.videoId||s.driveId?'':'display:none'}"><button type="button" class="secondary playvideo">▶ Reproduzir</button><button type="button" class="secondary pausevideo">⏸ Pausar</button><button type="button" class="secondary openvideo">⛶ Abrir vídeo</button></div><div class="tiny videoHelp" aria-live="polite"></div><input type="file" accept="video/mp4,video/webm,.mp4,.webm" class="videofile" style="display:none"><div class="actions"><button type="button" class="secondary importvideo">📥 Adicionar / trocar vídeo</button><button type="button" class="secondary removevideo" ${s.videoId||s.driveId?'':'disabled'}>🗑️ Remover vídeo</button><button type="button" class="secondary senddrive">☁️ Enviar vídeo para o Drive</button></div><p class="tiny">O vídeo é guardado separado das imagens e dos backups JSON, para não sobrecarregar o projeto.</p></div><label>Assunto exclusivo desta cena (confira antes de copiar)</label><textarea class="description"></textarea><div class="tiny sceneSubject" style="padding:8px;border-left:3px solid #b39a75;margin:6px 0"></div><details class="promptPreview"><summary style="cursor:pointer;color:#dfc5a0;padding:8px 0">👁️ Ver exatamente o prompt de IMAGEM que será copiado</summary><textarea class="imagePreview" readonly rows="8" style="min-height:170px"></textarea></details><label>Prompt de animação Flow (2×)</label><textarea class="animation"></textarea><label><input class="approved" type="checkbox" style="width:auto"> Cena aprovada</label><div class="actions"><button class="secondary up">↑</button><button class="secondary down">↓</button><button class="secondary imageprompt">📷 Copiar IMAGEM (Gemini)</button><button class="secondary gemini">🌐 Abrir Gemini</button><button class="secondary importimage">📥 Importar imagem</button><button class="secondary prompt">🎞️ Criar ANIMAÇÃO (Flow)</button><button class="secondary copy">🎞️ Copiar ANIMAÇÃO (Flow)</button><button class="secondary delete">Excluir</button></div>`;const lockBtn=div.querySelector('.lockscene');lockBtn.onclick=()=>{if(s.locked){if(!confirm('Desbloquear esta cena para permitir alterações?'))return;s.locked=false}else{if(!confirm('Bloquear esta cena pronta? Imagem, vídeo, textos e ordem ficarão protegidos até desbloquear.'))return;s.locked=true}render();persistNow().catch(()=>{})};const player=div.querySelector('video');const help=div.querySelector('.videoHelp');div.querySelector('.playvideo').onclick=async()=>{try{if(!player.src&&(s.videoId||s.driveId))await loadSceneVideoPreview(s,player);await player.play();help.textContent='▶ Reproduzindo vídeo.'}catch(err){help.textContent='⚠️ Não foi possível reproduzir: '+err.message+' — tente Abrir vídeo.'}};div.querySelector('.pausevideo').onclick=()=>{player.pause();help.textContent='⏸ Vídeo pausado.'};div.querySelector('.openvideo').onclick=async()=>{try{if(!player.src&&(s.videoId||s.driveId))await loadSceneVideoPreview(s,player);if(!player.src)throw Error('vídeo não encontrado');const overlay=document.createElement('div');overlay.className='bigVideoOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-label','Vídeo ampliado');const large=document.createElement('video');large.controls=true;large.playsInline=true;large.src=player.src;large.currentTime=player.currentTime||0;const actions=document.createElement('div');actions.className='actions';const close=document.createElement('button');close.textContent='✕ Fechar tela grande';const full=document.createElement('button');full.textContent='⛶ Tela cheia';full.className='secondary';actions.append(full,close);overlay.append(large,actions);document.body.appendChild(overlay);player.pause();const finish=()=>{large.pause();overlay.remove();};close.onclick=finish;full.onclick=async()=>{try{if(large.webkitEnterFullscreen){large.webkitEnterFullscreen()}else if(large.requestFullscreen){await large.requestFullscreen()}else{help.textContent='Visualização ampliada aberta.'}}catch(e){help.textContent='Tela cheia não permitida neste navegador. Use a visualização ampliada.'}};overlay.onclick=e=>{if(e.target===overlay)finish()};large.play().catch(()=>{});help.textContent='Vídeo aberto em visualização ampliada.'}catch(err){help.textContent='⚠️ '+err.message}};player.addEventListener('error',()=>{help.textContent='⚠️ O navegador não conseguiu abrir este formato de vídeo. Confira se o MP4 usa H.264.'});div.querySelector('.importvideo').onclick=()=>div.querySelector('.videofile').click();div.querySelector('.removevideo').onclick=()=>{if(!s.videoId&&!s.driveId&&!temporaryVideos.has(s))return;if(!confirm('Remover o vídeo desta cena? A imagem e os prompts serão mantidos.'))return;const temp=temporaryVideos.get(s);if(temp){URL.revokeObjectURL(temp.url);temporaryVideos.delete(s)}const id=s.videoId;s.videoId='';s.driveId='';s.videoName='';render();if(id)deleteVideo(id).catch(()=>{});persistNow().catch(()=>{});queueDriveSync()};div.querySelector('.senddrive').onclick=async()=>{
+ if(s.locked){help.textContent='Desbloqueie a cena antes de enviar um vídeo.';return}
+ if(!driveReady()){help.textContent='Conecte o Google Drive primeiro.';return}
+ const temp=temporaryVideos.get(s);
+ try{
+  let file=temp?.file;
+  if(!file&&s.videoId)file=await libraryGet('videos',s.videoId);
+  if(!file){help.textContent='Selecione novamente o MP4 original para enviá-lo ao Drive.';div.querySelector('.videofile').click();return}
+  await saveSceneVideoToDrive(s,file,div);
+ }catch(err){help.textContent='⚠️ '+err.message;}
+};
+div.querySelector('.videofile').onchange=async e=>{
+ const input=e.target;
+ const file=input.files&&input.files[0];
+ if(!file)return;
+ const status=div.querySelector('.videoStatus');
+ if(!(/\.(mp4|webm)$/i.test(file.name)||/^video\/(mp4|webm)$/.test(file.type))){status.textContent='⚠️ Escolha MP4 ou WebM.';input.value='';return}
+ const previous=temporaryVideos.get(s);
+ if(previous)URL.revokeObjectURL(previous.url);
+ const url=URL.createObjectURL(file),ticket={url,file};
+ temporaryVideos.set(s,ticket);
+ const vid=div.querySelector('video');
+ vid.src=url;vid.style.display='block';vid.load();
+ div.querySelector('.videoControls').style.display='flex';
+ div.querySelector('.removevideo').disabled=false;
+ input.value='';
+ if(driveReady()){
+  try{await saveSceneVideoToDrive(s,file,div)}
+  catch(err){status.textContent='⚠️ Drive não concluiu o upload: '+err.message+' — prévia disponível nesta sessão. Mantenha o MP4 original e tente Enviar vídeo para o Drive.'}
+  return;
+ }
+ // Backward-compatible local behavior when Drive is not connected.
+ status.textContent='▶ Prévia pronta: '+file.name+' — Drive não conectado; tentando salvar localmente...';
+ const old=s.videoId,id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2);
+ try{
+  await libraryPut('videos',id,file);
+  if(temporaryVideos.get(s)!==ticket)return;
+  s.videoId=id;s.driveId='';s.videoName=file.name;
+  status.textContent='💾 Vídeo local salvo; salvando vínculo...';
+  renderCount();renderGallery();
+  try{await persistNow();if(temporaryVideos.get(s)===ticket)status.textContent='✓ Vídeo salvo neste navegador: '+file.name+' — conecte ao Drive para fazer cópia';if(old&&old!==id)deleteVideo(old).catch(()=>{});}
+  catch(saveErr){status.textContent='⚠️ Vídeo local salvo, mas vínculo não persistiu: '+saveErr.message+' — exporte backup JSON.'}
+ }catch(err){if(temporaryVideos.get(s)!==ticket)return;status.textContent='⚠️ Prévia disponível só nesta sessão. Armazenamento local falhou: '+err.message+' — conecte ao Drive e use Enviar vídeo para o Drive.'}
+};if(temporaryVideos.has(s)){const vid=div.querySelector('video');vid.src=temporaryVideos.get(s).url;vid.style.display='block';div.querySelector('.videoControls').style.display='flex';div.querySelector('.removevideo').disabled=false;div.querySelector('.videoStatus').textContent=s.driveId?'✓ ☁️ Vídeo salvo no Drive: '+(s.videoName||'MP4'):'▶ Vídeo temporário disponível — mantenha o MP4 original.'}else if(s.videoId||s.driveId){const vid=div.querySelector('video');loadSceneVideoPreview(s,vid)}div.querySelector('.description').value=s.description;div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+s.description;if(!s.locked&&isAutoFlow(s.animation))s.animation=makePrompt(s);div.querySelector('.animation').value=s.animation;div.querySelector('.imagePreview').value=makeImagePrompt(s);div.querySelector('.approved').checked=s.approved;const img=div.querySelector('img');if(s.image)img.src=s.image;div.querySelector('.description').oninput=e=>{update(i,'description',e.target.value);if(s.image)s.imageOutdated=true;delete s.sceneSource;delete s.originalNumber;div.querySelector('.sceneSubject').textContent='Assunto do prompt: '+e.target.value;div.querySelector('.imagePreview').value=makeImagePrompt(s);s.animation='';s.animationOutdated=false;div.querySelector('.animation').value='';renderGallery()};div.querySelector('.animation').oninput=e=>{update(i,'animation',e.target.value);s.animationOutdated=false;};div.querySelector('.approved').onchange=e=>{update(i,'approved',e.target.checked);renderGallery()};div.querySelector('.up').onclick=()=>moveScene(i,-1);div.querySelector('.down').onclick=()=>moveScene(i,1);div.querySelector('.delete').onclick=()=>removeScene(i);div.querySelector('.imageprompt').onclick=()=>{if(!s.description.trim()){alert('Preencha o assunto da cena antes de copiar.');return}const exact=makeImagePrompt(s);div.querySelector('.imagePreview').value=exact;copyText(exact,'IMAGEM da cena '+(i+1)+' copiada! Assunto: '+s.description)};div.querySelector('.gemini').onclick=()=>window.open('https://gemini.google.com/app','_blank','noopener,noreferrer');div.querySelector('.importimage').onclick=()=>div.querySelector('.imagefile').click();div.querySelector('.prompt').onclick=()=>{let prompt=makePrompt(s);s.animation=prompt;s.animationOutdated=false;div.querySelector('.animation').value=prompt;render()};div.querySelector('.copy').onclick=()=>{if(s.imageOutdated){alert('A imagem da cena é antiga. Troque-a antes de copiar a animação.');return;}if(s.animationOutdated){alert('A animação foi feita para o assunto anterior. Toque em Criar ANIMAÇÃO para atualizar.');return;}if(isAutoFlow(s.animation)){s.animation=makePrompt(s);div.querySelector('.animation').value=s.animation}if(!s.animation.trim()){alert('Primeiro toque em Criar ANIMAÇÃO (Flow) ou escreva o prompt de animação.');return}copyText(s.animation,'ANIMAÇÃO Flow da cena '+(i+1)+' copiada!')};div.querySelector('.imagefile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{s.image=reader.result;s.imageOutdated=false;render();scheduleSave()};reader.readAsDataURL(file)};if(s.locked){for(const selector of ['.imagefile','.videofile','.importvideo','.removevideo','.senddrive','.description','.animation','.approved','.up','.down','.importimage','.prompt','.delete']){const control=div.querySelector(selector);if(control)control.disabled=true}div.querySelector('.description').readOnly=true;div.querySelector('.animation').readOnly=true}div.__sceneRef=s;root.appendChild(div)});renderCount();renderGallery();const empty=$('sceneEmpty');if(empty)empty.style.display=activeSceneIndex<0?'block':'none';}
+$('twin').addEventListener('input',refreshTwinPrompts);
+$('twin').addEventListener('change',refreshTwinPrompts);
+function data(){return {version:30,app:'Foto Studio',info:getInfo(),reference:refImage,twin:$('twin').value,hexPalette:$('hexPalette').value,styleLocked:$('styleLocked').checked,creativePrompt:getCreativePrompt(),creativePromptName:$('creativePromptName').value,contentPrompt:$('contentPrompt').value,contentPromptName:$('contentPromptName').value,contentSceneMode:getSceneInputMode(),scenes}}function download(name,content,type){let url=URL.createObjectURL(new Blob([content],{type}));let a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function exportJSON(){download('Foto_Studio_Projeto_V30.json',JSON.stringify(data(),null,2),'application/json')}function exportTXT(){let o=getInfo(),step=Number(o.seconds)||6;let lines=[`MÚSICA: ${o.song}`,`DURAÇÃO: ${o.duration}`,`CLIMA: ${o.mood}`,`AMBIENTE: ${o.setting}`,`CORES: ${o.palette}`,`MODO: ${getPlanningMode()==='story'?'História':'Aleatório'}`,'ESTILO: '+promptOneVisualDirection(),'CONTEÚDO: '+getContentPrompt(),''];scenes.forEach((s,i)=>{lines.push(`CENA ${i+1} | ${time(i*step)}–${time(Math.min((i+1)*step,durationSeconds()||99999))} | ${s.approved?'APROVADA':'REVISAR'}`,`Imagem: ${s.description}`,`Prompt de imagem V9: ${makeImagePrompt(s)}`,`Flow: ${s.animation}`,'')});download('Roteiro_Foto_Studio_V30.txt',lines.join('\n'),'text/plain;charset=utf-8')}function saveLocal(){persistNow().then(()=>alert('Projeto salvo automaticamente neste aparelho!')).catch(()=>alert('Falha no armazenamento. Baixe o backup JSON.'))}function load(o){setInfo(o.info||{});$('creativePrompt').value=o.creativePrompt||'';$('creativePromptName').value=o.creativePromptName||'';$('contentPrompt').value=o.contentPrompt||'';$('contentPromptName').value=o.contentPromptName||'';$('contentSceneMode').value=o.contentSceneMode|| (parseNumberedScenes(o.contentPrompt||'').length?'numbered':'random');scenes=o.scenes||[];refImage=o.reference||'';$('twin').value=o.twin||'';$('hexPalette').value=o.hexPalette||'';$('styleLocked').checked=!!o.styleLocked;setTwinLock();if(o.version<7 && /elderly man with|hound dog sleeps|he wears a rolled-up|as he plays a weathered/i.test($('twin').value)){$('styleLocked').checked=false;setTwinLock();$('twinStatus').textContent='ATENÇÃO: o estilo antigo parece descrever personagens. Toque em Criar prompt gêmeo (só estilo) e bloqueie novamente.'}$('referencePreview').src=refImage;$('referencePreview').style.display=refImage?'block':'none';activeSceneIndex=-1;updatePromptOnePreview();renderReferenceSwatches();contentSceneModeChanged();render()}$('batchImages').onchange=async e=>{
  const files=Array.from(e.target.files||[]);if(!files.length)return;
  let imported=0,skipped=[];
  for(const f of files){
    const m=f.name.match(/(?:cena|scene|imagem|image)[ _-]*0*(\\d+)/i);
    const idx=m?Number(m[1])-1:-1;
-   if(idx<0||idx>=scenes.length){skipped.push(f.name);continue}
+   if(idx<0||idx>=scenes.length||scenes[idx].locked){skipped.push(f.name);continue}
    const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)});
-   scenes[idx].image=data;imported++;
+   scenes[idx].image=data;scenes[idx].imageOutdated=false;imported++;
  }
  render();scheduleSave();$('importStatus').textContent=`${imported} imagem(ns) importada(s). ${skipped.length} ignorada(s) por não ter número válido de cena no nome.`;
  e.target.value='';
@@ -113,11 +857,28 @@ function data(){return {version:11,app:'Planejador Estilo Barroso',info:getInfo(
 
 // V11: persistencia local em IndexedDB, inclusive imagens; copia JSON continua sendo o backup portatil.
 let dbPromise=null,saveTimer=null,restoring=true,saveInFlight=Promise.resolve();
-function openBarrosoDB(){if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reject)=>{if(!window.indexedDB){reject(new Error('IndexedDB indisponivel'));return}let req=indexedDB.open('barroso-v11',1);req.onupgradeneeded=()=>{let db=req.result;if(!db.objectStoreNames.contains('projects'))db.createObjectStore('projects')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});return dbPromise}
+function openBarrosoDB(){if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reject)=>{if(!window.indexedDB){reject(new Error('IndexedDB indisponivel'));return}let req=indexedDB.open('barroso-v11',3);req.onupgradeneeded=()=>{let db=req.result;if(!db.objectStoreNames.contains('projects'))db.createObjectStore('projects');if(!db.objectStoreNames.contains('models'))db.createObjectStore('models');if(!db.objectStoreNames.contains('videos'))db.createObjectStore('videos')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)}).catch(err=>{dbPromise=null;throw err});return dbPromise}
+// V14: biblioteca independente de projetos e modelos; preserva a chave 'current' da V11.
+async function libraryPut(store,key,value){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+async function libraryGet(store,key){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function libraryKeys(store){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).getAllKeys();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function libraryDelete(store,key){const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+async function deleteVideo(id){if(!id)return;const db=await openBarrosoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+const videoUrls=new Map();const temporaryVideos=new WeakMap();async function loadVideoPreview(id,element){try{let blob=await libraryGet('videos',id);if(!blob){element.style.display='none';element.closest('.sceneMedia').querySelector('.videoStatus').textContent='⚠️ Vídeo não encontrado neste navegador. Importe novamente o MP4.';return}let url=videoUrls.get(id);if(!url){url=URL.createObjectURL(blob);videoUrls.set(id,url)}if(element.isConnected)element.src=url}catch(err){if(element.isConnected)element.closest('.sceneMedia').querySelector('.videoStatus').textContent='⚠️ Erro ao carregar vídeo: '+err.message}}
+function libraryMessage(msg){$('libraryStatus').textContent=msg}
+async function refreshLibrary(){try{for(const [store,id] of [['projects','savedProjects'],['models','savedModels']]){const select=$(id),chosen=select.value;const keys=(await libraryKeys(store)).filter(k=>typeof k==='string'&&k!=='current'&&k!=='current-v27'&&k!=='current-v28'&&k!=='current-v29').sort((a,b)=>a.localeCompare(b,'pt-BR'));select.replaceChildren(new Option('Selecione '+(store==='projects'?'um projeto':'um modelo')+'...',''));keys.forEach(k=>select.add(new Option(k,k)));if(keys.includes(chosen))select.value=chosen}}catch(e){libraryMessage('⚠️ Biblioteca indisponível neste navegador. Use backups JSON.')}}
+function visualModelData(){return {version:14,name:$('modelName').value.trim(),twin:$('twin').value,reference:refImage,hexPalette:$('hexPalette').value,styleLocked:$('styleLocked').checked,palette:$('palette').value}}
+function applyModelData(m){refImage=m.reference||'';$('referencePreview').src=refImage;$('referencePreview').style.display=refImage?'block':'none';$('twin').value=m.twin||'';$('hexPalette').value=m.hexPalette||'';$('palette').value=m.palette||$('palette').value;$('styleLocked').checked=!!m.styleLocked;setTwinLock();renderReferenceSwatches();updatePromptOnePreview();refreshTwinPrompts();render();scheduleSave()}
+async function saveVisualModel(){const name=$('modelName').value.trim();if(!name){alert('Digite um nome para o modelo visual.');return}if(!$('twin').value.trim()){const create=confirm('⚠️ Este modelo não tem Prompt Gêmeo. OK: criar agora usando a imagem de referência. Cancelar: escolher se deseja salvar mesmo assim.');if(create){if(!refImage){alert('Selecione primeiro uma imagem de referência ou cancele para salvar sem prompt.');return}buildTwin();if(!$('twin').value.trim())return}else if(!confirm('Salvar o modelo sem Prompt Gêmeo mesmo assim?'))return}try{if(await libraryGet('models',name)&&!confirm('Substituir o modelo visual "'+name+'"?'))return;await libraryPut('models',name,JSON.stringify(visualModelData()));await refreshLibrary();$('savedModels').value=name;libraryMessage('✓ Modelo visual salvo: '+name)}catch(e){alert('Não foi possível salvar o modelo. Exporte um backup JSON.') }}
+async function saveNamedProject(){const name=$('projectName').value.trim();if(!name){alert('Digite um nome para o projeto.');return}try{if(await libraryGet('projects',name)&&!confirm('Substituir o projeto salvo "'+name+'"?'))return;await libraryPut('projects',name,JSON.stringify(data()));await refreshLibrary();$('savedProjects').value=name;libraryMessage('✓ Projeto salvo: '+name)}catch(e){alert('Não foi possível salvar. Verifique o espaço disponível e exporte um backup JSON.')}}
+async function openNamedProject(){const name=$('savedProjects').value;if(!name){alert('Selecione um projeto salvo.');return}if(!confirm('Abrir "'+name+'"? As alterações atuais não salvas com nome serão substituídas.'))return;try{const raw=await libraryGet('projects',name);if(!raw)throw Error('não encontrado');const o=JSON.parse(raw);if(!Array.isArray(o.scenes))throw Error('formato inválido');load(o);$('projectName').value=name;await persistNow();libraryMessage('✓ Projeto aberto: '+name)}catch(e){alert('Não foi possível abrir o projeto: '+e.message)}}
+async function applySavedModel(){const name=$('savedModels').value;if(!name){alert('Selecione um modelo visual.');return}if(!confirm('Aplicar o modelo "'+name+'" às cenas atuais? O estilo e a referência atuais serão substituídos.'))return;try{const raw=await libraryGet('models',name);if(!raw)throw Error('não encontrado');applyModelData(JSON.parse(raw));$('modelName').value=name;libraryMessage('✓ Modelo aplicado: '+name)}catch(e){alert('Não foi possível carregar o modelo: '+e.message)}}
+async function newProjectFromModel(){const name=$('savedModels').value;if(!name){alert('Selecione um modelo visual.');return}if(!confirm('Criar novo projeto com o modelo "'+name+'"? As cenas e a música atuais serão substituídas. Salve o projeto anterior com nome antes de continuar.'))return;try{const raw=await libraryGet('models',name);if(!raw)throw Error('não encontrado');const m=JSON.parse(raw);scenes=[];$('song').value='Nova música';$('duration').value='03:00';$('seconds').value='6';$('mood').value='';$('setting').value='';$('creationMode').value='random';modeChanged();$('projectName').value='';$('creativePrompt').value='';$('creativePromptName').value='';applyModelData(m);$('modelName').value=name;await persistNow();libraryMessage('✓ Novo projeto iniciado com o modelo: '+name+' — crie as cenas quando desejar.')}catch(e){alert('Não foi possível criar o novo projeto: '+e.message)}}
+async function deleteNamed(store,id){const key=$(id).value;if(!key){alert('Selecione um item para excluir.');return}if(!confirm('Excluir definitivamente "'+key+'" da biblioteca deste navegador?'))return;try{await libraryDelete(store,key);await refreshLibrary();libraryMessage('Item excluído: '+key)}catch(e){alert('Não foi possível excluir: '+e.message)}}
 function saveStatus(t){let e=document.getElementById('saveState');if(e)e.textContent=t}
-async function persistNow(){if(restoring)return;const snapshot=JSON.stringify(data());saveStatus('Salvando...');saveInFlight=saveInFlight.catch(()=>{}).then(async()=>{let db=await openBarrosoDB();await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readwrite');tx.objectStore('projects').put(snapshot,'current');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})});try{await saveInFlight;saveStatus('Salvo neste aparelho ✓')}catch(e){saveStatus('⚠️ Não foi possível salvar. Baixe o backup JSON.');throw e}}
-function scheduleSave(){if(restoring)return;saveStatus('Alterações pendentes...');clearTimeout(saveTimer);saveTimer=setTimeout(()=>persistNow().catch(()=>{}),650)}
-async function recoverSaved(){try{let db=await openBarrosoDB();let saved=await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readonly');let r=tx.objectStore('projects').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});if(saved){let o=JSON.parse(saved);if(Array.isArray(o.scenes)){load(o);saveStatus('Projeto recuperado automaticamente ✓');return true}}}catch(e){saveStatus('Armazenamento indisponível. Use backup JSON.')}return false}
+async function persistNow(){if(restoring)return;const snapshot=JSON.stringify(data());saveStatus('Salvando...');saveInFlight=saveInFlight.catch(()=>{}).then(async()=>{let db=await openBarrosoDB();await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readwrite');tx.objectStore('projects').put(snapshot,'current-v30');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})});try{await saveInFlight;saveStatus('Salvo neste aparelho ✓')}catch(e){saveStatus('⚠️ Não foi possível salvar. Baixe o backup JSON.');throw e}}
+function scheduleSave(){if(restoring)return;historyQueue(400);saveStatus('Alterações pendentes...');clearTimeout(saveTimer);saveTimer=setTimeout(()=>persistNow().catch(()=>{}),650)}
+async function recoverSaved(){try{let db=await openBarrosoDB();let saved=await new Promise((resolve,reject)=>{let tx=db.transaction('projects','readonly');let r=tx.objectStore('projects').get('current-v30');r.onsuccess=()=>{if(r.result){resolve(r.result);return;}const v29=tx.objectStore('projects').get('current-v29');v29.onsuccess=()=>{if(v29.result){resolve(v29.result);return;}const previous=tx.objectStore('projects').get('current-v28');previous.onsuccess=()=>{if(previous.result){resolve(previous.result);return;}const v27=tx.objectStore('projects').get('current-v27');v27.onsuccess=()=>{if(v27.result){resolve(v27.result);return;}const old=tx.objectStore('projects').get('current');old.onsuccess=()=>resolve(old.result);old.onerror=()=>reject(old.error)};v27.onerror=()=>reject(v27.error)};previous.onerror=()=>reject(previous.error)};v29.onerror=()=>reject(v29.error)};r.onerror=()=>reject(r.error)});if(saved){let o=JSON.parse(saved);if(Array.isArray(o.scenes)){load(o);saveStatus('Projeto recuperado automaticamente ✓');return true}}}catch(e){saveStatus('Armazenamento indisponível. Use backup JSON.')}return false}
 // Eventos capturam alteracoes de campos, importacao e botoes, inclusive imagens carregadas assincronamente.
 document.addEventListener('input',()=>scheduleSave(),true);
 document.addEventListener('change',()=>scheduleSave(),true);
@@ -125,6 +886,248 @@ document.addEventListener('click',e=>{if(e.target.closest('button'))setTimeout(s
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(saveTimer);persistNow().catch(()=>{})}});
 window.addEventListener('pagehide',()=>{clearTimeout(saveTimer);persistNow().catch(()=>{})});
 
-$('import').onchange=e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{try{let o=JSON.parse(reader.result);if(!Array.isArray(o.scenes))throw Error();load(o);scheduleSave();alert('Projeto importado!')}catch(err){alert('Arquivo JSON inválido.')}};reader.readAsText(f)};$('reference').onchange=e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{refImage=reader.result;if(!$('styleLocked').checked){$('twin').value='';$('hexPalette').value='';$('extractedSwatches').innerHTML=''}$('referencePreview').src=refImage;$('referencePreview').style.display='block';scheduleSave()};reader.readAsDataURL(f)};document.getElementById('restoreBackup').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let o=JSON.parse(r.result);if(!Array.isArray(o.scenes))throw Error();load(o);scheduleSave();alert('Backup recuperado!')}catch(err){alert('Arquivo de backup inválido.')}};r.readAsText(f)};
-(async()=>{let ok=await recoverSaved();if(!ok){try{let old=localStorage.getItem('barrosoProjectV9')||localStorage.getItem('barrosoProjectV7')||localStorage.getItem('barrosoProjectV6');if(old)load(JSON.parse(old));else generate()}catch(e){generate()}}restoring=false;scheduleSave()})();
+$('import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const raw=await f.text();let o;try{o=JSON.parse(raw.replace(/^\uFEFF/,''))}catch(err){throw new Error('O conteúdo não é um JSON válido: '+err.message)}if(!o||!Array.isArray(o.scenes))throw new Error('Este arquivo não contém uma lista de cenas de projeto.');if(!confirm('Importar '+f.name+' com '+o.scenes.length+' cenas? O projeto atual será substituído.'))return;try{load(o);scheduleSave();alert('Projeto importado com sucesso! '+o.scenes.length+' cenas recuperadas.')}catch(err){throw new Error('O JSON é válido, mas ocorreu um erro ao abrir o projeto: '+err.message)}}catch(err){console.error('Erro de importação:',err);alert('Não foi possível importar: '+err.message)}finally{e.target.value=''}};$('reference').onchange=e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{refImage=reader.result;if(!$('styleLocked').checked){$('twin').value='';$('hexPalette').value='';$('extractedSwatches').innerHTML=''}$('referencePreview').src=refImage;$('referencePreview').style.display='block';updatePromptOnePreview();refreshTwinPrompts();scheduleSave()};reader.readAsDataURL(f)};document.getElementById('restoreBackup').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let o=JSON.parse(r.result);if(!Array.isArray(o.scenes))throw Error();load(o);scheduleSave();alert('Backup recuperado!')}catch(err){alert('Arquivo de backup inválido.')}};r.readAsText(f)};
+(async()=>{let ok=await recoverSaved();if(!ok){try{let old=localStorage.getItem('barrosoProjectV9')||localStorage.getItem('barrosoProjectV7')||localStorage.getItem('barrosoProjectV6');if(old)load(JSON.parse(old));else generate()}catch(e){generate()}}restoring=false;historyReset();scheduleSave();refreshLibrary()})();
+
+// V16: ZIP sem bibliotecas externas; formato ZIP STORE, compatível com descompactadores comuns.
+const enc16=new TextEncoder();
+function zipCRC(bytes){let crc=0xffffffff;for(const b of bytes){crc^=b;for(let j=0;j<8;j++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}return (crc^0xffffffff)>>>0}
+function z16(d,o,n){d[o]=n&255;d[o+1]=(n>>>8)&255}
+function z32(d,o,n){z16(d,o,n);z16(d,o+2,n>>>16)}
+function zipStore(entries){const local=[],central=[];let offset=0;for(const [name,content] of entries){const nm=enc16.encode(name),body=enc16.encode(content),crc=zipCRC(body);if(body.length>0xffffffff)throw Error('Arquivo muito grande');const head=new Uint8Array(30+nm.length);z32(head,0,0x04034b50);z16(head,4,20);z16(head,6,0x800);z16(head,8,0);z32(head,14,crc);z32(head,18,body.length);z32(head,22,body.length);z16(head,26,nm.length);head.set(nm,30);local.push(head,body);const c=new Uint8Array(46+nm.length);z32(c,0,0x02014b50);z16(c,4,20);z16(c,6,20);z16(c,8,0x800);z32(c,16,crc);z32(c,20,body.length);z32(c,24,body.length);z16(c,28,nm.length);z32(c,42,offset);c.set(nm,46);central.push(c);offset+=head.length+body.length}const centralSize=central.reduce((a,b)=>a+b.length,0);const end=new Uint8Array(22);z32(end,0,0x06054b50);z16(end,8,entries.length);z16(end,10,entries.length);z32(end,12,centralSize);z32(end,16,offset);return new Blob([...local,...central,end],{type:'application/zip'})}
+function unzipStored(buffer){const b=new Uint8Array(buffer),dv=new DataView(buffer),files=new Map();let p=0;while(p+30<=b.length&&dv.getUint32(p,true)===0x04034b50){const flags=dv.getUint16(p+6,true),method=dv.getUint16(p+8,true),size=dv.getUint32(p+18,true),n=dv.getUint16(p+26,true),extra=dv.getUint16(p+28,true);if(method!==0||(flags&8))throw Error('ZIP incompatível. Importe um ZIP exportado pelo Foto Studio.');const name=new TextDecoder().decode(b.slice(p+30,p+30+n));const start=p+30+n+extra;if(start+size>b.length)throw Error('ZIP incompleto');files.set(name,new TextDecoder().decode(b.slice(start,start+size)));p=start+size}if(!files.has('Foto Studio/manifesto.json'))throw Error('Este ZIP não é um backup do Foto Studio');return files}
+function safeName(name){return String(name).replace(/[\\/:*?"<>|\x00-\x1f]/g,'_').slice(0,90)||'Sem_nome'}
+async function studioEntries(){const entries=[['Foto Studio/manifesto.json',JSON.stringify({app:'Foto Studio',version:29,format:'studio-portable-v1',date:new Date().toISOString()},null,2)],['Foto Studio/Projeto_atual.json',JSON.stringify(data(),null,2)]];for(const [store,folder] of [['projects','Projetos'],['models','Modelos Visuais']]){const keys=(await libraryKeys(store)).filter(k=>typeof k==='string'&&k!=='current'&&k!=='current-v27'&&k!=='current-v28'&&k!=='current-v29');for(const key of keys){const raw=await libraryGet(store,key);if(raw)entries.push([`Foto Studio/${folder}/${safeName(key)}.json`,JSON.stringify(JSON.parse(raw),null,2)])}}for(const name of await promptList()){const record=await promptRead(name);if(record){const isContent=name.startsWith(CONTENT_PREFIX);const label=isContent?name.slice(CONTENT_PREFIX.length):name;entries.push([`Foto Studio/${isContent?'Conteudos':'Prompts'}/${safeName(label)}.json`,JSON.stringify(record,null,2)])}}return entries}
+function portableMessage(t){$('portableStatus').textContent=t}
+// ZIP binário STORE: conserva os bytes originais dos MP4/WebM, sem recomprimir.
+function zipStoreBinary(entries){const local=[],central=[];let offset=0;for(const [name,body] of entries){const nm=enc16.encode(name),crc=zipCRC(body);if(body.length>0xffffffff)throw Error('Um vídeo ultrapassa o limite do ZIP');const head=new Uint8Array(30+nm.length);z32(head,0,0x04034b50);z16(head,4,20);z16(head,6,0x800);z16(head,8,0);z32(head,14,crc);z32(head,18,body.length);z32(head,22,body.length);z16(head,26,nm.length);head.set(nm,30);local.push(head,body);const c=new Uint8Array(46+nm.length);z32(c,0,0x02014b50);z16(c,4,20);z16(c,6,20);z16(c,8,0x800);z32(c,16,crc);z32(c,20,body.length);z32(c,24,body.length);z16(c,28,nm.length);z32(c,42,offset);c.set(nm,46);central.push(c);offset+=head.length+body.length}const size=central.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22);z32(end,0,0x06054b50);z16(end,8,entries.length);z16(end,10,entries.length);z32(end,12,size);z32(end,16,offset);return new Blob([...local,...central,end],{type:'application/zip'})}
+async function exportSceneVideos(){const status=$('videoExportStatus');const attached=scenes.filter(s=>s.videoId||s.driveId).length;if(!attached){alert('Ainda não há vídeos anexados às cenas.');return}if(attached<scenes.length&&!confirm('Há '+(scenes.length-attached)+' cenas sem vídeo. Exportar somente os '+attached+' vídeos disponíveis?'))return;try{status.textContent='Preparando vídeos para exportação...';const entries=[];let missing=0;for(let i=0;i<scenes.length;i++){const s=scenes[i];if(!s.videoId&&!s.driveId)continue;const blob=s.driveId?await driveDownloadFile(s.driveId):await libraryGet('videos',s.videoId);if(!blob){missing++;continue}const ext=/\.webm$/i.test(s.videoName||'')?'webm':'mp4';entries.push(['Cena_'+String(i+1).padStart(3,'0')+'.'+ext,new Uint8Array(await blob.arrayBuffer())])}if(!entries.length)throw Error('Nenhum vídeo disponível no armazenamento.');const zip=zipStoreBinary(entries);const url=URL.createObjectURL(zip),a=document.createElement('a');a.href=url;a.download='Foto_Studio_Videos_Em_Sequencia.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);status.textContent='✓ '+entries.length+' vídeos exportados em ordem, sem recompressão.'+(missing?' '+missing+' vídeo(s) não encontrado(s).':'')}catch(err){status.textContent='⚠️ '+err.message;alert('Falha ao exportar: '+err.message+' — tente exportar com menos vídeos ou use o computador.')}}
+async function exportStudioZip(){try{portableMessage('Preparando ZIP...');const entries=await studioEntries();const blob=zipStore(entries);const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Foto_Studio_Backup_Completo.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);portableMessage('✓ ZIP criado com '+(entries.length-2)+' projetos/modelos e prompts salvos, mais o projeto atual.')}catch(e){portableMessage('⚠️ '+e.message);alert('Falha ao criar ZIP: '+e.message)}}
+async function saveStudioFolder(){if(typeof window.showDirectoryPicker!=='function'){alert('Este navegador não permite escolher uma pasta diretamente. Use Exportar tudo em ZIP.');return}try{const root=await window.showDirectoryPicker({mode:'readwrite'});const entries=await studioEntries();for(const [path,content] of entries){const parts=path.split('/');let dir=root;for(const part of parts.slice(0,-1))dir=await dir.getDirectoryHandle(part,{create:true});const handle=await dir.getFileHandle(parts.at(-1),{create:true}),writer=await handle.createWritable();await writer.write(content);await writer.close()}portableMessage('✓ '+entries.length+' arquivos salvos na pasta escolhida.')}catch(e){if(e.name==='AbortError')return;portableMessage('⚠️ '+e.message)}}
+$('studioZipInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const items=unzipStored(await file.arrayBuffer());const manifest=JSON.parse(items.get('Foto Studio/manifesto.json'));if(manifest.format!=='studio-portable-v1')throw Error('Formato não reconhecido');const current=JSON.parse(items.get('Foto Studio/Projeto_atual.json'));if(!Array.isArray(current.scenes))throw Error('Projeto inválido');const restores=[],savedPrompts=[];for(const [path,raw] of items){const promptMatch=path.match(/^Foto Studio\/(Prompts|Conteudos)\/([^/]+)\.json$/);if(promptMatch){const record=JSON.parse(raw);if(typeof record.prompt!=='string'||!record.prompt.trim())throw Error('Prompt salvo inválido');savedPrompts.push({name:(promptMatch[1]==='Conteudos'?CONTENT_PREFIX:'')+(record.name||promptMatch[2]),record});continue;}const match=path.match(/^Foto Studio\/(Projetos|Modelos Visuais)\/([^/]+)\.json$/);if(!match)continue;const obj=JSON.parse(raw);if(match[1]==='Projetos'&&!Array.isArray(obj.scenes))throw Error('Projeto salvo inválido');const store=match[1]==='Projetos'?'projects':'models';restores.push({store,name:match[2],raw})}if(!confirm('Importar '+restores.length+' projetos/modelos e abrir o projeto atual do ZIP? Itens com o mesmo nome serão substituídos. Faça antes um backup se necessário.'))return;for(const r of restores)await libraryPut(r.store,r.name,r.raw);for(const p of savedPrompts)await promptWrite(p.name,p.record);load(current);await refreshLibrary();await refreshPromptChoices();await refreshContentPrompts();scheduleSave();portableMessage('✓ ZIP importado: '+restores.length+' projetos/modelos, '+savedPrompts.length+' prompts e projeto atual.')}catch(err){alert('Não foi possível importar: '+err.message);portableMessage('⚠️ Falha na importação')}finally{e.target.value=''}});
+
+// -------------------------------------------------------------
+// V24 | Google Identity Services + Drive REST v3 (drive.file scope)
+// Google OAuth access tokens are held in memory only, never exported.
+// -------------------------------------------------------------
+const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
+const DRIVE_BASE='https://www.googleapis.com/drive/v3/files';
+const DRIVE_UPLOAD='https://www.googleapis.com/upload/drive/v3/files';
+let driveToken='',driveUntil=0,driveFolderId='',driveProjectId='';
+let driveSyncArmed=false,driveSyncTimer=null,driveSyncBusy=false,driveSyncPending=false;
+let driveLastSnapshot='';
+
+function driveNotice(message,ok=false){
+ const el=$('driveStatus');if(!el)return;
+ el.textContent=message;el.className=ok?'driveGood':'driveWarn';
+}
+function driveReady(){return Boolean(driveToken&&Date.now()<driveUntil-60000)}
+function driveSetFolder(id){
+ driveFolderId=id||'';
+ const link=$('driveFolderLink');
+ if(link){link.style.display=id?'inline-block':'none';link.href=id?'https://drive.google.com/drive/u/0/folders/'+encodeURIComponent(id):'#'}
+}
+function disconnectDrive(){
+ driveToken='';driveUntil=0;driveSyncArmed=false;
+ clearTimeout(driveSyncTimer);driveNotice('Drive desconectado. Nenhum arquivo no Google Drive foi apagado.');
+}
+function friendlyDriveError(e){
+ if(e.message&&/401|unauthenticat|invalid.credentials/i.test(e.message))return 'Autorização expirada. Clique em Conectar Google Drive novamente.';
+ return e.message||'Falha de comunicação com o Google Drive.';
+}
+async function driveApi(url,options={}){
+ if(!driveReady())throw Error('Conecte-se novamente ao Google Drive para continuar.');
+ const headers=new Headers(options.headers||{});
+ headers.set('Authorization','Bearer '+driveToken);
+ let response;
+ try{response=await fetch(url,{...options,headers});}
+ catch(e){throw Error('Sem conexão com o Google Drive ou bloqueio de rede: '+e.message)}
+ if(!response.ok){
+  let detail='';try{const info=await response.json();detail=info?.error?.message||''}catch(e){}
+  throw Error('Drive HTTP '+response.status+(detail?' — '+detail:''));
+ }
+ return response;
+}
+async function driveList(query,fields='nextPageToken,files(id,name,mimeType)'){
+ const p=new URLSearchParams({q:query,fields,pageSize:'100'});
+ const response=await driveApi(DRIVE_BASE+'?'+p.toString());
+ return await response.json();
+}
+async function driveFindFile(name,parent,mime=''){
+ const quoted=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+ let q="name='"+quoted+"' and trashed=false";
+ if(parent)q+=" and '"+parent+"' in parents";
+ if(mime)q+=" and mimeType='"+mime+"'";
+ let token='';
+ do{
+  const p=new URLSearchParams({q,fields:'nextPageToken,files(id,name,mimeType)',pageSize:'100'});
+  if(token)p.set('pageToken',token);
+  const r=await (await driveApi(DRIVE_BASE+'?'+p.toString())).json();
+  const found=r.files?.find(f=>f.name===name&&(!mime||f.mimeType===mime));
+  if(found)return found;
+  token=r.nextPageToken||'';
+ }while(token);
+ return null;
+}
+async function driveConnectReady(){
+ driveNotice('Conectado! Localizando a pasta Foto Studio...');
+ let folder=await driveFindFile('Foto Studio',null,'application/vnd.google-apps.folder');
+ if(!folder){
+  const r=await driveApi(DRIVE_BASE+'?fields=id,name',{
+   method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({name:'Foto Studio',mimeType:'application/vnd.google-apps.folder'})
+  });
+  folder=await r.json();
+ }
+ if(!folder?.id)throw Error('Não foi possível localizar ou criar a pasta.');
+ driveSetFolder(folder.id);
+ let project=await driveFindFile('Foto_Studio_Projeto_Atual.json',folder.id);
+ driveProjectId=project?.id||'';
+ driveSyncArmed=!driveProjectId;
+ if(driveProjectId){
+  driveNotice('✓ Conectado à pasta Foto Studio. Há um projeto salvo no Drive. Escolha "Recuperar projeto" ou "Salvar projeto e ativar cópia automática" para não substituir nada sem querer.',true);
+ }else{
+  driveNotice('✓ Conectado! Pasta Foto Studio pronta. Os próximos vídeos serão enviados ao Drive e as alterações do projeto serão copiadas automaticamente.',true);
+  queueDriveSync();
+ }
+}
+function connectDrive(){
+ const clientId=$('driveClientId').value.trim();
+ if(!/^\d+-[a-zA-Z0-9_-]+\.apps\.googleusercontent\.com$/.test(clientId)){
+  driveNotice('Cole o ID do cliente OAuth Web que termina em .apps.googleusercontent.com. Não use o segredo do cliente.');return;
+ }
+ if(location.protocol!=='https:'&&location.hostname!=='localhost'){
+  driveNotice('Abra pelo endereço HTTPS do GitHub Pages cadastrado no Google Cloud. A conexão pode falhar ao abrir o HTML como arquivo local.');return;
+ }
+ try{localStorage.setItem('fotoStudioDriveClientIdV24',clientId)}catch(e){}
+ if(!window.google?.accounts?.oauth2){driveNotice('Biblioteca de login do Google não carregou. Confira a internet e atualize a página.');return;}
+ driveNotice('Abrindo autorização do Google...');
+ const tokenClient=google.accounts.oauth2.initTokenClient({
+  client_id:clientId,scope:DRIVE_SCOPE,
+  callback:async response=>{
+   if(response.error){driveNotice('Falha de autorização: '+response.error);return}
+   driveToken=response.access_token||'';
+   driveUntil=Date.now()+(Number(response.expires_in)||3600)*1000;
+   driveSyncArmed=false;
+   try{await driveConnectReady()}catch(e){driveNotice('⚠️ '+friendlyDriveError(e))}
+  },
+  error_callback:e=>driveNotice('Login cancelado ou bloqueado: '+(e.type||'erro desconhecido'))
+ });
+ tokenClient.requestAccessToken({prompt:'consent'});
+}
+async function driveUploadFile(file,metadata,existingId){
+ const editing=Boolean(existingId);
+ const url=editing?DRIVE_UPLOAD+'/'+encodeURIComponent(existingId)+'?uploadType=resumable&fields=id,name':DRIVE_UPLOAD+'?uploadType=resumable&fields=id,name';
+ const contentType=file.type||'application/octet-stream';
+ const init=await driveApi(url,{
+  method:editing?'PATCH':'POST',
+  headers:{'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':contentType,'X-Upload-Content-Length':String(file.size)},
+  body:JSON.stringify(editing?{name:metadata.name}:metadata)
+ });
+ const location=init.headers.get('Location');
+ if(!location)throw Error('O Google não retornou a URL da sessão de upload.');
+ // A single final chunk is accepted by resumable uploads. Avoid copying the file into RAM.
+ const result=await driveApi(location,{
+  method:'PUT',headers:{'Content-Type':contentType,'Content-Range':'bytes 0-'+(file.size-1)+'/'+file.size},body:file
+ });
+ const uploaded=await result.json();
+ if(!uploaded.id)throw Error('Upload não confirmado pelo Google Drive.');
+ return uploaded;
+}
+async function saveSceneVideoToDrive(scene,file,container){
+ if(!driveReady())throw Error('Conecte o Google Drive primeiro.');
+ if(!driveFolderId)throw Error('Pasta do Drive ainda não está pronta.');
+ if(scene.locked)throw Error('A cena está bloqueada; desbloqueie antes de importar.');
+ const status=container?.querySelector('.videoStatus');
+ if(status)status.textContent='☁️ Enviando '+file.name+' para o Google Drive. Não feche esta aba durante o envio...';
+ // Never delete an older Drive file on replacement; that is a separate user decision.
+ const uploaded=await driveUploadFile(file,{name:file.name,mimeType:file.type||'video/mp4',parents:[driveFolderId]});
+ scene.driveId=uploaded.id;scene.videoName=file.name;
+ const oldLocal=scene.videoId;scene.videoId='';
+ if(status)status.textContent='✓ ☁️ Upload confirmado pelo Google Drive: '+file.name;
+ renderCount();renderGallery();
+ if(oldLocal)deleteVideo(oldLocal).catch(()=>{});
+ try{await persistNow()}catch(e){if(status)status.textContent+=' — atenção: falhou o vínculo local ('+e.message+')'}
+ queueDriveSync();
+ return uploaded;
+}
+async function driveDownloadFile(fileId){
+ const response=await driveApi(DRIVE_BASE+'/'+encodeURIComponent(fileId)+'?alt=media');
+ return await response.blob();
+}
+async function loadSceneVideoPreview(scene,element){
+ if(scene.driveId){
+  const container=element.closest('.sceneMedia');
+  if(!driveReady()){
+   if(container)container.querySelector('.videoStatus').textContent='☁️ Vídeo está no Drive. Conecte a conta Google para reproduzir.';
+   return;
+  }
+  try{
+   const cacheKey='drive:'+scene.driveId;
+   let url=videoUrls.get(cacheKey);
+   if(!url){
+    if(container)container.querySelector('.videoStatus').textContent='☁️ Carregando prévia do Google Drive...';
+    const file=await driveDownloadFile(scene.driveId);
+    url=URL.createObjectURL(file);videoUrls.set(cacheKey,url);
+   }
+   if(element.isConnected){element.src=url;element.style.display='block';if(container)container.querySelector('.videoStatus').textContent='✓ ☁️ Vídeo disponível no Google Drive: '+(scene.videoName||'MP4')}
+  }catch(e){if(element.isConnected&&container)container.querySelector('.videoStatus').textContent='⚠️ Não foi possível abrir do Drive: '+friendlyDriveError(e)}
+ }else if(scene.videoId)await loadVideoPreview(scene.videoId,element);
+}
+function queueDriveSync(){
+ if(!driveReady()||!driveSyncArmed||restoring)return;
+ driveSyncPending=true;
+ clearTimeout(driveSyncTimer);
+ driveSyncTimer=setTimeout(()=>performDriveSync().catch(e=>driveNotice('⚠️ Falha ao salvar projeto no Drive: '+friendlyDriveError(e))),8000);
+}
+async function performDriveSync(force=false){
+ if(!driveReady()||!driveFolderId||!driveSyncArmed)return;
+ if(driveSyncBusy){driveSyncPending=true;return}
+ const snapshot=JSON.stringify(data());
+ if(!force&&snapshot===driveLastSnapshot){driveSyncPending=false;return}
+ driveSyncBusy=true;driveSyncPending=false;
+ try{
+  driveNotice('☁️ Salvando cópia do projeto no Google Drive...');
+  const blob=new Blob([snapshot],{type:'application/json'});
+  const result=await driveUploadFile(blob,{name:'Foto_Studio_Projeto_Atual.json',mimeType:'application/json',parents:[driveFolderId]},driveProjectId);
+  driveProjectId=result.id;
+  driveLastSnapshot=snapshot;
+  driveNotice('✓ Projeto salvo no Google Drive. Alterações futuras serão copiadas automaticamente.',true);
+ }finally{
+  driveSyncBusy=false;
+  if(driveSyncPending&&driveReady()&&driveSyncArmed)queueDriveSync();
+ }
+}
+async function saveCurrentProjectDrive(){
+ if(!driveReady()){driveNotice('Conecte o Google Drive primeiro.');return}
+ if(driveProjectId&&!driveSyncArmed){
+  if(!confirm('Já existe um projeto no Drive. Substituir sua cópia com o projeto que está ABERTO neste aparelho e ativar o salvamento automático?'))return;
+ }
+ driveSyncArmed=true;
+ try{await performDriveSync(true)}catch(e){driveNotice('⚠️ '+friendlyDriveError(e))}
+}
+async function restoreProjectDrive(){
+ if(!driveReady()){driveNotice('Conecte o Google Drive primeiro.');return}
+ try{
+  if(!driveProjectId){const f=await driveFindFile('Foto_Studio_Projeto_Atual.json',driveFolderId);driveProjectId=f?.id||''}
+  if(!driveProjectId){driveNotice('Ainda não existe um projeto salvo nessa pasta.');return}
+  if(!confirm('Recuperar projeto do Google Drive? As cenas abertas neste aparelho serão substituídas. Faça backup antes se necessário.'))return;
+  const response=await driveApi(DRIVE_BASE+'/'+encodeURIComponent(driveProjectId)+'?alt=media');
+  const raw=await response.text();
+  const project=JSON.parse(raw);
+  if(!Array.isArray(project?.scenes))throw Error('Backup do projeto não contém cenas válidas.');
+  driveSyncArmed=false;
+  load(project);
+  await persistNow();
+  driveLastSnapshot=JSON.stringify(data());
+  driveSyncArmed=true;
+  driveNotice('✓ Projeto recuperado do Drive, com vínculos dos vídeos. Se necessário, conecte-se novamente para assistir aos MP4.',true);
+ }catch(e){driveNotice('⚠️ Erro ao recuperar: '+friendlyDriveError(e))}
+}
+try{const savedClientId=localStorage.getItem('fotoStudioDriveClientIdV24');if(savedClientId)$('driveClientId').value=savedClientId}catch(e){}
+// Keep the app's existing IndexedDB autosave; mirror changes only after the user arms Drive sync.
+document.addEventListener('input',e=>{if(e.target?.id!=='driveClientId')queueDriveSync()},true);
+document.addEventListener('change',e=>{if(e.target?.id!=='driveClientId')queueDriveSync()},true);
+document.addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('#driveSection'))queueDriveSync()},true);
+
 </script></body></html>
